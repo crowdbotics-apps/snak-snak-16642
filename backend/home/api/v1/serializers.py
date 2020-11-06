@@ -16,11 +16,8 @@ User = get_user_model()
 class SignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("id", "name", "email", "password")
-        extra_kwargs = {
-            "password": {"write_only": True, "style": {"input_type": "password"}},
-            "email": {"required": True, "allow_blank": False,},
-        }
+        fields = ("name", "gender", "birthday", "gender_preference", "available_to", "preference_time", "career_field",
+                  "phone_number")
 
     def _get_request(self):
         request = self.context.get("request")
@@ -32,33 +29,31 @@ class SignupSerializer(serializers.ModelSerializer):
             request = request._request
         return request
 
-    def validate_email(self, email):
-        email = get_adapter().clean_email(email)
-        if allauth_settings.UNIQUE_EMAIL:
-            if email and email_address_exists(email):
-                raise serializers.ValidationError(
-                    _("A user is already registered with this e-mail address.")
-                )
-        return email
-
     def create(self, validated_data):
         user = User(
-            email=validated_data.get("email"),
             name=validated_data.get("name"),
+            gender=validated_data.get("gender"),
+            birthday=validated_data.get("birthday"),
+            gender_preference=validated_data.get("gender_preference"),
+            available_to=validated_data.get("available_to"),
+            preference_time=validated_data.get("preference_time"),
+            career_field=validated_data.get("career_field"),
+            phone_number=validated_data.get("phone_number"),
             username=generate_unique_username(
                 [validated_data.get("name"), validated_data.get("email"), "user"]
             ),
         )
-        user.set_password(validated_data.get("password"))
         user.save()
-        request = self._get_request()
-        setup_user_email(request, user, [])
         return user
 
     def save(self, request=None):
         """rest_auth passes request so we must override to accept it"""
         return super().save()
 
+
+class PhoneNumberVerificationSerializer(serializers.Serializer):
+    phone_number = serializers.CharField(max_length=15)
+    token = serializers.CharField(max_length=6)
 
 class CustomTextSerializer(serializers.ModelSerializer):
     class Meta:

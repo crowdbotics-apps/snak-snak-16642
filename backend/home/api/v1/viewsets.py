@@ -1,12 +1,18 @@
-from rest_framework import viewsets
+from django.conf import settings
+from rest_framework import viewsets, status
 from rest_framework import authentication
-from .serializers import MessageSerializer, CustomTextSerializer, HomePageSerializer
+from rest_framework.views import APIView
+
+from users.choices import GENDER, GENDER_PREFERENCE, AVAILABLE_TO, PREFERENCE_TIME
+from .serializers import MessageSerializer, CustomTextSerializer, HomePageSerializer, PhoneNumberVerificationSerializer
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.permissions import IsAdminUser
 from rest_framework.viewsets import ModelViewSet, ViewSet
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+
+from twilio.rest import Client
 
 from home.api.v1.serializers import (
     SignupSerializer,
@@ -17,9 +23,46 @@ from home.api.v1.serializers import (
 from home.models import Message, CustomText, HomePage
 
 
-class SignupViewSet(ModelViewSet):
-    serializer_class = SignupSerializer
-    http_method_names = ["post"]
+class SMSCodeAPI(APIView):
+    def post(self, request):
+        serializer = SignupSerializer(data=request.data)
+        if serializer.is_valid():
+            client = Client(settings.TWILIP_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+            verify = client.verify.services(settings.TWILIO_SERVICE_SID)
+            verify.verifications.create(to=serializer.validated_data["phone_number"], channel='sms')
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PhoneNumberVerifyAPI(APIView):
+
+    def post(self, request):
+        serializer = PhoneNumberVerificationSerializer(data=request.data)
+        if serializer.is_valid():
+            client = Client(settings.TWILIP_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+            verify = client.verify.services(settings.TWILIO_SERVICE_SID)
+            result = verify.verification_checks.create(to=serializer.validated_data["phone_number"], code=serializer.validated_data["token"])
+            data = {
+                'error': False if result.status == "approved" else True,
+                'msg': '' if result.status == "approved" else 'Incorrect verification code'
+            }
+            return Response(data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SignupAPI(APIView):
+    def get(self, request):
+        data = {
+            "gender": GENDER,
+            "gender_preference": GENDER_PREFERENCE,
+            "available_to": AVAILABLE_TO,
+            "preference_time": PREFERENCE_TIME
+        }
+        return Response(data)
+
+    def post(self, request):
+        serializer = SignupSerializer(data=request.data)
+        return Response(serializer.data)
 
 
 class LoginViewSet(ViewSet):
