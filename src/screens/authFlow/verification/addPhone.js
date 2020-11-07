@@ -2,8 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {View, Text} from 'react-native';
 import {styles} from './styles';
 import {NumKeyboard} from '../../../components';
-const AddPhone = () => {
+const AddPhone = ({navigation}) => {
   const [phone, setPhone] = useState('');
+  useEffect(() => {
+    if (phone.length >= 11) {
+      navigation.navigate('VerifyPhone');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phone]);
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>

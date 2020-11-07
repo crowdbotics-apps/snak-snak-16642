@@ -3,7 +3,7 @@ import {View, Text, Image} from 'react-native';
 import {styles} from './styles';
 import {appIcons, appImages} from '../../../services';
 import {Button} from '../../../components';
-const Launch = () => {
+const Launch = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
@@ -19,7 +19,10 @@ const Launch = () => {
         <Image source={appImages.launch} style={styles.image} />
       </View>
       <View style={styles.buttonContainer}>
-        <Button title={'Start'} />
+        <Button
+          onPress={() => navigation.navigate('AddPhone')}
+          title={'Start'}
+        />
       </View>
     </View>
   );

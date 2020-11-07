@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Text, TouchableOpacity, View, Image} from 'react-native';
 import {styles} from './styles';
 import {appIcons} from '../../services';
-export const NumKeyboard = ({getValue, limit = 10}) => {
+export const NumKeyboard = ({getValue, limit = 11}) => {
   const [value, setValue] = useState('');
   useEffect(() => {
     getValue(value);
