@@ -1,8 +1,14 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
 import {NumKeyboard} from '../../../components';
 const VerifyPhone = () => {
+  const [code, setCode] = useState('');
+  const _renderDigit = index => {
+    if (code.length >= index) {
+      return code[index - 1];
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
@@ -16,16 +22,16 @@ const VerifyPhone = () => {
 
       <View style={styles.otpContainer}>
         <View style={styles.codeInputFieldStyle}>
-          <Text style={styles.codeText}></Text>
+          <Text style={styles.codeText}>{_renderDigit(1)}</Text>
         </View>
         <View style={styles.codeInputFieldStyle}>
-          <Text style={styles.codeText}></Text>
+          <Text style={styles.codeText}>{_renderDigit(2)}</Text>
         </View>
         <View style={styles.codeInputFieldStyle}>
-          <Text style={styles.codeText}></Text>
+          <Text style={styles.codeText}>{_renderDigit(3)}</Text>
         </View>
         <View style={styles.codeInputFieldStyle}>
-          <Text style={styles.codeText}></Text>
+          <Text style={styles.codeText}>{_renderDigit(4)}</Text>
         </View>
       </View>
 
@@ -35,7 +41,7 @@ const VerifyPhone = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.keyboardContainer}>
-        <NumKeyboard />
+        <NumKeyboard limit={4} getValue={setCode} />
       </View>
     </View>
   );

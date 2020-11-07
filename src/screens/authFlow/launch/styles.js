@@ -1,17 +1,22 @@
-import {StyleSheet} from 'react-native';
-import {colors, WP, size, family} from '../../../services';
+import {StyleSheet, Platform} from 'react-native';
+import {colors, WP, HP, size, family} from '../../../services';
 
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     flex: 1,
     paddingHorizontal: WP(4),
-    // borderTopColor: colors.gray_2,
-    // borderTopWidth: 0.25,
   },
   logoContainer: {
-    marginVertical: WP('5'),
     alignSelf: 'center',
+    ...Platform.select({
+      ios: {
+        marginVertical: HP(3),
+      },
+      android: {
+        marginVertical: HP(6),
+      },
+    }),
   },
   title: {
     fontSize: size.xxtitle,
@@ -31,7 +36,7 @@ export const styles = StyleSheet.create({
   },
   buttonContainer: {
     justifyContent: 'flex-end',
-    marginBottom: WP(5),
+    marginBottom: HP(2),
   },
   logo: {
     width: WP(50),

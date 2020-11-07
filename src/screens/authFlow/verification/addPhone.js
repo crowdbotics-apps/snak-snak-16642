@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text} from 'react-native';
 import {styles} from './styles';
 import {NumKeyboard} from '../../../components';
 const AddPhone = () => {
+  const [phone, setPhone] = useState('');
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
@@ -12,10 +13,10 @@ const AddPhone = () => {
       <Text style={styles.subHeading}>We will send you an SMS to confirm</Text>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Mobile Number</Text>
-        <Text style={styles.inputVal}>090078601</Text>
+        <Text style={styles.inputVal}>{phone}</Text>
       </View>
       <View style={styles.keyboardContainer}>
-        <NumKeyboard />
+        <NumKeyboard getValue={setPhone} />
       </View>
     </View>
   );

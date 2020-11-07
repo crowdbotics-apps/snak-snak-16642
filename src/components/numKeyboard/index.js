@@ -1,11 +1,29 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, TouchableOpacity, View, Image} from 'react-native';
 import {styles} from './styles';
 import {appIcons} from '../../services';
-export const NumKeyboard = () => {
+export const NumKeyboard = ({getValue, limit = 10}) => {
+  const [value, setValue] = useState('');
+  useEffect(() => {
+    getValue(value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
+  const pressNumberKey = num => {
+    if (value.length < limit) {
+      setValue(prevState => prevState + num);
+    }
+  };
+  const pressBackSpace = () => {
+    if (value.length > 0) {
+      setValue(prevState => prevState.slice(0, -1));
+    }
+  };
   const _renderKey = val => {
     return (
-      <TouchableOpacity onPress={() => {}} style={styles.keyContainer}>
+      <TouchableOpacity
+        onPress={() => pressNumberKey(val)}
+        style={styles.keyContainer}>
         <Text style={styles.keyLabel}>{val}</Text>
       </TouchableOpacity>
     );
@@ -13,7 +31,7 @@ export const NumKeyboard = () => {
 
   const _renderDelKey = () => {
     return (
-      <TouchableOpacity onPress={() => {}} style={styles.keyContainer}>
+      <TouchableOpacity onPress={pressBackSpace} style={styles.keyContainer}>
         <Image style={styles.backspace} source={appIcons.backspace} />
       </TouchableOpacity>
     );

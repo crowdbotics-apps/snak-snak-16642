@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {colors, WP, HP, size, family} from '../../../services';
 
 export const styles = StyleSheet.create({
@@ -8,8 +8,15 @@ export const styles = StyleSheet.create({
     paddingHorizontal: WP(4),
   },
   titleContainer: {
-    marginVertical: WP('5'),
     alignSelf: 'center',
+    ...Platform.select({
+      ios: {
+        marginVertical: HP(3),
+      },
+      android: {
+        marginVertical: HP(6),
+      },
+    }),
   },
   title: {
     fontSize: size.xsmall,
@@ -25,15 +32,15 @@ export const styles = StyleSheet.create({
     fontSize: size.xsmall,
     fontFamily: family.OpenSans_Regular,
     color: colors.gray_3,
-    marginTop: WP('2'),
-    marginBottom: WP('5'),
+    marginTop: HP(1),
+    marginBottom: HP(2),
   },
   phoneNumber: {
     fontSize: size.xsmall,
     fontFamily: family.OpenSans_SemiBold,
     color: colors.primary,
-    marginTop: WP('2'),
-    marginBottom: WP('5'),
+    marginTop: HP(1),
+    marginBottom: HP(2),
   },
   inputContainer: {
     display: 'flex',
@@ -41,7 +48,7 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.inputBackground,
     borderRadius: WP(3),
     paddingHorizontal: WP(5),
-    paddingTop: WP(3),
+    paddingTop: HP(2),
   },
   label: {
     color: colors.labels,
@@ -49,7 +56,7 @@ export const styles = StyleSheet.create({
     fontSize: size.xxtiny,
   },
   inputVal: {
-    marginTop: WP(1),
+    marginTop: HP(0.3),
     color: colors.gray_2,
     fontFamily: family.OpenSans_Regular,
     fontSize: size.small,
