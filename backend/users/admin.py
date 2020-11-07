@@ -3,9 +3,11 @@ from django.contrib.auth import admin as auth_admin
 from django.contrib.auth import get_user_model
 
 from users.forms import UserChangeForm, UserCreationForm
+from users.models import ProfileImages
 
 User = get_user_model()
 
+admin.site.register(ProfileImages)
 
 @admin.register(User)
 class UserAdmin(auth_admin.UserAdmin):

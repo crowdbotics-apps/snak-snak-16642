@@ -62,6 +62,7 @@ THIRD_PARTY_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
     "django_extensions",
+    "corsheaders",
     "drf_yasg",
     # start fcm_django push notifications
     "fcm_django",
@@ -69,9 +70,12 @@ THIRD_PARTY_APPS = [
 ]
 INSTALLED_APPS += LOCAL_APPS + THIRD_PARTY_APPS
 
+CORS_ALLOW_ALL_ORIGINS = True
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -153,6 +157,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 # allauth / users
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "email"
@@ -172,10 +179,6 @@ REST_AUTH_SERIALIZERS = {
     # Replace password reset serializer to fix 500 error
     "PASSWORD_RESET_SERIALIZER": "home.api.v1.serializers.PasswordSerializer",
 }
-REST_AUTH_REGISTER_SERIALIZERS = {
-    # Use custom serializer that has no username and matches web signup
-    "REGISTER_SERIALIZER": "home.api.v1.serializers.SignupSerializer",
-}
 
 # Custom user model
 AUTH_USER_MODEL = "users.User"
@@ -191,6 +194,11 @@ EMAIL_USE_TLS = True
 FCM_DJANGO_SETTINGS = {"FCM_SERVER_KEY": env.str("FCM_SERVER_KEY", "")}
 # end fcm_django push notifications
 
+#START TWILIO CONFIGURATIONS
+TWILIP_ACCOUNT_SID = env.str("TWILIP_ACCOUNT_SID", "AC85dea822ce7656488da522c0b8bb69e7")
+TWILIO_AUTH_TOKEN = env.str("TWILIO_AUTH_TOKEN", "f241a55454224d0f97f7f43c2a6192db")
+TWILIO_SERVICE_SID = env.str("TWILIO_SERVICE_SID", "VA1067c56ceb40f08cf9b3d1d4e4d4dd77")
+#END TWILIO CONFIGURATIONS
 
 if DEBUG:
     # output email to console instead of sending

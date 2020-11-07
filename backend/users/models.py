@@ -6,13 +6,13 @@ from users.choices import GENDER, GENDER_PREFERENCE, AVAILABLE_TO, PREFERENCE_TI
 
 
 class User(AbstractUser):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, null=True)
     gender = models.CharField(choices=GENDER, default=None, max_length=6)
-    birthday = models.DateField()
+    birthday = models.DateField(null=True)
     gender_preference = models.CharField(choices=GENDER_PREFERENCE, default=None, max_length=6)
     available_to = models.CharField(choices=AVAILABLE_TO, default=None, max_length=6)
     preference_time = models.CharField(choices=PREFERENCE_TIME, default=None, max_length=6)
-    career_field = models.CharField(max_length=60)
+    career_field = models.CharField(max_length=60, null=True)
     phone_number = models.CharField(null=True, max_length=15)
 
     def get_absolute_url(self):
@@ -20,5 +20,5 @@ class User(AbstractUser):
 
 
 class ProfileImages(models.Model):
-    image = models.ImageField(upload_to="media/profile_images")
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    image = models.ImageField(upload_to="profile_images")
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='user_profile_image')
