@@ -52,11 +52,23 @@ class PhoneNumberVerifyAPI(APIView):
                     'error': False if result.status == "approved" else True,
                     'msg': '' if result.status == "approved" else 'Incorrect verification code'
                 }
+
+                if result.status == "approved":
+                    user = User.objects.filter(phone_number=serializer.validated_data["phone_number"])
+                    if user.exists():
+                        token, created = Token.objects.get_or_create(user=user.first())
+                        data['user_exists'] = True
+                        data['auth_token'] = token.key
+                        data['user'] = UserProfileSerializer(user.first()).data
+                    else:
+                        data['user_exists'] = False
+
             except TwilioRestException:
                 data = {
                     'error': True,
                     'msg': 'retry verification'
                 }
+
             return Response(data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

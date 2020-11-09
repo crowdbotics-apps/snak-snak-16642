@@ -15,7 +15,7 @@ class ProfileImageSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    user_profile_image = ProfileImageSerializer(many=True, )
+    user_profile_image = ProfileImageSerializer(many=True)
 
     class Meta:
         model = User
