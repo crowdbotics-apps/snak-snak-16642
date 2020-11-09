@@ -11,7 +11,7 @@ from .serializers import MessageSerializer, CustomTextSerializer, HomePageSerial
     SMSCodeSerializer, UserProfileSerializer
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.authtoken.serializers import AuthTokenSerializer
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet, ViewSet
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
@@ -90,6 +90,15 @@ class SignupAPI(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LogoutAPI(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, format=None):
+        # simply delete the token to force a login
+        request.user.auth_token.delete()
+        return Response(status=status.HTTP_200_OK)
 
 
 class LoginViewSet(ViewSet):
