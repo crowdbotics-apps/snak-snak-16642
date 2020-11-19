@@ -23,3 +23,8 @@ packaging = "*"
 drf-yasg = "~=1.17.1"
 # fcm-django is used for mobile notifications. It can be removed if unneeded.
 fcm-django = "~=0.3.4"
+twilio = "~=6.47.0"
+Pillow = "~=8.0.1"
+django-cors-headers = "~=3.5.0"
+boto3 = "~=1.16.13"
+django-storages = "~=1.10.1"
