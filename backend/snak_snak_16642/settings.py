@@ -63,6 +63,7 @@ THIRD_PARTY_APPS = [
     "allauth.socialaccount.providers.google",
     "django_extensions",
     "corsheaders",
+    "storages",
     "drf_yasg",
     # start fcm_django push notifications
     "fcm_django",
@@ -144,8 +145,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = "/static/"
-
 MIDDLEWARE += ["whitenoise.middleware.WhiteNoiseMiddleware"]
 
 AUTHENTICATION_BACKENDS = (
@@ -159,9 +158,27 @@ REST_FRAMEWORK = {
     ]
 }
 
+# AWS S3 STORAGE START
+AWS_ACCESS_KEY_ID = 'AKIAIEB2U3X7RJW6QV3Q'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'snack-snack-dev'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_STATIC_LOCATION = 'static'
+# AWS S3 STORAGE END
+
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = 'snak_snak_16642.storage_backends.StaticStorage'
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_STATIC_LOCATION)
+
+AWS_PUBLIC_MEDIA_LOCATION = 'media/public'
+DEFAULT_FILE_STORAGE = 'snak_snak_16642.storage_backends.PublicMediaStorage'
+
+AWS_PRIVATE_MEDIA_LOCATION = 'media/private/profile_images'
+PRIVATE_FILE_STORAGE = 'snak_snak_16642.storage_backends.PrivateMediaStorage'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'

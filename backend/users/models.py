@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
 
+from snak_snak_16642.storage_backends import PrivateMediaStorage
 from users.choices import GENDER, GENDER_PREFERENCE, AVAILABLE_TO, PREFERENCE_TIME
 
 
@@ -20,5 +21,5 @@ class User(AbstractUser):
 
 
 class ProfileImages(models.Model):
-    image = models.ImageField(upload_to="profile_images")
+    image = models.ImageField(storage=PrivateMediaStorage())
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='user_profile_image')
