@@ -62,6 +62,8 @@ THIRD_PARTY_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
     "django_extensions",
+    "corsheaders",
+    "storages",
     "drf_yasg",
     # start fcm_django push notifications
     "fcm_django",
@@ -69,9 +71,12 @@ THIRD_PARTY_APPS = [
 ]
 INSTALLED_APPS += LOCAL_APPS + THIRD_PARTY_APPS
 
+CORS_ALLOW_ALL_ORIGINS = True
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -140,8 +145,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = "/static/"
-
 MIDDLEWARE += ["whitenoise.middleware.WhiteNoiseMiddleware"]
 
 AUTHENTICATION_BACKENDS = (
@@ -149,9 +152,36 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication'
+    ]
+}
+
+# AWS S3 STORAGE START
+AWS_ACCESS_KEY_ID = 'AKIAIEB2U3X7RJW6QV3Q'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'snack-snack-dev'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_STATIC_LOCATION = 'static'
+# AWS S3 STORAGE END
+
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = 'snak_snak_16642.storage_backends.StaticStorage'
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_STATIC_LOCATION)
+
+AWS_PUBLIC_MEDIA_LOCATION = 'media/public'
+DEFAULT_FILE_STORAGE = 'snak_snak_16642.storage_backends.PublicMediaStorage'
+
+AWS_PRIVATE_MEDIA_LOCATION = 'media/private/profile_images'
+PRIVATE_FILE_STORAGE = 'snak_snak_16642.storage_backends.PrivateMediaStorage'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 # allauth / users
 ACCOUNT_EMAIL_REQUIRED = True
@@ -172,10 +202,6 @@ REST_AUTH_SERIALIZERS = {
     # Replace password reset serializer to fix 500 error
     "PASSWORD_RESET_SERIALIZER": "home.api.v1.serializers.PasswordSerializer",
 }
-REST_AUTH_REGISTER_SERIALIZERS = {
-    # Use custom serializer that has no username and matches web signup
-    "REGISTER_SERIALIZER": "home.api.v1.serializers.SignupSerializer",
-}
 
 # Custom user model
 AUTH_USER_MODEL = "users.User"
@@ -191,6 +217,11 @@ EMAIL_USE_TLS = True
 FCM_DJANGO_SETTINGS = {"FCM_SERVER_KEY": env.str("FCM_SERVER_KEY", "")}
 # end fcm_django push notifications
 
+#START TWILIO CONFIGURATIONS
+TWILIP_ACCOUNT_SID = env.str("TWILIP_ACCOUNT_SID", "AC85dea822ce7656488da522c0b8bb69e7")
+TWILIO_AUTH_TOKEN = env.str("TWILIO_AUTH_TOKEN", "f241a55454224d0f97f7f43c2a6192db")
+TWILIO_SERVICE_SID = env.str("TWILIO_SERVICE_SID", "VA1067c56ceb40f08cf9b3d1d4e4d4dd77")
+#END TWILIO CONFIGURATIONS
 
 if DEBUG:
     # output email to console instead of sending

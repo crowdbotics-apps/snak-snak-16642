@@ -1,63 +1,42 @@
 from django.contrib.auth import get_user_model
-from django.http import HttpRequest
-from django.utils.translation import ugettext_lazy as _
-from allauth.account import app_settings as allauth_settings
 from allauth.account.forms import ResetPasswordForm
-from allauth.utils import email_address_exists, generate_unique_username
-from allauth.account.adapter import get_adapter
-from allauth.account.utils import setup_user_email
 from rest_framework import serializers
 from rest_auth.serializers import PasswordResetSerializer
 from home.models import Message, CustomText, HomePage
+from users.models import ProfileImages
 
 User = get_user_model()
 
 
-class SignupSerializer(serializers.ModelSerializer):
+class ProfileImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProfileImages
+        fields = ('image',)
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    user_profile_image = ProfileImageSerializer(many=True)
+
     class Meta:
         model = User
-        fields = ("id", "name", "email", "password")
-        extra_kwargs = {
-            "password": {"write_only": True, "style": {"input_type": "password"}},
-            "email": {"required": True, "allow_blank": False,},
-        }
-
-    def _get_request(self):
-        request = self.context.get("request")
-        if (
-            request
-            and not isinstance(request, HttpRequest)
-            and hasattr(request, "_request")
-        ):
-            request = request._request
-        return request
-
-    def validate_email(self, email):
-        email = get_adapter().clean_email(email)
-        if allauth_settings.UNIQUE_EMAIL:
-            if email and email_address_exists(email):
-                raise serializers.ValidationError(
-                    _("A user is already registered with this e-mail address.")
-                )
-        return email
+        fields = ("name", "gender", "birthday", "gender_preference", "available_to", "preference_time", "career_field",
+                  "phone_number", 'user_profile_image')
 
     def create(self, validated_data):
-        user = User(
-            email=validated_data.get("email"),
-            name=validated_data.get("name"),
-            username=generate_unique_username(
-                [validated_data.get("name"), validated_data.get("email"), "user"]
-            ),
-        )
-        user.set_password(validated_data.get("password"))
-        user.save()
-        request = self._get_request()
-        setup_user_email(request, user, [])
-        return user
+        profile_images = validated_data.pop('user_profile_image')
+        user_profile = User.objects.create(**validated_data)
+        for image in profile_images:
+            ProfileImages.objects.create(user=user_profile, **image)
+        return user_profile
 
-    def save(self, request=None):
-        """rest_auth passes request so we must override to accept it"""
-        return super().save()
+
+class SMSCodeSerializer(serializers.Serializer):
+    phone_number = serializers.CharField(max_length=15)
+
+
+class PhoneNumberVerificationSerializer(serializers.Serializer):
+    phone_number = serializers.CharField(max_length=15)
+    token = serializers.CharField(max_length=6)
 
 
 class CustomTextSerializer(serializers.ModelSerializer):
