@@ -1,9 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
 import {NumKeyboard} from '../../../components';
-const VerifyPhone = () => {
+const VerifyPhone = ({navigation}) => {
   const [code, setCode] = useState('');
+  useEffect(() => {
+    if (code.length >= 4) {
+      navigation.navigate('EditProfile');
+    }
+  }, [code]);
   const _renderDigit = index => {
     if (code.length >= index) {
       return code[index - 1];

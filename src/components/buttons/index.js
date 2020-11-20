@@ -2,9 +2,9 @@ import React from 'react';
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 import {colors} from '../../services/colors';
 import {family, size, WP} from '../../services';
-export const Button = ({title, onPress}) => {
+export const Button = ({title, onPress, containerStyle}) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.container}>
+    <TouchableOpacity onPress={onPress} style={[styles.container, containerStyle]}>
       <Text style={styles.textStyle}>{title}</Text>
     </TouchableOpacity>
   );
