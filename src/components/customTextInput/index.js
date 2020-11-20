@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -31,7 +31,11 @@ export const CustomTextInput = ({
 
   useEffect(() => {
     if (itemList?.length > 0) {
-      if (dropDownListHeader?.length > 0) {
+      if (
+        dropDownListHeader?.length > 0 &&
+        itemList?.length > 0 &&
+        itemList[0] !== ''
+      ) {
         let array = itemList;
         array.unshift('');
         setOptions(array);
@@ -114,7 +118,8 @@ export const CustomTextInput = ({
             renderRow={_renderRow}
             dropdownStyle={{
               ...styles.dropdownStyle,
-              height: options?.length > 8 ? HP('5') * 8 : HP('5') * itemList.length,
+              height:
+                options?.length > 8 ? HP('5') * 8 : HP('5') * itemList.length,
             }}
             ref={ref => (modalRef = ref)}
             options={options}
