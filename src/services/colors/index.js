@@ -9,4 +9,6 @@ export const colors = {
   keyboardBorder: '#F2F2F2',
   labels: '#ACB3BE',
   inputBackground: '#F6F7F8',
+  dropDownlabelBackground: '#EEEEEE',
+  selectedLabelBackground: '#FFC2C2',
 };

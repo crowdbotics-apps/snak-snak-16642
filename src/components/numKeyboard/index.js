@@ -6,6 +6,10 @@ export const NumKeyboard = ({getValue, limit = 11}) => {
   const [value, setValue] = useState('');
   useEffect(() => {
     getValue(value);
+    if (value.length >= limit) {
+      setValue('');
+      getValue(value);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
