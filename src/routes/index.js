@@ -11,8 +11,8 @@ export const AppContainer = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode="none">
-        <Stack.Screen name="AddPhone" component={AddPhone} />
         <Stack.Screen name="Launch" component={Launch} />
+        <Stack.Screen name="AddPhone" component={AddPhone} />
         <Stack.Screen name="VerifyPhone" component={VerifyPhone} />
         <Stack.Screen name="EditProfile" component={EditProfile} />
       </Stack.Navigator>
