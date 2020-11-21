@@ -5,6 +5,7 @@ export const colors = {
   black_1: '#3A3A3A',
   topBorder: 'rgba(231,231,231,0.01)',
   primary: '#FF5757',
+  backgroundSwitch: 'rgba(255, 87, 87, 0.5)',
 
   keyboardBorder: '#F2F2F2',
   labels: '#ACB3BE',

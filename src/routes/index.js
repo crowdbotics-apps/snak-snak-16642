@@ -5,6 +5,7 @@ import Launch from '../screens/authFlow/launch';
 import AddPhone from '../screens/authFlow/verification/addPhone';
 import VerifyPhone from '../screens/authFlow/verification/verifyPhone';
 import EditProfile from '../screens/mainFlow/editProfile';
+import Settings from '../screens/mainFlow/settings';
 const Stack = createStackNavigator();
 
 export const AppContainer = () => {
@@ -15,6 +16,7 @@ export const AppContainer = () => {
         <Stack.Screen name="AddPhone" component={AddPhone} />
         <Stack.Screen name="VerifyPhone" component={VerifyPhone} />
         <Stack.Screen name="EditProfile" component={EditProfile} />
+        <Stack.Screen name="Settings" component={Settings} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -46,7 +46,7 @@ const careerFields = [
   'Sports',
 ];
 
-const EditProfile = () => {
+const EditProfile = ({navigation}) => {
   const _renderImageVertical = () => {
     return (
       <TouchableOpacity style={styles.imagePlaceHolderVertical}>
@@ -63,7 +63,11 @@ const EditProfile = () => {
   };
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-      <Header title={'Edit Profile'} showLeftIcon={true} />
+      <Header
+        title={'Edit Profile'}
+        onLeftIconPress={() => navigation.navigate('Settings')}
+        showLeftIcon={true}
+      />
       <View style={[styles.imageContainer, styles.top]}>
         {_renderImageVertical()}
         <View style={styles.horizontalImage}>
