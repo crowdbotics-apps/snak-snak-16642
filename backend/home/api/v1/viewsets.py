@@ -5,10 +5,10 @@ from rest_framework.views import APIView
 from twilio.base.exceptions import TwilioRestException
 from django.contrib.auth import get_user_model
 
+from users.api.v1.serializers import UserProfileSerializer
 from users.choices import GENDER, GENDER_PREFERENCE, AVAILABLE_TO, PREFERENCE_TIME
-from users.models import ProfileImages
-from .serializers import MessageSerializer, CustomTextSerializer, HomePageSerializer, PhoneNumberVerificationSerializer, \
-    SMSCodeSerializer, UserProfileSerializer
+from .serializers import MessageSerializer, PhoneNumberVerificationSerializer, \
+    SMSCodeSerializer
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
