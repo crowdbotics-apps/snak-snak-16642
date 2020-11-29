@@ -3,7 +3,6 @@ from rest_framework.routers import DefaultRouter
 from .viewsets import MessageViewSet, PhoneNumberVerifyAPI, SMSCodeAPI, SignupAPI, LogoutAPI
 
 from home.api.v1.viewsets import (
-    LoginViewSet,
     HomePageViewSet,
     CustomTextViewSet,
 )
