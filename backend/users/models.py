@@ -23,3 +23,13 @@ class User(AbstractUser):
 class ProfileImages(models.Model):
     image = models.ImageField(storage=PrivateMediaStorage())
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='user_profile_image')
+
+
+class Settings(models.Model):
+    notify_snak_invites = models.BooleanField(default=True)
+    notify_meeting_reminder = models.BooleanField(default=True)
+    notify_canceled_meeting = models.BooleanField(default=True)
+    notify_deleted_meeting = models.BooleanField(default=True)
+    notify_meeting_update = models.BooleanField(default=True)
+    hide_your_profile = models.BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
