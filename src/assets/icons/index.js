@@ -6,4 +6,5 @@ export const appIcons = {
   menu: require('./menu.png'),
   uncheck: require('./uncheck.png'),
   check: require('./check.png'),
+  person: require('./person.png'),
 };

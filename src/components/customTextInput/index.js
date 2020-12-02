@@ -20,6 +20,8 @@ export const CustomTextInput = ({
   isMultiSelect,
   itemList,
   dropDownListHeader,
+  showMultiSelectValues,
+  getVal = () => {},
 }) => {
   const [val, setVal] = useState('');
   const [multiSelectedValues, setMultiSelectedvalues] = useState([]);
@@ -53,6 +55,9 @@ export const CustomTextInput = ({
         tempArray.splice(tempArray.indexOf(options[index]), 1);
       }
       setMultiSelectedvalues(tempArray);
+      console.log(tempArray);
+    } else {
+      getVal(itemList[index]);
     }
   };
 
@@ -103,37 +108,61 @@ export const CustomTextInput = ({
     if (inputField === false) {
       return <Text style={styles.inputVal}>{val}</Text>;
     } else if (dropDown === true) {
+      let multiSelectText = '';
+      multiSelectedValues?.map(item => {
+        multiSelectText += ', ' + item;
+      });
+      multiSelectText = multiSelectText.substring(2);
       return (
         <TouchableOpacity
           onPress={() => modalRef.show()}
-          style={styles.dropDownContainer}>
-          <ModalDropdown
-            defaultValue={''}
-            textStyle={[
-              isMultiSelect
-                ? styles.dropdownTextHide
-                : styles.dropdownTextStyle,
-            ]}
-            renderSeparator={() => <View />}
-            renderRow={_renderRow}
-            dropdownStyle={{
-              ...styles.dropdownStyle,
-              height:
-                options?.length > 8 ? HP('5') * 8 : HP('5') * itemList.length,
-            }}
-            ref={ref => (modalRef = ref)}
-            options={options}
-            onDropdownWillHide={() => !isMultiSelect}
-            onSelect={changeValue}
-          />
-          <Image style={styles.carrotSign} source={appIcons.carrot} />
+          style={{flexDirection: 'row'}}>
+          {showMultiSelectValues === true && (
+            <Text
+              style={[styles.dropdownTextStyle, {width: WP('77')}]}
+              numberOfLines={1}
+              ellipsizeMode={'tail'}>
+              {multiSelectText}
+            </Text>
+          )}
+          <View
+            style={[
+              styles.dropDownContainer,
+              {width: showMultiSelectValues === true ? WP('8') : WP('85')},
+            ]}>
+            <ModalDropdown
+              defaultValue={''}
+              textStyle={[
+                isMultiSelect
+                  ? styles.dropdownTextHide
+                  : styles.dropdownTextStyle,
+              ]}
+              renderSeparator={() => <View />}
+              renderRow={_renderRow}
+              dropdownStyle={{
+                ...styles.dropdownStyle,
+                height:
+                  options?.length > 8
+                    ? HP('5') * 8
+                    : HP('5') * itemList?.length,
+              }}
+              ref={ref => (modalRef = ref)}
+              options={options}
+              onDropdownWillHide={() => !isMultiSelect}
+              onSelect={changeValue}
+            />
+            <Image style={styles.carrotSign} source={appIcons.carrot} />
+          </View>
         </TouchableOpacity>
       );
     } else {
       return (
         <TextInput
           value={val}
-          onChangeText={val => setVal(val)}
+          onChangeText={val => {
+            setVal(val);
+            getVal(val);
+          }}
           style={styles.textInput}
         />
       );
@@ -141,7 +170,7 @@ export const CustomTextInput = ({
   };
   return (
     <View style={[styles.inputContainer, containerStyle]}>
-      <Text style={styles.label}>{label}</Text>
+      {label?.length > 0 && <Text style={styles.label}>{label}</Text>}
       {_renderInputField()}
     </View>
   );
@@ -181,6 +210,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
+    alignSelf: 'flex-end',
   },
   carrotSign: {
     top: 0,
@@ -255,5 +285,10 @@ const styles = StyleSheet.create({
   },
   dropdownTextHide: {
     color: colors.inputBackground,
+    fontSize: 1,
+  },
+  dropdownrow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });

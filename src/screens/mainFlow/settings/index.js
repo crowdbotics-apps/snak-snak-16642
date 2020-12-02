@@ -19,7 +19,7 @@ const notification = [
   {text: 'Receive notification of delete meeting', isSelected: true},
   {text: 'Receive notification of meeting update', isSelected: true},
 ];
-const Settings = () => {
+const Settings = ({navigation}) => {
   const _renderRow = ({text, isSelected}) => {
     return (
       <View style={styles.rowContainer}>
@@ -64,7 +64,7 @@ const Settings = () => {
   return (
     <View style={styles.flex}>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-        <Header title={'Settings'} showLeftIcon={true} />
+        <Header onLeftIconPress={() => navigation.navigate('Search')} title={'Settings'} showLeftIcon={true} />
         <Text style={[styles.headings, styles.top]}>Notifications</Text>
         {notification.map(item => _renderRow(item))}
         <View style={styles.space} />
