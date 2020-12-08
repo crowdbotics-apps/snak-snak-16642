@@ -16,9 +16,10 @@ export const ProfileCard = ({
   status,
   distance,
   image,
+  backgroundColor = colors.inputBackground,
 }) => {
   return (
-    <View style={styles.titleContainer}>
+    <View style={[styles.titleContainer, {backgroundColor}]}>
       <Image
         source={{
           uri: image ? image : 'https://picsum.photos/seed/picsum/300/300',
