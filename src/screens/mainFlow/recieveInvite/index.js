@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Text, View, ScrollView} from 'react-native';
 import {styles} from './styles';
 import {
@@ -7,10 +7,15 @@ import {
   ProfileCard,
   EditTextInput,
   Button,
+  AcceptInvitePopup,
+  DeclineInvitePopup,
 } from '../../../components';
 import {colors, HP, WP} from '../../../services';
 
 const RecieveInvite = ({navigation}) => {
+  const [acceptPopup, setAcceptPopup] = useState(false);
+  const [declinePopup, setDeclinePopup] = useState(false);
+
   return (
     <View style={styles.flex}>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
@@ -96,7 +101,10 @@ const RecieveInvite = ({navigation}) => {
           <View style={styles.spacer} />
           <View style={styles.buttonRow}>
             <View style={styles.buttonRow1}>
-              <Button title={'Accept'} />
+              <Button
+                title={'Accept'}
+                onPress={() => setAcceptPopup(!acceptPopup)}
+              />
             </View>
             <View style={styles.buttonRow2}>
               <Button
@@ -104,11 +112,30 @@ const RecieveInvite = ({navigation}) => {
                 backgroundColor={colors.white}
                 textColor={colors.black_1}
                 containerStyle={styles.buttonStyle}
+                onPress={() => setDeclinePopup(!declinePopup)}
               />
             </View>
           </View>
         </View>
       </ScrollView>
+      <AcceptInvitePopup
+        showModal={acceptPopup}
+        close={() => {
+          setAcceptPopup(!acceptPopup);
+        }}
+        title="Yay!"
+        backgroundColor="rgba(255, 245, 245, 0.8)"
+        color="rgb(231, 106, 105)"
+      />
+      <DeclineInvitePopup
+        showModal={declinePopup}
+        close={() => {
+          setDeclinePopup(!declinePopup);
+        }}
+        title="Bad News :\"
+        backgroundColor="rgba(255, 245, 245, 0.8)"
+        color="rgb(231, 106, 105)"
+      />
     </View>
   );
 };

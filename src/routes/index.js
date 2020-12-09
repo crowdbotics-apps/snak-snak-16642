@@ -14,7 +14,7 @@ const Stack = createStackNavigator();
 export const AppContainer = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={'RecieveInvite'} headerMode="none">
+      <Stack.Navigator headerMode="none">
         <Stack.Screen name="Launch" component={Launch} />
         <Stack.Screen name="Search" component={Search} />
         <Stack.Screen name="Signup" component={Signup} />
