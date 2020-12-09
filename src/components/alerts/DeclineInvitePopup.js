@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     paddingLeft: WP('2'),
   },
   buttonStyle: {
-    width: '90%',
+    width: '100%',
     borderRadius: 0,
     height: HP('7'),
     backgroundColor: colors.primary,
