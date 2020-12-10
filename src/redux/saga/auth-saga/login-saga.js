@@ -12,12 +12,10 @@ export function* loginRequest() {
 function* getSmsCode(params) {
   console.log('[getSmsCode saga]', params);
   try {
-    let response = yield axios.post(endPoints.getSmsCode, params.params, {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    });
+    let response = yield Api.postRequest(
+      endPoints.getSmsCode,
+      JSON.stringify(params.params),
+    );
     if (response) {
       params.cbSuccess(response);
       yield put({
@@ -25,9 +23,17 @@ function* getSmsCode(params) {
         data: response,
       });
     } else {
-      params.cbFailure('Invalid email and password');
+      yield put({
+        type: types.GET_SMS_CODE_FAILURE,
+        data: response,
+      });
+      params.cbFailure(response);
     }
   } catch (error) {
+    yield put({
+      type: types.GET_SMS_CODE_FAILURE,
+      data: error,
+    });
     params.cbFailure(error.response);
   }
 }

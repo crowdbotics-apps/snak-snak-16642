@@ -10,7 +10,7 @@ import {colors} from '../../../services';
 const AddPhone = ({navigation}) => {
   let phoneNo = useRef(null);
 
-  const [phone, setPhone] = useState('');
+  const [phone, setPhone] = useState('+923015957220');
   const [disabled, setDisabled] = useState(true);
   const [isValid, setValid] = useState(true);
   const [country_code, setCountryCode] = useState('');
@@ -19,16 +19,26 @@ const AddPhone = ({navigation}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (phone.length >= 10) {
+    onGetSmsCode();
+  }, []);
+
+  const changePhoneNo = value => {
+    if (!phoneNo.isValidNumber()) {
+      console.log('if ');
+      setPhone(value);
+    } else {
+      console.log('else ');
       onGetSmsCode();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phone]);
+  };
 
   const onGetSmsCode = () => {
+    console.log('called');
     let params = {
-      phone_number: country_code + phone,
+      phone_number: phone,
     };
+    console.log('called', params);
+
     let cbSuccuss = response => {
       setLoading(false);
       console.log(response);
@@ -45,6 +55,11 @@ const AddPhone = ({navigation}) => {
     console.log('slectCountry:', phoneNo.selectCountry(country.cca2), country);
     updateInfo();
   };
+
+  useEffect(() => {
+    updateInfo();
+  }, []);
+
   const updateInfo = () => {
     setCountryCode(phoneNo.getValue());
     console.log('valid=======: ', phoneNo.isValidNumber());
@@ -92,7 +107,7 @@ const AddPhone = ({navigation}) => {
           ]}
           allowZeroAfterCountryCode={true}
           onSelectCountry={iso2 => selectCountry(iso2)}
-          onChangePhoneNumber={number => submitNumber(number)}
+          onChangePhoneNumber={number => changePhoneNo(number)}
           // onPressFlag={props.onPressFlag}
         />
         <CustomTextInput
@@ -105,7 +120,7 @@ const AddPhone = ({navigation}) => {
       </View>
 
       <View style={styles.keyboardContainer}>
-        <NumKeyboard getValue={setPhone} />
+        <NumKeyboard getValue={value => changePhoneNo(value)} />
       </View>
       <Loader loading={loading} />
     </View>

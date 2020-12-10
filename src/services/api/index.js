@@ -47,17 +47,42 @@ class Api {
         });
     } else {
       // without header request
-      console.log('Without Header Request');
-      return axios
-        .post(url, formData)
-        .then(response => {
-          console.log('SUCCESS!!', response);
-          return response.data;
+
+      var data = JSON.stringify({phone_number: '+923015957224'});
+
+      var config = {
+        method: 'post',
+        url: 'https://snak-snak-16642.botics.co/api/v1/get-sms-code/',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: data,
+      };
+
+      return axios(config)
+        .then(function(response) {
+          console.log('data @@@@@@@@@', JSON.stringify(response.data));
+          return response;
         })
-        .catch(error => {
-          console.log('FAILURE!!', error);
-          return error.response;
+        .catch(function(error) {
+          console.log(error);
+          return error;
         });
+      // console.log('Without Header Request');
+      // return fetch(`${Util.baseURL}${endpoint}`, {
+      //   method: 'POST',
+      //   body: JSON.stringify(formData),
+      // });
+      // return axios
+      //   .post(url, formData)
+      //   .then(response => {
+      //     console.log('SUCCESS!!', response);
+      //     return response.data;
+      //   })
+      //   .catch(error => {
+      //     console.log('FAILURE!!===========@@@@@@@@@', error);
+      //     return error;
+      //   });
     }
   };
 
