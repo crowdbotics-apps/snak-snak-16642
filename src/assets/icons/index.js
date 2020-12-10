@@ -7,4 +7,5 @@ export const appIcons = {
   uncheck: require('./uncheck.png'),
   check: require('./check.png'),
   person: require('./person.png'),
+  inviteAccept: require('./invite_accept.png'),
 };

@@ -21,6 +21,8 @@ export const CustomTextInput = ({
   itemList,
   dropDownListHeader,
   showMultiSelectValues,
+  editable,
+  editBackColor,
   getVal = () => {},
 }) => {
   const [val, setVal] = useState('');
@@ -128,7 +130,9 @@ export const CustomTextInput = ({
           <View
             style={[
               styles.dropDownContainer,
-              {width: showMultiSelectValues === true ? WP('8') : WP('85')},
+              {
+                width: showMultiSelectValues === true ? WP('8') : WP('85'),
+              },
             ]}>
             <ModalDropdown
               defaultValue={''}
@@ -169,7 +173,12 @@ export const CustomTextInput = ({
     }
   };
   return (
-    <View style={[styles.inputContainer, containerStyle]}>
+    <View
+      style={[
+        styles.inputContainer,
+        containerStyle,
+        {backgroundColor: editable ? editBackColor : colors.inputBackground},
+      ]}>
       {label?.length > 0 && <Text style={styles.label}>{label}</Text>}
       {_renderInputField()}
     </View>

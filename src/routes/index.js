@@ -8,6 +8,7 @@ import EditProfile from '../screens/mainFlow/editProfile';
 import Settings from '../screens/mainFlow/settings';
 import Search from '../screens/mainFlow/search';
 import Signup from '../screens/authFlow/signup';
+import RecieveInvite from '../screens/mainFlow/recieveInvite';
 const Stack = createStackNavigator();
 
 export const AppContainer = () => {
@@ -21,6 +22,7 @@ export const AppContainer = () => {
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="AddPhone" component={AddPhone} />
         <Stack.Screen name="VerifyPhone" component={VerifyPhone} />
+        <Stack.Screen name="RecieveInvite" component={RecieveInvite} />
       </Stack.Navigator>
     </NavigationContainer>
   );
