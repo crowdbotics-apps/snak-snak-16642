@@ -8,6 +8,7 @@ import {ProfileCard} from './profileCard';
 import {AlertNotification} from './alerts/alert';
 import {AcceptInvitePopup} from './alerts/AcceptInvitePopup';
 import {DeclineInvitePopup} from './alerts/DeclineInvitePopup';
+import {Loader} from './loader/index';
 
 export {
   Button,
@@ -20,4 +21,5 @@ export {
   AlertNotification,
   AcceptInvitePopup,
   DeclineInvitePopup,
+  Loader,
 };

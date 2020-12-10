@@ -23,6 +23,7 @@ export const CustomTextInput = ({
   showMultiSelectValues,
   editable,
   editBackColor,
+  isPhoneInput = false,
   getVal = () => {},
 }) => {
   const [val, setVal] = useState('');
@@ -108,7 +109,12 @@ export const CustomTextInput = ({
 
   const _renderInputField = () => {
     if (inputField === false) {
-      return <Text style={styles.inputVal}>{val}</Text>;
+      return (
+        <Text
+          style={[styles.inputVal, {paddingLeft: isPhoneInput ? WP('20') : 0}]}>
+          {val}
+        </Text>
+      );
     } else if (dropDown === true) {
       let multiSelectText = '';
       multiSelectedValues?.map(item => {
@@ -167,7 +173,7 @@ export const CustomTextInput = ({
             setVal(val);
             getVal(val);
           }}
-          style={styles.textInput}
+          style={[styles.textInput]}
         />
       );
     }
@@ -179,7 +185,12 @@ export const CustomTextInput = ({
         containerStyle,
         {backgroundColor: editable ? editBackColor : colors.inputBackground},
       ]}>
-      {label?.length > 0 && <Text style={styles.label}>{label}</Text>}
+      {label?.length > 0 && (
+        <Text
+          style={[styles.label, {paddingLeft: isPhoneInput ? WP('20') : 0}]}>
+          {label}
+        </Text>
+      )}
       {_renderInputField()}
     </View>
   );

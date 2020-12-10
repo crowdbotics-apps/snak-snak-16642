@@ -83,4 +83,14 @@ export const styles = StyleSheet.create({
     textDecorationStyle: 'solid',
     textDecorationColor: colors.primary,
   },
+  phoneContainer: {
+    flex: 0.3,
+    position: 'absolute',
+    zIndex: 10,
+    top: HP('3.5'),
+    left: WP('2'),
+  },
+  textInputContainer: {
+    flex: 1,
+  },
 });
