@@ -4,6 +4,7 @@ const initialState = {
   loading: false,
   isKeepLogin: null,
   getSmsRes: null,
+  verifyCodeRes: null,
   error: null,
   isSuccess: false,
   isFailure: false,
@@ -38,7 +39,7 @@ const loginReducer = (state = initialState, actions) => {
     case TYPES.VERIFY_CODE_SUCCESS:
       return {
         ...state,
-        getSmsRes: actions.data,
+        verifyCodeRes: actions.data,
         error: null,
         isSuccess: true,
         isFailure: false,

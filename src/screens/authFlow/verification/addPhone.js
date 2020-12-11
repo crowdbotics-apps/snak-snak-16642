@@ -19,8 +19,10 @@ const AddPhone = ({navigation}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    onGetSmsCode();
-  }, []);
+    if (phone.length === 10) {
+      onGetSmsCode();
+    }
+  }, [phone]);
 
   const changePhoneNo = value => {
     if (!phoneNo.isValidNumber()) {
@@ -33,16 +35,19 @@ const AddPhone = ({navigation}) => {
   };
 
   const onGetSmsCode = () => {
+    setLoading(true);
     console.log('called');
     let params = {
-      phone_number: phone,
+      phone_number: country_code + phone,
     };
     console.log('called', params);
 
     let cbSuccuss = response => {
       setLoading(false);
       console.log(response);
-      // navigation.navigate('VerifyPhone');
+      navigation.navigate('VerifyPhone', {
+        phone: country_code + phone,
+      });
     };
     let cbFailure = response => {
       setLoading(false);

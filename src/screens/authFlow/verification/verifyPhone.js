@@ -2,12 +2,20 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
-import {NumKeyboard} from '../../../components';
-const VerifyPhone = ({navigation}) => {
+import {NumKeyboard, Loader} from '../../../components';
+import {verifyCodeRequest} from '../../../redux/actions';
+import {useDispatch} from 'react-redux';
+import axios from 'axios';
+
+const VerifyPhone = ({navigation, route}) => {
   const [code, setCode] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (code.length >= 4) {
-      navigation.navigate('EditProfile');
+      onVerifyCode();
     }
   }, [code]);
   const _renderDigit = index => {
@@ -15,6 +23,57 @@ const VerifyPhone = ({navigation}) => {
       return code[index - 1];
     }
   };
+
+  const onVerifyCode = () => {
+    setLoading(true);
+    var data = JSON.stringify({phone_number: route?.params.phone, token: code});
+
+    var config = {
+      method: 'post',
+      url: 'https://snak-snak-16642.botics.co/api/v1/verify-phone/',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function(response) {
+        console.log(response);
+        if (!response.data.error) {
+          setCode('');
+          setLoading(false);
+          navigation.navigate('EditProfile');
+          console.log(JSON.stringify(response.data));
+        } else {
+          setLoading(false);
+          setTimeout(() => {
+            alert('Invalid Code');
+          }, 1000);
+        }
+      })
+      .catch(function(error) {
+        alert(JSON.stringify(error));
+        console.log(error);
+      });
+    // let params = {
+    //   phone_number: route?.params?.phone,
+    //   token: code,
+    // };
+    // console.log('called', params);
+
+    // let cbSuccuss = response => {
+    //   setLoading(false);
+    //   console.log(response);
+    //   navigation.navigate('EditProfile');
+    // };
+    // let cbFailure = response => {
+    //   setLoading(false);
+    //   console.log(response);
+    // };
+    // dispatch(verifyCodeRequest(params, cbSuccuss, cbFailure));
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
@@ -23,7 +82,7 @@ const VerifyPhone = ({navigation}) => {
       <Text style={styles.heading}>We sent you an SMS code</Text>
       <View style={styles.phoneNumberContainer}>
         <Text style={styles.subHeading}>On number: </Text>
-        <Text style={styles.phoneNumber}>+55 (75) 7854 312685</Text>
+        <Text style={styles.phoneNumber}>{route?.params?.phone}</Text>
       </View>
 
       <View style={styles.otpContainer}>
@@ -49,6 +108,7 @@ const VerifyPhone = ({navigation}) => {
       <View style={styles.keyboardContainer}>
         <NumKeyboard limit={4} getValue={setCode} />
       </View>
+      <Loader loading={loading} />
     </View>
   );
 };

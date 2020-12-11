@@ -9,3 +9,12 @@ export const getSmsCode = (params, cbSuccess, cbFailure) => {
     cbFailure,
   };
 };
+
+export const verifyCodeRequest = (params, cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.VERIFY_CODE_REQUEST,
+    params,
+    cbSuccess,
+    cbFailure,
+  };
+};

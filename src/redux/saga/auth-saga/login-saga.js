@@ -12,11 +12,8 @@ export function* loginRequest() {
 function* getSmsCode(params) {
   console.log('[getSmsCode saga]', params);
   try {
-    let response = yield Api.postRequest(
-      endPoints.getSmsCode,
-      JSON.stringify(params.params),
-    );
-    if (response) {
+    let response = yield Api.postRequest(endPoints.getSmsCode, params.params);
+    if (response?.status === 201) {
       params.cbSuccess(response);
       yield put({
         type: types.GET_SMS_CODE_SUCCESS,
@@ -27,7 +24,7 @@ function* getSmsCode(params) {
         type: types.GET_SMS_CODE_FAILURE,
         data: response,
       });
-      params.cbFailure(response);
+      params.cbFailure(response?.data?.data);
     }
   } catch (error) {
     yield put({
@@ -41,24 +38,19 @@ function* getSmsCode(params) {
 function* verifyCode(params) {
   console.log('logout saga]', params.params);
   try {
-    let response = yield Api.postRequest(endPoints.logout, null, params.params);
+    let response = yield Api.postRequest(endPoints.verifyCode, params.params);
     if (response) {
-      if (response?.data?.status === 200) {
+      if (response?.status === 201) {
         params.cbSuccess(response);
-        yield put({type: types.LOGOUT_REQUEST_SUCCESS, data: response});
+        yield put({type: types.VERIFY_CODE_SUCCESS, data: response});
       } else {
-        params.cbSuccess(response);
-        yield put({type: types.LOGOUT_REQUEST_SUCCESS, data: response});
-        params.cbSuccess(response);
-
-        //Expiring token from my app side.
-        // params.cbFailure('Token expired');
+        params.cbFailure(response);
+        yield put({type: types.VERIFY_CODE_FAILURE, data: response});
       }
     } else {
       params.cbFailure('Invalid email and password');
     }
   } catch (error) {
-    console.log('error from login request saga -- > > >  > ', error);
     params.cbFailure(error);
   }
 }

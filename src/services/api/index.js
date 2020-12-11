@@ -48,6 +48,8 @@ class Api {
     } else {
       // without header request
 
+      console.log(formData);
+
       var data = JSON.stringify({phone_number: '+923015957224'});
 
       var config = {
