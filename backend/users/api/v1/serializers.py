@@ -1,6 +1,9 @@
 from django.contrib.auth import get_user_model
+from django.db import IntegrityError
 from rest_framework import serializers
-from users.models import ProfileImages, Settings
+from rest_framework.authtoken.models import Token
+
+from users.models import ProfileImages, Settings, UserSports
 
 User = get_user_model()
 
@@ -54,21 +57,40 @@ class ProfileImageSerializer(serializers.ModelSerializer):
         fields = ('image',)
 
 
+class UserSportsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = UserSports
+        fields = ('sports',)
+
+
 class UserProfileSerializer(serializers.ModelSerializer):
     user_profile_image = ProfileImageSerializer(many=True)
+    user_sports = UserSportsSerializer(many=True)
 
     class Meta:
         model = User
-        fields = ("name", "gender", "birthday", "gender_preference", "available_to", "preference_time", "career_field",
-                  "phone_number", "user_profile_image")
+        fields = ("name", "bio", "job_field", "ocuppation", "expertise_level", "preferred_expertise_level",
+                  "gender_preference", "phone_number", "user_profile_image", "age_preferred", "distance_preferred",
+                  "user_sports")
 
     def create(self, validated_data):
         profile_images = validated_data.pop('user_profile_image')
-        user_profile = User.objects.create(**validated_data)
-        Settings.objects.create(user=user_profile)
-        for image in profile_images:
-            ProfileImages.objects.create(user=user_profile, **image)
-        return user_profile
+        user_sports = validated_data.pop('user_sports')
+        mobile_phone = validated_data.get('phone_number')
+        validated_data['username'] = mobile_phone
+        validated_data['phone_number'] = mobile_phone
+        try:
+            user_profile = User.objects.create(**validated_data)
+            Settings.objects.create(user=user_profile)
+            for image in profile_images:
+                ProfileImages.objects.create(user=user_profile, **image)
+            for sport in user_sports:
+                UserSports.objects.create(user=user_profile, **sport)
+            return user_profile
+        except IntegrityError as e:
+            error = {"error": True, "msg": "Mobile number exists!"}
+            raise serializers.ValidationError(error)
 
 
 class UserSettingsSerializer(serializers.ModelSerializer):
