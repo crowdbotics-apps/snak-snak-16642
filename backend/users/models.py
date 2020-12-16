@@ -13,7 +13,7 @@ class User(AbstractUser):
     ocuppation = models.CharField(max_length=200, null=True)
     expertise_level = models.CharField(choices=EXPERTISE_LEVEL, default=None, max_length=20, null=True)
     preferred_expertise_level = models.CharField(choices=EXPERTISE_LEVEL, default=None, max_length=20, null=True)
-    gender_preference = models.CharField(choices=GENDER_PREFERENCE, default=None, max_length=6)
+    gender_preference = models.CharField(choices=GENDER_PREFERENCE, default=None, max_length=20)
     phone_number = models.CharField(null=True, max_length=15)
     age_preferred = models.IntegerField(null=True)
     distance_preferred = models.IntegerField(null=True)
@@ -28,7 +28,7 @@ class ProfileImages(models.Model):
 
 
 class UserSports(models.Model):
-    sports = models.CharField(choices=SPORTS, default=None, max_length=6)
+    sports = models.CharField(choices=SPORTS, default=None, max_length=30)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_sports')
 
 
