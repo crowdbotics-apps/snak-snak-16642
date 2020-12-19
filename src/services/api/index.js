@@ -99,7 +99,7 @@ class Api {
           return response;
         })
         .catch(error => {
-          return error;
+          return error.response;
         });
     } else {
       // without header request
@@ -161,6 +161,7 @@ class Api {
       body: JSON.stringify(formData),
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Token ${config.token}`,
       },
     })
       .then(response => response.json())

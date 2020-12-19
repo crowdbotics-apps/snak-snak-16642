@@ -5,4 +5,5 @@ export const endPoints = {
   getSmsCode: 'get-sms-code/',
   verifyCode: 'verify-phone/',
   getSettings: 'user/settings/',
+  logout: 'logout/',
 };

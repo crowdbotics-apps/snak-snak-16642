@@ -12,37 +12,38 @@ import {
 import {styles} from './styles';
 import {Header} from '../../../components';
 import {colors} from '../../../services';
-import {getSettings} from '../../../redux/actions';
+import {getSettings, logoutRequest} from '../../../redux/actions';
 import {useDispatch, useSelector} from 'react-redux';
+import {CommonActions} from '@react-navigation/routers';
 
 const notification = [
   {
     text: 'Receive notification of snak invites',
-    isSelected: true,
+    isSelected: false,
     id: 0,
     key: 'notify_snak_invites',
   },
   {
     text: 'Receive notification of meeting reminder',
-    isSelected: true,
+    isSelected: false,
     id: 1,
     key: 'notify_meeting_reminder',
   },
   {
     text: 'Receive notification of cancel meeting',
-    isSelected: true,
+    isSelected: false,
     id: 2,
     key: 'notify_canceled_meeting',
   },
   {
     text: 'Receive notification of delete meeting',
-    isSelected: true,
+    isSelected: false,
     id: 3,
     key: 'notify_deleted_meeting',
   },
   {
     text: 'Receive notification of meeting update',
-    isSelected: true,
+    isSelected: false,
     id: 4,
     key: 'notify_meeting_update',
   },
@@ -51,8 +52,10 @@ const notification = [
 const Settings = ({navigation}) => {
   const dispatch = useDispatch();
   const {token} = useSelector(state => state.login);
+  const {settings} = useSelector(state => state.setting);
 
   const [notifySetting, setNotifySetting] = useState(notification);
+  const [updateParams, setUpdateParams] = useState({});
 
   //get setting
   useEffect(() => {
@@ -72,11 +75,17 @@ const Settings = ({navigation}) => {
       );
     };
     const cbFailure = () => {};
-    dispatch(getSettings({}, token, cbSuccess, cbFailure));
+    dispatch(getSettings({}, token, cbSuccess, cbFailure, 'get'));
   };
 
   useEffect(() => {
-    console.log(notifySetting);
+    //  console.log(notifySetting);
+    const params = {};
+    notifySetting.forEach(item => {
+      params[item.key] = item.isSelected;
+    });
+    // console.log(params);
+    setUpdateParams(params);
   }, [notifySetting]);
 
   const _renderRow = ({text, isSelected, id}) => {
@@ -85,7 +94,7 @@ const Settings = ({navigation}) => {
         <Text style={styles.text}>{text}</Text>
         <Switch
           value={isSelected}
-          onValueChange={() => onSettingToggle(id)}
+          onValueChange={() => onUpdateSetting(id)}
           thumbColor={
             Platform.OS === 'android'
               ? isSelected
@@ -106,20 +115,42 @@ const Settings = ({navigation}) => {
     );
   };
 
-  useEffect(() => {}, [notifySetting]);
-
-  const onSettingToggle = id => {
-    setNotifySetting(
-      notifySetting.map(item => {
-        if (item.id === id) {
+  const onUpdateSetting = id => {
+    notifySetting.forEach(item => {
+      if (id === item.id) {
+        settings[item.key] = !item.isSelected;
+      }
+    });
+    console.log('params', settings);
+    const cbSuccess = response => {
+      console.log('Update = Settings', response);
+      setNotifySetting(
+        notifySetting.map(item => {
           return {
             ...item,
-            isSelected: !item.isSelected,
+            isSelected: response[item.key],
           };
-        }
-        return item;
-      }),
-    );
+        }),
+      );
+    };
+    const cbFailure = () => {};
+    dispatch(getSettings(settings, token, cbSuccess, cbFailure, 'put'));
+  };
+
+  const onLogout = () => {
+    const cbSuccess = () => {
+      alert('Logut Success');
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{name: 'Launch'}],
+        }),
+      );
+    };
+    const cbFailure = () => {
+      alert('Server Error');
+    };
+    dispatch(logoutRequest({}, token, cbSuccess, cbFailure));
   };
 
   const _renderHideProfile = () => {
@@ -169,7 +200,7 @@ const Settings = ({navigation}) => {
         <Text style={[styles.headings]}>Privacy</Text>
         <Text style={styles.textDanger}>Delete account</Text>
       </ScrollView>
-      <TouchableOpacity style={styles.bottomContainer}>
+      <TouchableOpacity onPress={onLogout} style={styles.bottomContainer}>
         <View style={styles.innerContainer}>
           <Text style={styles.textSignOutDanger}>Sign out</Text>
         </View>

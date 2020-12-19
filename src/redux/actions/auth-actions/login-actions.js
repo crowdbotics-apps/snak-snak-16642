@@ -10,6 +10,16 @@ export const getSmsCode = (params, cbSuccess, cbFailure) => {
   };
 };
 
+export const logoutRequest = (params, token, cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.LOGOUT_REQUEST,
+    params,
+    token,
+    cbSuccess,
+    cbFailure,
+  };
+};
+
 export const verifyCodeRequest = (params, cbSuccess, cbFailure) => {
   return {
     type: TYPES.VERIFY_CODE_REQUEST,

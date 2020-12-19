@@ -22,6 +22,14 @@ const settingsReducer = (state = initialState, actions) => {
         isSuccess: true,
         isFailure: false,
       };
+    case TYPES.PUT_SETTINGS_SUCCESS:
+      return {
+        ...state,
+        settings: actions.data,
+        error: null,
+        isSuccess: true,
+        isFailure: false,
+      };
     case TYPES.GET_SETTINGS_FAILURE:
       return {
         ...state,

@@ -63,6 +63,23 @@ const loginReducer = (state = initialState, actions) => {
         isSuccess: false,
         isFailure: true,
       };
+    case TYPES.LOGOUT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case TYPES.LOGOUT_SUCCESS:
+      return {
+        ...initialState,
+      };
+
+    case TYPES.LOGOUT_FAILURE:
+      return {
+        ...state,
+        error: actions.data,
+        isSuccess: false,
+        isFailure: true,
+      };
     default:
       return state;
   }

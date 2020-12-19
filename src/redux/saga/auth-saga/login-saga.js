@@ -7,6 +7,7 @@ import axios from 'axios';
 export function* loginRequest() {
   yield takeLatest(types.GET_SMS_CODE_REQUEST, getSmsCode);
   yield takeLatest(types.VERIFY_CODE_REQUEST, verifyCode);
+  yield takeLatest(types.LOGOUT_REQUEST, logoutReq);
 }
 
 function* getSmsCode(params) {
@@ -59,6 +60,31 @@ function* verifyCode(params) {
     params.cbFailure(error);
     yield put({
       type: types.VERIFY_CODE_FAILURE,
+      data: error,
+    });
+  }
+}
+
+function* logoutReq(params) {
+  console.log('[logout saga]', params);
+  try {
+    let response = yield Api.getAxios(endPoints.logout, null, params);
+    if (response?.status !== 401) {
+      console.log('API Response If', response);
+      params.cbSuccess();
+      yield put({type: types.LOGOUT_SUCCESS, data: response});
+    } else {
+      console.log('API Response Else', response);
+      params.cbFailure();
+      yield put({
+        type: types.LOGOUT_FAILURE,
+        data: response,
+      });
+    }
+  } catch (error) {
+    params.cbFailure(error);
+    yield put({
+      type: types.LOGOUT_FAILURE,
       data: error,
     });
   }
