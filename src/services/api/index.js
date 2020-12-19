@@ -25,7 +25,7 @@ class Api {
       // with header request
       let options = {
         headers: {
-          Authorization: `Bearer ${config.token}`,
+          Authorization: `Token ${config.token}`,
         },
       };
       console.log('[delete-axios-header]', options);
@@ -47,44 +47,22 @@ class Api {
         });
     } else {
       // without header request
+      console.log('Without Header Request', formData);
 
-      console.log(formData);
-
-      var data = JSON.stringify({phone_number: '+923015957224'});
-
-      var config = {
-        method: 'post',
-        url: 'https://snak-snak-16642.botics.co/api/v1/get-sms-code/',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        data: data,
-      };
-
-      return axios(config)
-        .then(function(response) {
-          console.log('data @@@@@@@@@', JSON.stringify(response.data));
+      return axios
+        .post(url, formData, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then(response => {
+          //console.log('SUCCESS!!', response);
           return response;
         })
-        .catch(function(error) {
-          console.log(error);
+        .catch(error => {
+          //  console.log('FAILURE!!===========@@@@@@@@@', error);
           return error;
         });
-      // console.log('Without Header Request');
-      // return fetch(`${Util.baseURL}${endpoint}`, {
-      //   method: 'POST',
-      //   body: JSON.stringify(formData),
-      // });
-      // return axios
-      //   .post(url, formData)
-      //   .then(response => {
-      //     console.log('SUCCESS!!', response);
-      //     return response.data;
-      //   })
-      //   .catch(error => {
-      //     console.log('FAILURE!!===========@@@@@@@@@', error);
-      //     return error;
-      //   });
     }
   };
 
@@ -104,27 +82,23 @@ class Api {
   };
 
   static axiosGet = async (endpoint, formData, config) => {
-    console.log('[get-axios-call]', endpoint, formData, config);
+    // console.log('[get-axios-call]', endpoint, formData, config);
     let url = `${Util.baseURL}${endpoint}`;
-    console.log('[URL API]', url);
-
     if (config) {
       // with header request
       let options = {
         headers: {
-          Authorization: `Bearer ${config.token}`,
+          Authorization: `Token ${config.token}`,
         },
       };
-      console.log('[get-axios-header]', options);
       let configration = Object.assign(options);
+      console.log('configration', configration);
       return axios
-        .get(url, formData, configration)
+        .get(url, configration)
         .then(response => {
-          console.log('SUCCESS!!', response);
-          return response.data;
+          return response;
         })
         .catch(error => {
-          console.log('FAILURE!!', error);
           return error;
         });
     } else {

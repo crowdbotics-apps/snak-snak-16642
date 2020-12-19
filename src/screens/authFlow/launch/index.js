@@ -3,7 +3,11 @@ import {View, Text, Image} from 'react-native';
 import {styles} from './styles';
 import {appIcons, appImages} from '../../../services';
 import {Button} from '../../../components';
+import {useSelector, useDispatch} from 'react-redux';
+
 const Launch = ({navigation}) => {
+  const {isKeepLogin} = useSelector(state => state.login);
+
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
@@ -20,7 +24,13 @@ const Launch = ({navigation}) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button
-          onPress={() => navigation.navigate('AddPhone')}
+          onPress={() => {
+            if (isKeepLogin) {
+              navigation.navigate('Settings');
+            } else {
+              navigation.navigate('AddPhone');
+            }
+          }}
           title={'Start'}
         />
       </View>

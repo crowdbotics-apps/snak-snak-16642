@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   ScrollView,
@@ -11,22 +12,80 @@ import {
 import {styles} from './styles';
 import {Header} from '../../../components';
 import {colors} from '../../../services';
+import {getSettings} from '../../../redux/actions';
+import {useDispatch, useSelector} from 'react-redux';
 
 const notification = [
-  {text: 'Receive notification of snak invites', isSelected: true},
-  {text: 'Receive notification of meeting reminder', isSelected: true},
-  {text: 'Receive notification of cancel meeting', isSelected: true},
-  {text: 'Receive notification of delete meeting', isSelected: true},
-  {text: 'Receive notification of meeting update', isSelected: true},
+  {
+    text: 'Receive notification of snak invites',
+    isSelected: true,
+    id: 0,
+    key: 'notify_snak_invites',
+  },
+  {
+    text: 'Receive notification of meeting reminder',
+    isSelected: true,
+    id: 1,
+    key: 'notify_meeting_reminder',
+  },
+  {
+    text: 'Receive notification of cancel meeting',
+    isSelected: true,
+    id: 2,
+    key: 'notify_canceled_meeting',
+  },
+  {
+    text: 'Receive notification of delete meeting',
+    isSelected: true,
+    id: 3,
+    key: 'notify_deleted_meeting',
+  },
+  {
+    text: 'Receive notification of meeting update',
+    isSelected: true,
+    id: 4,
+    key: 'notify_meeting_update',
+  },
 ];
+
 const Settings = ({navigation}) => {
-  const _renderRow = ({text, isSelected}) => {
+  const dispatch = useDispatch();
+  const {token} = useSelector(state => state.login);
+
+  const [notifySetting, setNotifySetting] = useState(notification);
+
+  //get setting
+  useEffect(() => {
+    onGetSetting();
+  }, []);
+
+  const onGetSetting = () => {
+    const cbSuccess = response => {
+      console.log('Settings', response);
+      setNotifySetting(
+        notifySetting.map(item => {
+          return {
+            ...item,
+            isSelected: response[item.key],
+          };
+        }),
+      );
+    };
+    const cbFailure = () => {};
+    dispatch(getSettings({}, token, cbSuccess, cbFailure));
+  };
+
+  useEffect(() => {
+    console.log(notifySetting);
+  }, [notifySetting]);
+
+  const _renderRow = ({text, isSelected, id}) => {
     return (
       <View style={styles.rowContainer}>
         <Text style={styles.text}>{text}</Text>
         <Switch
           value={isSelected}
-          onValueChange={() => {}}
+          onValueChange={() => onSettingToggle(id)}
           thumbColor={
             Platform.OS === 'android'
               ? isSelected
@@ -34,10 +93,32 @@ const Settings = ({navigation}) => {
                 : '#f4f3f4'
               : colors.white
           }
-          trackColor={{false: '#707070',true: Platform.OS === 'android' ? colors.backgroundSwitch: colors.primary}}
+          trackColor={{
+            false: '#707070',
+            true:
+              Platform.OS === 'android'
+                ? colors.backgroundSwitch
+                : colors.primary,
+          }}
           style={{transform: [{scaleX: 1}, {scaleY: 1}]}}
         />
       </View>
+    );
+  };
+
+  useEffect(() => {}, [notifySetting]);
+
+  const onSettingToggle = id => {
+    setNotifySetting(
+      notifySetting.map(item => {
+        if (item.id === id) {
+          return {
+            ...item,
+            isSelected: !item.isSelected,
+          };
+        }
+        return item;
+      }),
     );
   };
 
@@ -49,13 +130,19 @@ const Settings = ({navigation}) => {
           value={true}
           onValueChange={() => {}}
           thumbColor={
-              Platform.OS === 'android'
+            Platform.OS === 'android'
               ? true
-                  ? colors.primary
-                  : '#f4f3f4'
-                  : colors.white
+                ? colors.primary
+                : '#f4f3f4'
+              : colors.white
           }
-          trackColor={{false: '#707070', true: Platform.OS === 'android' ? colors.backgroundSwitch : colors.primary}}
+          trackColor={{
+            false: '#707070',
+            true:
+              Platform.OS === 'android'
+                ? colors.backgroundSwitch
+                : colors.primary,
+          }}
           style={{transform: [{scaleX: 1}, {scaleY: 1}]}}
         />
       </View>
@@ -64,9 +151,13 @@ const Settings = ({navigation}) => {
   return (
     <View style={styles.flex}>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-        <Header onLeftIconPress={() => navigation.navigate('Search')} title={'Settings'} showLeftIcon={true} />
+        <Header
+          onLeftIconPress={() => navigation.navigate('Search')}
+          title={'Settings'}
+          showLeftIcon={true}
+        />
         <Text style={[styles.headings, styles.top]}>Notifications</Text>
-        {notification.map(item => _renderRow(item))}
+        {notifySetting.map(item => _renderRow(item))}
         <View style={styles.space} />
         <Text style={[styles.headings]}>Connections</Text>
         {_renderHideProfile()}

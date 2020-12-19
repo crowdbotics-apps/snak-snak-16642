@@ -26,52 +26,22 @@ const VerifyPhone = ({navigation, route}) => {
 
   const onVerifyCode = () => {
     setLoading(true);
-    var data = JSON.stringify({phone_number: route?.params.phone, token: code});
-
-    var config = {
-      method: 'post',
-      url: 'https://snak-snak-16642.botics.co/api/v1/verify-phone/',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: data,
+    let params = {
+      phone_number: route?.params?.phone,
+      token: code,
     };
-
-    axios(config)
-      .then(function(response) {
-        console.log(response);
-        if (!response.data.error) {
-          setCode('');
-          setLoading(false);
-          navigation.navigate('EditProfile');
-          console.log(JSON.stringify(response.data));
-        } else {
-          setLoading(false);
-          setTimeout(() => {
-            alert('Invalid Code');
-          }, 1000);
-        }
-      })
-      .catch(function(error) {
-        alert(JSON.stringify(error));
-        console.log(error);
-      });
-    // let params = {
-    //   phone_number: route?.params?.phone,
-    //   token: code,
-    // };
-    // console.log('called', params);
-
-    // let cbSuccuss = response => {
-    //   setLoading(false);
-    //   console.log(response);
-    //   navigation.navigate('EditProfile');
-    // };
-    // let cbFailure = response => {
-    //   setLoading(false);
-    //   console.log(response);
-    // };
-    // dispatch(verifyCodeRequest(params, cbSuccuss, cbFailure));
+    let cbSuccuss = (response, key) => {
+      setLoading(false);
+      if (key === 'App') {
+        navigation.navigate('Settings');
+      } else {
+        navigation.navigate('EditProfile');
+      }
+    };
+    let cbFailure = response => {
+      setLoading(false);
+    };
+    dispatch(verifyCodeRequest(params, cbSuccuss, cbFailure));
   };
 
   return (

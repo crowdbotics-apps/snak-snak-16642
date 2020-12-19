@@ -3,6 +3,8 @@ import * as TYPES from '../../actions/types';
 const initialState = {
   loading: false,
   isKeepLogin: null,
+  token: null,
+  user: null,
   getSmsRes: null,
   verifyCodeRes: null,
   error: null,
@@ -36,10 +38,20 @@ const loginReducer = (state = initialState, actions) => {
         ...state,
         loading: true,
       };
-    case TYPES.VERIFY_CODE_SUCCESS:
+    case TYPES.VERIFY_SIGNUP_CODE_SUCCESS:
       return {
         ...state,
         verifyCodeRes: actions.data,
+        error: null,
+        isSuccess: true,
+        isFailure: false,
+      };
+    case TYPES.VERIFY_LOGIN_CODE_SUCCESS:
+      return {
+        ...state,
+        token: actions.data.auth_token,
+        user: actions.data.user,
+        isKeepLogin: true,
         error: null,
         isSuccess: true,
         isFailure: false,

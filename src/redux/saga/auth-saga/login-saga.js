@@ -13,6 +13,7 @@ function* getSmsCode(params) {
   console.log('[getSmsCode saga]', params);
   try {
     let response = yield Api.postRequest(endPoints.getSmsCode, params.params);
+    console.log('API Response @@@@=========@@@@========@@@@', response);
     if (response?.status === 201) {
       params.cbSuccess(response);
       yield put({
@@ -39,18 +40,26 @@ function* verifyCode(params) {
   console.log('logout saga]', params.params);
   try {
     let response = yield Api.postRequest(endPoints.verifyCode, params.params);
-    if (response) {
-      if (response?.status === 201) {
-        params.cbSuccess(response);
-        yield put({type: types.VERIFY_CODE_SUCCESS, data: response});
+    console.log('API Response @@@@=========@@@@========@@@@', response.data);
+    if (response?.status === 201) {
+      if (response.data.user_exists) {
+        //Move to App
+        params.cbSuccess(response.data, 'App');
+        yield put({type: types.VERIFY_LOGIN_CODE_SUCCESS, data: response.data});
       } else {
-        params.cbFailure(response);
-        yield put({type: types.VERIFY_CODE_FAILURE, data: response});
+        //Move to Sign up
+        params.cbFailure(response.data, 'SignUp');
+        yield put({
+          type: types.VERIFY_SIGNUP_CODE_SUCCESS,
+          data: response.data,
+        });
       }
-    } else {
-      params.cbFailure('Invalid email and password');
     }
   } catch (error) {
     params.cbFailure(error);
+    yield put({
+      type: types.VERIFY_CODE_FAILURE,
+      data: error,
+    });
   }
 }

@@ -9,10 +9,11 @@ import {persistStore, persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 const persistConfig = {
+  timeout: 10000,
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['auth', 'uploadProfilePhoto', 'login', 'drawer'],
-  // blackList: [],
+  whitelist: ['login'],
+  blackList: [],
   stateReconciler: autoMergeLevel2, // see "Merge Process" section for details.
 };
 const pReducer = persistReducer(persistConfig, rootReducer);
