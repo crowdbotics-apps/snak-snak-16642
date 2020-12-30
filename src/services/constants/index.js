@@ -6,4 +6,5 @@ export const endPoints = {
   verifyCode: 'verify-phone/',
   getSettings: 'user/settings/',
   logout: 'logout/',
+  deleteAccount: 'user/profile/',
 };

@@ -80,6 +80,22 @@ const loginReducer = (state = initialState, actions) => {
         isSuccess: false,
         isFailure: true,
       };
+    case TYPES.DELETE_ACCOUNT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case TYPES.DELETE_ACCOUNT_SUCCESS:
+      return {
+        ...initialState,
+      };
+    case TYPES.DELETE_ACCOUNT_FAILURE:
+      return {
+        ...state,
+        error: actions.data,
+        isSuccess: false,
+        isFailure: true,
+      };
     default:
       return state;
   }

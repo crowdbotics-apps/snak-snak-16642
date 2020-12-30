@@ -46,4 +46,11 @@ export const styles = StyleSheet.create({
     width: WP(90),
     resizeMode: 'contain',
   },
+  spacer: {
+    marginTop: 15,
+  },
+  signUpBtn: {
+    borderColor: colors.primary,
+    borderWidth: 1,
+  },
 });

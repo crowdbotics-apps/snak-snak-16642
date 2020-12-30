@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, Image} from 'react-native';
 import {styles} from './styles';
 import {appIcons, appImages} from '../../../services';
+import {colors, WP, HP, size, family} from '../../../services';
 import {Button} from '../../../components';
 import {useSelector, useDispatch} from 'react-redux';
 
@@ -31,7 +32,21 @@ const Launch = ({navigation}) => {
               navigation.navigate('AddPhone');
             }
           }}
-          title={'Start'}
+          title={'Login'}
+        />
+        <View style={styles.spacer} />
+        <Button
+          onPress={() => {
+            if (isKeepLogin) {
+              navigation.navigate('Settings');
+            } else {
+              navigation.navigate('Signup');
+            }
+          }}
+          title={'Sign up'}
+          backgroundColor={colors.white}
+          textColor={colors.primary}
+          containerStyle={styles.signUpBtn}
         />
       </View>
     </View>

@@ -8,6 +8,7 @@ export function* loginRequest() {
   yield takeLatest(types.GET_SMS_CODE_REQUEST, getSmsCode);
   yield takeLatest(types.VERIFY_CODE_REQUEST, verifyCode);
   yield takeLatest(types.LOGOUT_REQUEST, logoutReq);
+  yield takeLatest(types.DELETE_ACCOUNT_REQUEST, deleteAccountReq);
 }
 
 function* getSmsCode(params) {
@@ -85,6 +86,31 @@ function* logoutReq(params) {
     params.cbFailure(error);
     yield put({
       type: types.LOGOUT_FAILURE,
+      data: error,
+    });
+  }
+}
+
+function* deleteAccountReq(params) {
+  console.log('[deleteAccountReq saga]', params);
+  try {
+    let response = yield Api.getAxios(endPoints.deleteAccount, null, params);
+    if (response?.status !== 401) {
+      console.log('API Response If', response);
+      params.cbSuccess();
+      yield put({type: types.DELETE_ACCOUNT_SUCCESS, data: response});
+    } else {
+      console.log('API Response Else', response);
+      params.cbFailure();
+      yield put({
+        type: types.DELETE_ACCOUNT_FAILURE,
+        data: response,
+      });
+    }
+  } catch (error) {
+    params.cbFailure(error);
+    yield put({
+      type: types.DELETE_ACCOUNT_FAILURE,
       data: error,
     });
   }
