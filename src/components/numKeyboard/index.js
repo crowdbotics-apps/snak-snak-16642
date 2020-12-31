@@ -1,8 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {Text, TouchableOpacity, View, Image} from 'react-native';
 import {styles} from './styles';
-import {appIcons} from '../../services';
-export const NumKeyboard = ({getValue, limit = 11}) => {
+import {appIcons, colors} from '../../services';
+export const NumKeyboard = ({
+  getValue,
+  limit = 11,
+  onDone,
+  doneText = 'Done',
+  onBack,
+}) => {
   const [value, setValue] = useState('');
   useEffect(() => {
     getValue(value);
@@ -41,6 +47,16 @@ export const NumKeyboard = ({getValue, limit = 11}) => {
     );
   };
 
+  const _renderEnterKey = () => {
+    return (
+      <TouchableOpacity
+        onPress={doneText === 'Done' ? onDone : onBack}
+        style={[styles.keyContainer, {backgroundColor: colors.primary}]}>
+        <Text style={styles.doneText}>{doneText}</Text>
+      </TouchableOpacity>
+    );
+  };
+
   const _renderRowWith3 = (val1, val2, val3) => {
     return (
       <View style={styles.keyboardRow}>
@@ -53,7 +69,8 @@ export const NumKeyboard = ({getValue, limit = 11}) => {
   const _renderRowWith2 = () => {
     return (
       <View style={styles.keyboardRow}>
-        <View style={styles.spacerKeyContainer} />
+        {/* <View style={styles.spacerKeyContainer} /> */}
+        {_renderEnterKey()}
         {_renderKey(0)}
         {_renderDelKey()}
       </View>

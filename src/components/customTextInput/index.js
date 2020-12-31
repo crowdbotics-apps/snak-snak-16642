@@ -58,6 +58,7 @@ export const CustomTextInput = ({
         tempArray.splice(tempArray.indexOf(options[index]), 1);
       }
       setMultiSelectedvalues(tempArray);
+      getVal(tempArray);
       console.log(tempArray);
     } else {
       getVal(itemList[index]);

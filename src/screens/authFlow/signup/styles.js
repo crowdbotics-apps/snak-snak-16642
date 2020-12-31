@@ -40,6 +40,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: WP(2),
   },
+
   top: {
     marginTop: WP(5),
   },

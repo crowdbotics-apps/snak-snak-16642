@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
 import {NumKeyboard, Loader} from '../../../components';
-import {verifyCodeRequest} from '../../../redux/actions';
+import {verifyCodeRequest, getSmsCode} from '../../../redux/actions';
 import {useDispatch} from 'react-redux';
 import axios from 'axios';
 
@@ -44,6 +44,27 @@ const VerifyPhone = ({navigation, route}) => {
     dispatch(verifyCodeRequest(params, cbSuccuss, cbFailure));
   };
 
+  const onGetSmsCode = () => {
+    setLoading(true);
+    console.log('called');
+    let params = {
+      phone_number: route?.params?.phone,
+    };
+
+    let cbSuccuss = response => {
+      setLoading(false);
+      setTimeout(() => {
+        alert('Code sent again successfully');
+      }, 1000);
+      console.log(response);
+    };
+    let cbFailure = response => {
+      setLoading(false);
+      console.log(response);
+    };
+    dispatch(getSmsCode(params, cbSuccuss, cbFailure));
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
@@ -71,12 +92,17 @@ const VerifyPhone = ({navigation, route}) => {
       </View>
 
       <View style={styles.sendAgainContainer}>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={() => onGetSmsCode()}>
           <Text style={styles.sendAgainText}>Send code Again</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.keyboardContainer}>
-        <NumKeyboard limit={4} getValue={setCode} />
+        <NumKeyboard
+          doneText={'Back'}
+          onBack={() => navigation.goBack()}
+          limit={4}
+          getValue={setCode}
+        />
       </View>
       <Loader loading={loading} />
     </View>

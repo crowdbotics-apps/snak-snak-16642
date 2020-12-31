@@ -19,13 +19,13 @@ export const styles = StyleSheet.create({
     }),
   },
   title: {
-    fontSize: size.xxtitle,
+    fontSize: size.title,
     fontFamily: family.OpenSans_Bold,
     color: colors.gray_2,
   },
   subTitle: {
     marginVertical: WP('3'),
-    fontSize: size.normal,
+    fontSize: size.xsmall,
     fontFamily: family.OpenSans_Regular,
     color: colors.gray_2,
   },
@@ -44,6 +44,7 @@ export const styles = StyleSheet.create({
   },
   image: {
     width: WP(90),
+    // height: HP(25),
     resizeMode: 'contain',
   },
   spacer: {
