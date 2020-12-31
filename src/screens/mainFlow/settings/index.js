@@ -12,7 +12,11 @@ import {
 import {styles} from './styles';
 import {Header} from '../../../components';
 import {colors} from '../../../services';
-import {getSettings, logoutRequest} from '../../../redux/actions';
+import {
+  getSettings,
+  logoutRequest,
+  deleteAccountRequest,
+} from '../../../redux/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import {CommonActions} from '@react-navigation/routers';
 
@@ -153,6 +157,22 @@ const Settings = ({navigation}) => {
     dispatch(logoutRequest({}, token, cbSuccess, cbFailure));
   };
 
+  const onDeleteAccount = () => {
+    const cbSuccess = () => {
+      alert('Delete Account Success');
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{name: 'Launch'}],
+        }),
+      );
+    };
+    const cbFailure = () => {
+      alert('Server Error. Try Again');
+    };
+    dispatch(deleteAccountRequest({}, token, cbSuccess, cbFailure));
+  };
+
   const _renderHideProfile = () => {
     return (
       <View style={styles.rowContainer}>
@@ -198,7 +218,9 @@ const Settings = ({navigation}) => {
         <Text style={styles.textDanger}>Manage subscription</Text>
         <View style={styles.space} />
         <Text style={[styles.headings]}>Privacy</Text>
-        <Text style={styles.textDanger}>Delete account</Text>
+        <TouchableOpacity onPress={onDeleteAccount}>
+          <Text style={styles.textDanger}>Delete account</Text>
+        </TouchableOpacity>
       </ScrollView>
       <TouchableOpacity onPress={onLogout} style={styles.bottomContainer}>
         <View style={styles.innerContainer}>

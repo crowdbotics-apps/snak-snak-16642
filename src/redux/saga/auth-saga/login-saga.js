@@ -94,13 +94,12 @@ function* logoutReq(params) {
 function* deleteAccountReq(params) {
   console.log('[deleteAccountReq saga]', params);
   try {
-    let response = yield Api.getAxios(endPoints.deleteAccount, null, params);
+    let response = yield Api.deleteAxios(endPoints.deleteAccount, null, params);
+    console.log('response', response);
     if (response?.status !== 401) {
-      console.log('API Response If', response);
       params.cbSuccess();
       yield put({type: types.DELETE_ACCOUNT_SUCCESS, data: response});
     } else {
-      console.log('API Response Else', response);
       params.cbFailure();
       yield put({
         type: types.DELETE_ACCOUNT_FAILURE,
