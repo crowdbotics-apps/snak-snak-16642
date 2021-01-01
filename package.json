@@ -6,7 +6,8 @@
     "postinstall": "npx jetify && rndebugger-open",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "openXcode": "cd ios && open snak_snak_16642.xcworkspace"
   },
   "jest": {
     "preset": "react-native"
