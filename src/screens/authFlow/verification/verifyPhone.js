@@ -2,12 +2,20 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
-import {NumKeyboard} from '../../../components';
-const VerifyPhone = ({navigation}) => {
+import {NumKeyboard, Loader} from '../../../components';
+import {verifyCodeRequest} from '../../../redux/actions';
+import {useDispatch} from 'react-redux';
+import axios from 'axios';
+
+const VerifyPhone = ({navigation, route}) => {
   const [code, setCode] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (code.length >= 4) {
-      navigation.navigate('EditProfile');
+      onVerifyCode();
     }
   }, [code]);
   const _renderDigit = index => {
@@ -15,6 +23,27 @@ const VerifyPhone = ({navigation}) => {
       return code[index - 1];
     }
   };
+
+  const onVerifyCode = () => {
+    setLoading(true);
+    let params = {
+      phone_number: route?.params?.phone,
+      token: code,
+    };
+    let cbSuccuss = (response, key) => {
+      setLoading(false);
+      if (key === 'App') {
+        navigation.navigate('Settings');
+      } else {
+        navigation.navigate('EditProfile');
+      }
+    };
+    let cbFailure = response => {
+      setLoading(false);
+    };
+    dispatch(verifyCodeRequest(params, cbSuccuss, cbFailure));
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
@@ -23,7 +52,7 @@ const VerifyPhone = ({navigation}) => {
       <Text style={styles.heading}>We sent you an SMS code</Text>
       <View style={styles.phoneNumberContainer}>
         <Text style={styles.subHeading}>On number: </Text>
-        <Text style={styles.phoneNumber}>+55 (75) 7854 312685</Text>
+        <Text style={styles.phoneNumber}>{route?.params?.phone}</Text>
       </View>
 
       <View style={styles.otpContainer}>
@@ -49,6 +78,7 @@ const VerifyPhone = ({navigation}) => {
       <View style={styles.keyboardContainer}>
         <NumKeyboard limit={4} getValue={setCode} />
       </View>
+      <Loader loading={loading} />
     </View>
   );
 };

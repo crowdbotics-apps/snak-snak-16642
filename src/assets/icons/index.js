@@ -8,4 +8,7 @@ export const appIcons = {
   check: require('./check.png'),
   person: require('./person.png'),
   inviteAccept: require('./invite_accept.png'),
+  calander: require('./calander.png'),
+  smile: require('./smile.png'),
+  invitation: require('./invitation.png'),
 };

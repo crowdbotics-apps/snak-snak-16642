@@ -28,6 +28,11 @@ const Signup = () => {
       </TouchableOpacity>
     );
   };
+
+  const onSignup = () => {
+    alert('Sign up');
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.titleContainer}>
@@ -77,7 +82,11 @@ const Signup = () => {
         label={'Sports preference'}
         dropDown={true}
       />
-      <Button containerStyle={styles.doneButton} title={'Done'} />
+      <Button
+        containerStyle={styles.doneButton}
+        title={'Done'}
+        onPress={onSignup}
+      />
     </ScrollView>
   );
 };
