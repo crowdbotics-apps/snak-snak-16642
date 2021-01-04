@@ -28,3 +28,13 @@ export const verifyCodeRequest = (params, cbSuccess, cbFailure) => {
     cbFailure,
   };
 };
+
+export const deleteAccountRequest = (params, token, cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.DELETE_ACCOUNT_REQUEST,
+    params,
+    token,
+    cbSuccess,
+    cbFailure,
+  };
+};

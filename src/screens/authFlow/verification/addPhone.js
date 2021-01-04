@@ -18,15 +18,12 @@ const AddPhone = ({navigation}) => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (phone.length === 10) {
-      onGetSmsCode();
-    }
-  }, [phone]);
+  useEffect(() => {}, [phone]);
 
   const changePhoneNo = value => {
     if (!phoneNo.isValidNumber()) {
       console.log('if ');
+      //setCountryCode(...value, value);
       setPhone(value);
     } else {
       console.log('else ');
@@ -47,6 +44,7 @@ const AddPhone = ({navigation}) => {
       console.log(response);
       navigation.navigate('VerifyPhone', {
         phone: country_code + phone,
+        getSmsCode: onGetSmsCode,
       });
     };
     let cbFailure = response => {
@@ -125,7 +123,10 @@ const AddPhone = ({navigation}) => {
       </View>
 
       <View style={styles.keyboardContainer}>
-        <NumKeyboard getValue={value => changePhoneNo(value)} />
+        <NumKeyboard
+          onDone={() => onGetSmsCode()}
+          getValue={value => changePhoneNo(value)}
+        />
       </View>
       <Loader loading={loading} />
     </View>

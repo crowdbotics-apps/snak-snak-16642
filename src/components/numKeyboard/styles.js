@@ -31,4 +31,9 @@ export const styles = StyleSheet.create({
     width: WP(8),
     resizeMode: 'contain',
   },
+  doneText: {
+    fontFamily: family.OpenSans_Bold,
+    color: colors.white,
+    fontSize: size.normal,
+  },
 });

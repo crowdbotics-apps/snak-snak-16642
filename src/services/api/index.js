@@ -125,20 +125,28 @@ class Api {
       // with header request
       let options = {
         headers: {
-          Authorization: `Bearer ${config.token}`,
+          Authorization: `Token ${config.token}`,
         },
       };
+
+      var config = {
+        method: 'delete',
+        url: url,
+        headers: {
+          Authorization: `Token ${config.token}`,
+        },
+      };
+
       console.log('[delete-axios-header]', options);
       let configration = Object.assign(options);
-      return axios
-        .delete(url, formData, configration)
+      return axios(config)
         .then(response => {
-          console.log('SUCCESS!!', response);
+          //  console.log('SUCCESS!!', response);
           return response.data;
         })
         .catch(error => {
-          console.log('FAILURE!!', error);
-          return error;
+          /// console.log('FAILURE!!', error);
+          return error.response;
         });
     } else {
       // without header request
