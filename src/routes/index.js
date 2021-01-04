@@ -10,6 +10,10 @@ import Search from '../screens/mainFlow/search';
 import Signup from '../screens/authFlow/signup';
 import RecieveInvite from '../screens/mainFlow/recieveInvite';
 import {useSelector} from 'react-redux';
+import MyProfile from '../screens/mainFlow/MyProfile';
+import othersProfile from '../screens/mainFlow/othersProfile';
+
+
 const Stack = createStackNavigator();
 
 export const AppContainer = () => {
@@ -46,9 +50,11 @@ export const AppContainer = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        headerMode="none"
+
+     
+      <Stack.Navigator headerMode="none"
         initialRouteName={initialRoute.initialRouteName}>
+
         <Stack.Screen name="Launch" component={Launch} />
         <Stack.Screen name="Search" component={Search} />
         <Stack.Screen name="Signup" component={Signup} />
@@ -57,6 +63,8 @@ export const AppContainer = () => {
         <Stack.Screen name="AddPhone" component={AddPhone} />
         <Stack.Screen name="VerifyPhone" component={VerifyPhone} />
         <Stack.Screen name="RecieveInvite" component={RecieveInvite} />
+        <Stack.Screen name="MyProfile" component={MyProfile} />
+        <Stack.Screen name="othersProfile" component={othersProfile} />
       </Stack.Navigator>
     </NavigationContainer>
   );
