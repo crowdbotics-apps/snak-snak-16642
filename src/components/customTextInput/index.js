@@ -199,7 +199,7 @@ export const CustomTextInput = ({
 const styles = StyleSheet.create({
   inputContainer: {
     display: 'flex',
-    height: HP(10),
+    height: HP('10'),
     backgroundColor: colors.inputBackground,
     borderRadius: WP(3),
     paddingHorizontal: WP(4),
