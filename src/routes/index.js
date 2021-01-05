@@ -13,7 +13,6 @@ import {useSelector} from 'react-redux';
 import MyProfile from '../screens/mainFlow/MyProfile';
 import othersProfile from '../screens/mainFlow/othersProfile';
 
-
 const Stack = createStackNavigator();
 
 export const AppContainer = () => {
@@ -33,6 +32,7 @@ export const AppContainer = () => {
     if (isKeepLogin) {
       setInitialRoute({
         initialRouteName: 'Settings',
+        //initialRouteName: 'MyProfile',
       });
     } else {
       setInitialRoute({initialRouteName: 'Launch'});
@@ -50,11 +50,9 @@ export const AppContainer = () => {
 
   return (
     <NavigationContainer>
-
-     
-      <Stack.Navigator headerMode="none"
+      <Stack.Navigator
+        headerMode="none"
         initialRouteName={initialRoute.initialRouteName}>
-
         <Stack.Screen name="Launch" component={Launch} />
         <Stack.Screen name="Search" component={Search} />
         <Stack.Screen name="Signup" component={Signup} />

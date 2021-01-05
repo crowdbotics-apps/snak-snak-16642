@@ -7,4 +7,5 @@ export const endPoints = {
   getSettings: 'user/settings/',
   logout: 'logout/',
   deleteAccount: 'user/profile/',
+  signUpUser: 'signup/',
 };

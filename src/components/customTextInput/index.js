@@ -24,6 +24,7 @@ export const CustomTextInput = ({
   editable,
   editBackColor,
   isPhoneInput = false,
+  keyboardType = 'default',
   getVal = () => {},
 }) => {
   const [val, setVal] = useState('');
@@ -170,6 +171,7 @@ export const CustomTextInput = ({
       return (
         <TextInput
           value={val}
+          keyboardType={keyboardType}
           onChangeText={val => {
             setVal(val);
             getVal(val);

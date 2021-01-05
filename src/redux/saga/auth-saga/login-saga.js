@@ -9,6 +9,7 @@ export function* loginRequest() {
   yield takeLatest(types.VERIFY_CODE_REQUEST, verifyCode);
   yield takeLatest(types.LOGOUT_REQUEST, logoutReq);
   yield takeLatest(types.DELETE_ACCOUNT_REQUEST, deleteAccountReq);
+  yield takeLatest(types.SIGNUP_REQUEST, signUpUser);
 }
 
 function* getSmsCode(params) {
@@ -32,6 +33,33 @@ function* getSmsCode(params) {
   } catch (error) {
     yield put({
       type: types.GET_SMS_CODE_FAILURE,
+      data: error,
+    });
+    params.cbFailure(error.response);
+  }
+}
+
+function* signUpUser(params) {
+  console.log('[getSmsCode saga]', params);
+  try {
+    let response = yield Api.postRequest(endPoints.signUpUser, params.params);
+    console.log('API Response @@@@=========@@@@========@@@@', response);
+    if (response?.status === 201) {
+      params.cbSuccess(response);
+      yield put({
+        type: types.SIGNUP_SUCCESS,
+        data: response,
+      });
+    } else {
+      yield put({
+        type: types.SIGNUP_FAILURE,
+        data: response,
+      });
+      params.cbFailure(response?.data?.data);
+    }
+  } catch (error) {
+    yield put({
+      type: types.SIGNUP_FAILURE,
       data: error,
     });
     params.cbFailure(error.response);

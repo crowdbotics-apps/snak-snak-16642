@@ -2,17 +2,17 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {colors, WP} from '../../services';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
-export const RangeSlider = () => {
+export const RangeSlider = ({onValuesChange, range = [0, 10]}) => {
   return (
     <MultiSlider
       onValuesChangeStart={() => {}}
       onValuesChangeFinish={() => {}}
       enabledTwo={true}
       allowOverlap={false}
-      values={[0, 10]}
-      // onValuesChange={onValuesChange}
-      min={0}
-      max={10}
+      values={range}
+      onValuesChange={onValuesChange}
+      min={range[0]}
+      max={range[1]}
       markerStyle={styles.markerStyle}
       selectedStyle={styles.selectedStyle}
       enableLabel={false}

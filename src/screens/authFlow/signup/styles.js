@@ -71,6 +71,18 @@ export const styles = StyleSheet.create({
   rangeSlider: {
     alignItems: 'center',
   },
+  textInputContainer: {
+    flex: 1,
+    marginTop: HP('2.3'),
+    paddingLeft: WP('24'),
+  },
+  phoneContainer: {
+    flex: 0.3,
+    position: 'absolute',
+    zIndex: 10,
+    top: HP('6.5'),
+    left: WP('2'),
+  },
 });
 
 // import {Platform, StyleSheet} from 'react-native';

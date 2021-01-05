@@ -10,6 +10,16 @@ export const getSmsCode = (params, cbSuccess, cbFailure) => {
   };
 };
 
+//Email Validation Action
+export const signUpRequst = (params, cbSuccess, cbFailure) => {
+  return {
+    type: TYPES.SIGNUP_REQUEST,
+    params,
+    cbSuccess,
+    cbFailure,
+  };
+};
+
 export const logoutRequest = (params, token, cbSuccess, cbFailure) => {
   return {
     type: TYPES.LOGOUT_REQUEST,
