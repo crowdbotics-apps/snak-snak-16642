@@ -15,9 +15,6 @@ import {useSelector, useDispatch} from 'react-redux';
 import PhoneInput from 'react-native-phone-input';
 import {colors} from '../../../services';
 import {signUpRequst, getLabels} from '../../../redux/actions';
-
-const genderPreference = ['Male', 'Female', 'Both'];
-const expertiseLevel = ['Beginner', 'Intermediate', 'Advanced'];
 const sports = [
   'Baseball',
   'Basketball',
@@ -36,22 +33,22 @@ const sports = [
 ];
 
 const careerFields = [
-  'Agriculture',
-  'Business and Administration',
-  'Communications',
-  'Community & Social Services',
-  'Construction',
-  'Culture & Entertainment',
-  'Education',
-  'Emergency Services',
-  'Government',
-  'Health & Wellness',
-  'Hospitality & Travel',
-  'Law',
-  'Medical',
-  'Sales',
-  'Science & Technology',
-  'Sports',
+  ['Agriculture', 'Agriculture'],
+  ['Business and Administration', 'Business and Administration'],
+  ['Communications', 'Communications'],
+  ['Community & Social Services', 'Community & Social Services'],
+  ['Construction', 'Construction'],
+  ['Culture & Entertainment', 'Culture & Entertainment'],
+  ['Education', 'Education'],
+  ['Emergency Services', 'Emergency Services'],
+  ['Government', 'Government'],
+  ['Health & Wellness', 'Health & Wellness'],
+  ['Hospitality & Travel', 'Hospitality & Travel'],
+  ['Law', 'Law'],
+  ['Medical', 'Medical'],
+  ['Sales', 'Sales'],
+  ['Science & Technology', 'Science & Technology'],
+  ['Sports', 'Sports'],
 ];
 
 const Signup = ({navigation}) => {
@@ -78,9 +75,7 @@ const Signup = ({navigation}) => {
   const {signupObj} = useSelector(state => state.login);
   const {labels} = useSelector(state => state.labels);
 
-  useEffect(() => {
-    console.log('check this out -  > ', selectedSports);
-  }, [phone, labels, selectedSports]);
+  useEffect(() => {}, [phone]);
 
   const _renderImageVertical = () => {
     return (
@@ -344,21 +339,21 @@ const Signup = ({navigation}) => {
         containerStyle={styles.top}
         label={'Expertise level'}
         dropDown={true}
-        itemList={expertiseLevel}
+        itemList={labels?.expertise_level}
         getVal={val => setSelectedExpertiseLevel(val)}
       />
       <CustomTextInput
         containerStyle={styles.top}
         label={'My preferred expertise level'}
         dropDown={true}
-        itemList={expertiseLevel}
+        itemList={labels?.expertise_level}
         getVal={val => serPrefExperLevel(val)}
       />
       <CustomTextInput
         containerStyle={styles.top}
         label={'Gender preference'}
         dropDown={true}
-        itemList={genderPreference}
+        itemList={labels?.gender_preference}
         getVal={val => setGenderPref(val)}
       />
       <Text style={[styles.headings, styles.top]}>Romantic age preference</Text>

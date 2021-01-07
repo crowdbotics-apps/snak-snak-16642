@@ -30,6 +30,7 @@ export const CustomTextInput = ({
   const [val, setVal] = useState('');
   const [multiSelectedValues, setMultiSelectedvalues] = useState([]);
   const [options, setOptions] = useState([]);
+  const [singleDropDown, setSingleDropDown] = useState([]);
   let modalRef;
   useEffect(() => {
     setVal(value);
@@ -68,6 +69,7 @@ export const CustomTextInput = ({
       });
       getVal(toReturn);
     } else {
+      setSingleDropDown(itemList[index][1]);
       getVal(itemList[index][0]);
     }
   };
@@ -133,14 +135,12 @@ export const CustomTextInput = ({
         <TouchableOpacity
           onPress={() => modalRef.show()}
           style={{flexDirection: 'row'}}>
-          {showMultiSelectValues === true && (
-            <Text
-              style={[styles.dropdownTextStyle, {width: WP('77')}]}
-              numberOfLines={1}
-              ellipsizeMode={'tail'}>
-              {multiSelectText}
-            </Text>
-          )}
+          <Text
+            style={[styles.dropdownTextStyle, {width: WP('77')}]}
+            numberOfLines={1}
+            ellipsizeMode={'tail'}>
+            {showMultiSelectValues ? multiSelectText : singleDropDown}
+          </Text>
           <View
             style={[
               styles.dropDownContainer,
@@ -150,11 +150,7 @@ export const CustomTextInput = ({
             ]}>
             <ModalDropdown
               defaultValue={''}
-              textStyle={[
-                isMultiSelect
-                  ? styles.dropdownTextHide
-                  : styles.dropdownTextStyle,
-              ]}
+              textStyle={[styles.dropdownTextHide]}
               renderSeparator={() => <View />}
               renderRow={_renderRow}
               dropdownStyle={{
