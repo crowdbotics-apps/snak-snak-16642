@@ -78,7 +78,9 @@ const Signup = ({navigation}) => {
   const {signupObj} = useSelector(state => state.login);
   const {labels} = useSelector(state => state.labels);
 
-  useEffect(() => {}, [phone, labels]);
+  useEffect(() => {
+    console.log('check this out -  > ', selectedSports);
+  }, [phone, labels, selectedSports]);
 
   const _renderImageVertical = () => {
     return (
