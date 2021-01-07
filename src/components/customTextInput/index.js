@@ -51,18 +51,21 @@ export const CustomTextInput = ({
     }
   }, []);
   const changeValue = index => {
-    console.log("following are options -  > ",options)
     if (isMultiSelect) {
       let tempArray = Object.assign([], multiSelectedValues);
-      let toReturn = Object.assign([], multiSelectedValues);
-      if (multiSelectedValues.indexOf(options[index][1]) === -1) {
-        tempArray.push(options[index][1]);
-        toReturn.push(options[index][0]);
+      let toReturntemp = Object.assign([], multiSelectedValues);
+      if (multiSelectedValues.indexOf(options[index]) === -1) {
+        tempArray.push(options[index]);
+        toReturntemp.push(options[index]);
       } else {
-        tempArray.splice(tempArray.indexOf(options[index][1]), 1);
-        toReturn.splice(toReturn.indexOf(options[index][0]), 1);
+        tempArray.splice(tempArray.indexOf(options[index]), 1);
+        toReturntemp.splice(toReturntemp.indexOf(options[index]), 1);
       }
       setMultiSelectedvalues(tempArray);
+      let toReturn = [];
+      toReturntemp.forEach(item => {
+        toReturn.push(item[0]);
+      });
       getVal(toReturn);
     } else {
       getVal(itemList[index][0]);
@@ -101,7 +104,7 @@ export const CustomTextInput = ({
           <Image
             style={styles.checkBox}
             source={
-              multiSelectedValues.indexOf(options[index][1]) === -1
+              multiSelectedValues.indexOf(options[index]) === -1
                 ? appIcons.uncheck
                 : appIcons.check
             }
@@ -123,7 +126,7 @@ export const CustomTextInput = ({
     } else if (dropDown === true) {
       let multiSelectText = '';
       multiSelectedValues?.map(item => {
-        multiSelectText += ', ' + item;
+        multiSelectText += ', ' + item[1];
       });
       multiSelectText = multiSelectText.substring(2);
       return (
