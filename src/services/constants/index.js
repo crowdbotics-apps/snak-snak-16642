@@ -8,4 +8,5 @@ export const endPoints = {
   logout: 'logout/',
   deleteAccount: 'user/profile/',
   signUpUser: 'signup/',
+  getLabels: 'signup/',
 };

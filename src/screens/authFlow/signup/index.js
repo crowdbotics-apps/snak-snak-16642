@@ -14,7 +14,7 @@ import axios from 'axios';
 import {useSelector, useDispatch} from 'react-redux';
 import PhoneInput from 'react-native-phone-input';
 import {colors} from '../../../services';
-import {signUpRequst} from '../../../redux/actions';
+import {signUpRequst, getLabels} from '../../../redux/actions';
 
 const genderPreference = ['Male', 'Female', 'Both'];
 const expertiseLevel = ['Beginner', 'Intermediate', 'Advanced'];
@@ -77,9 +77,12 @@ const Signup = ({navigation}) => {
   const [loading, setLoading] = useState(false);
 
   const {signupObj} = useSelector(state => state.login);
+  const {labels} = useSelector(state => state.labels);
 
   useEffect(() => {}, [phone]);
-
+  useEffect(() => {
+    dispatch(getLabels());
+  }, [dispatch]);
   const _renderImageVertical = () => {
     return (
       <TouchableOpacity
