@@ -1,13 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, Image} from 'react-native';
 import {styles} from './styles';
 import {appIcons, appImages} from '../../../services';
 import {colors, WP, HP, size, family} from '../../../services';
 import {Button} from '../../../components';
 import {useSelector, useDispatch} from 'react-redux';
+import {getLabels} from '../../../redux/actions/labels-actions';
 
 const Launch = ({navigation}) => {
+  const dispatch = useDispatch();
   const {isKeepLogin} = useSelector(state => state.login);
+  useEffect(() => {
+    const cbSuccess = response => {
+      console.log('this is cb cbsuccess', response);
+    };
+    dispatch(getLabels(cbSuccess));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <View style={styles.container}>

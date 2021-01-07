@@ -75,14 +75,11 @@ const Signup = ({navigation}) => {
   const [romanGenderPref, setRomanGenderPref] = useState('');
   const [distancePref, setDistancePref] = useState('');
   const [loading, setLoading] = useState(false);
-
   const {signupObj} = useSelector(state => state.login);
   const {labels} = useSelector(state => state.labels);
 
-  useEffect(() => {}, [phone]);
-  useEffect(() => {
-    dispatch(getLabels());
-  }, [dispatch]);
+  useEffect(() => {}, [phone, labels]);
+
   const _renderImageVertical = () => {
     return (
       <TouchableOpacity
@@ -337,7 +334,7 @@ const Signup = ({navigation}) => {
         dropDown={true}
         isMultiSelect={true}
         dropDownListHeader={'Sports'}
-        itemList={sports}
+        itemList={labels?.sports}
         showMultiSelectValues={true}
         getVal={val => setSelectedSports(val)}
       />

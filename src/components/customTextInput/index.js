@@ -53,16 +53,15 @@ export const CustomTextInput = ({
   const changeValue = index => {
     if (isMultiSelect) {
       let tempArray = Object.assign([], multiSelectedValues);
-      if (multiSelectedValues.indexOf(options[index]) === -1) {
-        tempArray.push(options[index]);
+      if (multiSelectedValues.indexOf(options[index][0]) === -1) {
+        tempArray.push(options[index][0]);
       } else {
-        tempArray.splice(tempArray.indexOf(options[index]), 1);
+        tempArray.splice(tempArray.indexOf(options[index][0]), 1);
       }
       setMultiSelectedvalues(tempArray);
       getVal(tempArray);
-      console.log(tempArray);
     } else {
-      getVal(itemList[index]);
+      getVal(itemList[index][0]);
     }
   };
 
@@ -98,13 +97,13 @@ export const CustomTextInput = ({
           <Image
             style={styles.checkBox}
             source={
-              multiSelectedValues.indexOf(options[index]) === -1
+              multiSelectedValues.indexOf(options[index][0]) === -1
                 ? appIcons.uncheck
                 : appIcons.check
             }
           />
         )}
-        <Text style={styles.optionText}>{option}</Text>
+        <Text style={styles.optionText}>{option[1]}</Text>
       </View>
     );
   };

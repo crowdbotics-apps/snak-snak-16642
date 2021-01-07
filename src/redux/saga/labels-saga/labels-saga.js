@@ -7,13 +7,14 @@ export function* getLabelsRequest() {
   yield takeLatest(types.GET_LABELS_REQUEST, getLabels);
 }
 
-function* getLabels() {
+function* getLabels(params) {
   console.log('[getLabels saga]');
   let response;
   try {
     response = yield Api.getAxios(endPoints.getLabels);
     console.log('this is response ---> ', response);
     if (typeof response === 'object' && Object.keys(response).length > 0) {
+      params.cbSuccess(response);
       yield put({
         type: types.GET_LABELS_SUCCESS,
         data: response,
