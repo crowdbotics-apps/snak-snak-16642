@@ -52,7 +52,9 @@ export const AppContainer = () => {
     <NavigationContainer>
       <Stack.Navigator
         headerMode="none"
-        initialRouteName={initialRoute.initialRouteName}>
+        // initialRouteName={initialRoute.initialRouteName}
+        initialRouteName={'MyProfile'}
+        >
         <Stack.Screen name="Launch" component={Launch} />
         <Stack.Screen name="Search" component={Search} />
         <Stack.Screen name="Signup" component={Signup} />

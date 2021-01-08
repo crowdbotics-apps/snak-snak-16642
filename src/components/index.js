@@ -9,6 +9,7 @@ import {AlertNotification} from './alerts/alert';
 import {AcceptInvitePopup} from './alerts/AcceptInvitePopup';
 import {DeclineInvitePopup} from './alerts/DeclineInvitePopup';
 import {Loader} from './loader/index';
+import {CustomModal} from './Modal/index';
 
 export {
   Button,
@@ -22,4 +23,5 @@ export {
   AcceptInvitePopup,
   DeclineInvitePopup,
   Loader,
+  CustomModal,
 };
