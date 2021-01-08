@@ -55,7 +55,7 @@ const notification = [
 
 const Settings = ({navigation}) => {
   const dispatch = useDispatch();
-  const {token} = useSelector(state => state.login);
+  const {token, user} = useSelector(state => state.login);
   const {settings} = useSelector(state => state.setting);
 
   const [notifySetting, setNotifySetting] = useState(notification);
@@ -63,12 +63,15 @@ const Settings = ({navigation}) => {
 
   //get setting
   useEffect(() => {
-    onGetSetting();
-  }, []);
+    if (token && user) {
+      onGetSetting();
+    }
+    console.log('Setting Screen----', user, token);
+  }, [user]);
 
   const onGetSetting = () => {
     const cbSuccess = response => {
-      console.log('Settings', response);
+      console.log('Settings----', response, '/n', user, token);
       setNotifySetting(
         notifySetting.map(item => {
           return {

@@ -5,7 +5,7 @@ import {styles} from './styles';
 import {NumKeyboard, Loader} from '../../../components';
 import {verifyCodeRequest, getSmsCode} from '../../../redux/actions';
 import {useDispatch} from 'react-redux';
-import axios from 'axios';
+import {CommonActions} from '@react-navigation/native';
 
 const VerifyPhone = ({navigation, route}) => {
   const [code, setCode] = useState('');
@@ -33,9 +33,16 @@ const VerifyPhone = ({navigation, route}) => {
     let cbSuccuss = (response, key) => {
       setLoading(false);
       if (key === 'App') {
-        navigation.navigate('Settings');
+        navigation.dispatch(CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'Settings' }]
+        }));
       } else {
-        navigation.navigate('EditProfile');
+        navigation.dispatch(CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'EditProfile' }]
+        }));
+        // navigation.navigate('EditProfile');
       }
     };
     let cbFailure = response => {

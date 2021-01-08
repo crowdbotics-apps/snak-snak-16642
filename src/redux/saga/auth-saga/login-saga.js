@@ -45,6 +45,7 @@ function* signUpUser(params) {
     let response = yield Api.postRequest(endPoints.signUpUser, params.params);
     console.log('API Response @@@@=========@@@@========@@@@', response);
     if (response?.status === 201) {
+      console.log('[[[SIGNUP_SUCCESS]]]', response);
       params.cbSuccess(response);
       yield put({
         type: types.SIGNUP_SUCCESS,
