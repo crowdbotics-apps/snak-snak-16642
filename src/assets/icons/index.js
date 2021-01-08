@@ -11,4 +11,5 @@ export const appIcons = {
   calander: require('./calander.png'),
   smile: require('./smile.png'),
   invitation: require('./invitation.png'),
+  cancell: require('./cancell.png'),
 };

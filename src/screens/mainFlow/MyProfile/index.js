@@ -1,22 +1,19 @@
 import React, {useState} from 'react';
-import {Text, View, ScrollView, Image} from 'react-native';
+import {Text, View, Modal, ScrollView, Image} from 'react-native';
 import {styles} from './styles';
 import {
   Header,
-  CustomTextInput,
-  ProfileCard,
-  EditTextInput,
   Button,
-  AcceptInvitePopup,
-  DeclineInvitePopup,
+  CustomModal,
 } from '../../../components';
-import {appIcons, colors, HP, size, WP} from '../../../services';
+import {appIcons, appImages, colors, HP, size, WP} from '../../../services';
 import {useSelector, useDispatch} from 'react-redux';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const MyProfile = ({navigation}) => {
   const [acceptPopup, setAcceptPopup] = useState(false);
   const [declinePopup, setDeclinePopup] = useState(false);
-
+  const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch();
   const {user} = useSelector(state => state.login);
 
@@ -350,7 +347,7 @@ const MyProfile = ({navigation}) => {
               }}>
               My time preferenceto meet
             </Text>
-            <Text style={{fontSize: size.xtiny}}>Brunch (9AM - 12Pm)</Text>
+            <Text style={{fontSize: size.xtiny, marginBottom:WP('10')}}>Brunch (9AM - 12Pm)</Text>
           </View>
           <Button
             title={'Edit my profile and my preference'}
@@ -358,28 +355,40 @@ const MyProfile = ({navigation}) => {
             textColor={colors.black}
             container
             Style={{marginTop: WP('10')}}
-            onPress={() => setDeclinePopup()}
+            // onPress={() => setDeclinePopup()}
+            onPress={() => {
+              setModalVisible(true);
+            }}
           />
+          <CustomModal modalVisible={modalVisible} toggleModal={() => setModalVisible(false)}>
+            <View style={{height:HP('50'), width:WP('80'), backgroundColor:colors.white, borderRadius:WP('2'), overflow:'hidden'}}>
+              <TouchableOpacity onPress={() => setModalVisible(false)} style={{height:HP('2'), width:WP('4'), backgroundColor:'transparent', alignSelf:'flex-end', alignItems:'center', justifyContent:'center', marginTop:WP('2'), marginRight:WP('2')}}>
+                <Image style={{height:HP('2'), width:WP('3'), resizeMode:'contain'}}
+                source={appIcons.cancell}
+                />
+              </TouchableOpacity>
+              <View style={{width:WP('70'), backgroundColor:'transparent', marginTop: HP('1'), alignSelf:'center'}}>
+                <Text style={{fontSize: size.small, fontWeight: 'bold', marginVertical: WP('1')}}>Feedback</Text>
+                <Text style={{fontSize: size.tiny, color:colors.gray_3}}>Hey,was your Snaksnak with <Text style={{fontSize: size.small, fontWeight:'bold', color:colors.gray_3}}>Peter</Text></Text>
+                <Text style={{fontSize: size.tiny, color:colors.gray_3}}>Yesterday (09/07/2020) a sucessfull ?</Text>
+              </View>
+              <View style={{height:HP('25'), width:WP('40'), backgroundColor:'transparent', alignSelf:'center', marginTop:WP('4')}}>
+                <Image style={{height:HP('25'), width:WP('40'), resizeMode:'center'}}
+                source={appImages.feedbackImage}
+                />
+              </View>
+              <View style={{height:HP('8'), width:WP('80'), backgroundColor:'transparent', marginTop:WP('4'), flexDirection:'row', borderWidth:WP('0.1'), borderColor:colors.gray_3}}>
+                <TouchableOpacity onPress={() => setModalVisible(false)} style={{height:HP('8'), width:WP('40'), backgroundColor:'transparent', justifyContent:'center', alignItems:'center', borderRightWidth:WP('0.1'), borderColor:colors.gray_3}}>
+                  <Text style={{fontSize: size.small, fontWeight: 'bold'}}>No</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setModalVisible(false)} style={{height:HP('8'), width:WP('40'), backgroundColor:colors.primary,borderLeftWidth:WP('0.1'),justifyContent:'center', alignItems:'center'}}>
+                <Text style={{fontSize: size.small, fontWeight: 'bold', color:colors.white}}>Yes</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </CustomModal>
         </View>
       </ScrollView>
-      {/* <AcceptInvitePopup
-                showModal={acceptPopup}
-                close={() => {
-                    setAcceptPopup(!acceptPopup);
-                }}
-                title="Yay!"
-                backgroundColor="rgba(255, 245, 245, 0.8)"
-                color="rgb(231, 106, 105)"
-            />
-            <DeclineInvitePopup
-                showModal={declinePopup}
-                close={() => {
-                    setDeclinePopup(!declinePopup);
-                }}
-                title="Bad News :\"
-                backgroundColor="rgba(255, 245, 245, 0.8)"
-                color="rgb(231, 106, 105)"
-            /> */}
     </View>
   );
 };
