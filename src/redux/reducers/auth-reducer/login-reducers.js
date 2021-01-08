@@ -116,10 +116,11 @@ const loginReducer = (state = initialState, actions) => {
         loading: true,
       };
     case TYPES.SIGNUP_SUCCESS:
+      console.log('[SIGNUP_SUCCESS]', actions.data);
       return {
         ...state,
-        token: actions.data.auth_token,
-        user: actions.data.user,
+        token: actions.data.data.auth_token,
+        user: actions.data.data.user,
         isKeepLogin: true,
         error: null,
         isSuccess: true,

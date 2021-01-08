@@ -22,6 +22,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import PhoneInput from 'react-native-phone-input';
 import {colors} from '../../../services';
 import {signUpRequst, getLabels} from '../../../redux/actions';
+import {CommonActions} from '@react-navigation/native';
 
 const careerFields = [
   ['Agriculture', 'Agriculture'],
@@ -252,15 +253,19 @@ const Signup = ({navigation}) => {
       return;
     }
 
-    console.log(signupObj);
     setLoading(true);
     const cbSuccess = res => {
       setLoading(false);
-      Alert.alert('', 'User signup successful');
+      setTimeout(() => {
+        navigation.dispatch(CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'Settings' }]
+        }));
+      }, 1000);
+      // Alert.alert('', 'User signup successful');
     };
     const cbFailure = res => {
       setLoading(false);
-      console.log("yeh to daikhooo o o ",res);
       setTimeout(() => {
         Alert.alert('Fail to signup', res);
       }, 1000);
@@ -428,7 +433,7 @@ const Signup = ({navigation}) => {
 
       <Button
         containerStyle={styles.doneButton}
-        title={'Save alterations'}
+        title={'Sign Up'}
         onPress={onSignUp}
       />
       <Loader loading={loading} />
