@@ -34,12 +34,14 @@ class Api {
         .post(url, formData, configration)
         .then(response => {
           console.log('SUCCESS!!', response);
-          return response.data;
+          return response;
         })
         .catch(error => {
-          console.log('FAILURE!!', error.response);
+          console.log('FAILURE!!', error);
+          console.log(error.response);
+
           if (error.response) {
-            console.log(error.response.data);
+            console.log(error.response);
             console.log(error.response.status);
             console.log(error.response.headers);
           }
@@ -47,7 +49,7 @@ class Api {
         });
     } else {
       // without header request
-      console.log('Without Header Request', formData);
+      console.log(' Without Header Request - - > ', formData);
 
       return axios
         .post(url, formData, {
@@ -56,12 +58,14 @@ class Api {
           },
         })
         .then(response => {
-          //console.log('SUCCESS!!', response);
+          console.log('SUCCESS!!', response);
           return response;
         })
         .catch(error => {
-          //  console.log('FAILURE!!===========@@@@@@@@@', error);
-          return error;
+          console.log('FAILURE!!===========@@@@@@@@@', error);
+          console.log(error.response);
+
+          return error.response;
         });
     }
   };

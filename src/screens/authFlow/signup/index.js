@@ -1,5 +1,12 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {View, Text, ScrollView, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import {styles} from './styles';
 import {appIcons, HP, WP} from '../../../services';
 import {
@@ -15,22 +22,6 @@ import {useSelector, useDispatch} from 'react-redux';
 import PhoneInput from 'react-native-phone-input';
 import {colors} from '../../../services';
 import {signUpRequst, getLabels} from '../../../redux/actions';
-const sports = [
-  'Baseball',
-  'Basketball',
-  'Cycling',
-  'Dodgeball',
-  'Fishing',
-  'Football',
-  'Golf',
-  'Hiking',
-  'Mountain Biking',
-  'Racquetball',
-  'Skiing / Snowboarding',
-  'Soccer',
-  'Tennis',
-  'Volleyball',
-];
 
 const careerFields = [
   ['Agriculture', 'Agriculture'],
@@ -153,73 +144,128 @@ const Signup = ({navigation}) => {
   };
 
   const onSignUp = () => {
-    getImages();
-    signupObj.bio = bio;
-    signupObj.phone_number = country_code + phone;
-    signupObj.ocuppation = occupation;
-    signupObj.name = email;
-    signupObj.job_field = jobField
-      .replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '')
-      .replace(/\s/g, '')
-      .toLowerCase();
-    signupObj.user_sports = sports
-      .map(elem => {
-        if (elem === 'Mountain Biking') {
-          return {
-            sports: elem.replace(/\s/g, '').toLowerCase(),
-          };
-        }
-        if (elem === 'Skiing / Snowboarding') {
-          return {
-            sports: elem
-              .replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '')
-              .replace(/\s/g, '')
-              .toLowerCase(),
-          };
-        }
-        return {
-          sports: elem.toLowerCase(),
-        };
-      })
-      .filter(sports => sports.sports !== '');
-    signupObj.expertise_level = selectedExpertiseLevel.toLowerCase();
-    signupObj.preferred_expertise_level = prefExperLevel.toLowerCase();
-    signupObj.gender_preference = genderPref.toLowerCase();
-    signupObj.age_preferred = romanGenderPref[0];
-    signupObj.distance_preferred = distancePref[0];
+    if (image1 && image2 && image3) {
+      let images = [];
+      images.push({
+        image: `data:${image1.type};base64,` + image1.data,
+      });
+      images.push({
+        image: `data:${image2.type};base64,` + image2.data,
+      });
+      images.push({
+        image: `data:${image3.type};base64,` + image3.data,
+      });
+      signupObj.user_profile_image = images;
+    } else {
+      Alert.alert('Images Missing', 'All 3 images are required');
+      return;
+    }
+
+    if (email.length > 2) {
+      signupObj.name = email;
+    } else {
+      Alert.alert('Invalid Name', 'Please enter name');
+      return;
+    }
+
+    if (phone) {
+      signupObj.phone_number = phone;
+    } else {
+      Alert.alert('Invalid Phone Number', 'Please enter valid phone number');
+      return;
+    }
+
+    if (bio?.length > 3) {
+      signupObj.bio = bio;
+    } else {
+      Alert.alert('Invalid Bio', 'Please enter valid bio');
+      return;
+    }
+
+    if (jobField) {
+      signupObj.job_field = jobField;
+    } else {
+      Alert.alert('Invalid Job Field', 'Please enter valid job field');
+      return;
+    }
+    if (occupation?.length > 3) {
+      signupObj.ocuppation = occupation;
+    } else {
+      Alert.alert('Invalid Bio', 'Please enter occupation');
+      return;
+    }
+
+    if (selectedSports?.length > 0) {
+      let tempSports = [];
+      selectedSports.map(item => {
+        tempSports.push({
+          sports: item,
+        });
+      });
+      signupObj.user_sports = tempSports;
+    } else {
+      Alert.alert('Invalid Sport', 'Please select at least one sport');
+      return;
+    }
+
+    if (selectedExpertiseLevel) {
+      signupObj.expertise_level = selectedExpertiseLevel;
+    } else {
+      Alert.alert('Invalid Expertise Level', 'Please select expertise level');
+      return;
+    }
+
+    if (prefExperLevel) {
+      signupObj.preferred_expertise_level = prefExperLevel;
+    } else {
+      Alert.alert(
+        'Invalid Preferred Expertise Level',
+        'Please select Preferred expertise level',
+      );
+      return;
+    }
+
+    if (genderPref) {
+      signupObj.gender_preference = genderPref;
+    } else {
+      Alert.alert(
+        'Invalid Gender Preference',
+        'Please select gender preference',
+      );
+      return;
+    }
+
+    if (romanGenderPref) {
+      signupObj.age_preferred = romanGenderPref[1];
+    } else {
+      Alert.alert('Invalid Preferred Age', 'Please select preferred age');
+      return;
+    }
+
+    if (distancePref) {
+      signupObj.distance_preferred = distancePref[1];
+    } else {
+      Alert.alert(
+        'Invalid Preferred Distance',
+        'Please select preferred distance',
+      );
+      return;
+    }
+
     console.log(signupObj);
     setLoading(true);
     const cbSuccess = res => {
       setLoading(false);
-      console.log(res);
-      setTimeout(() => {
-        alert('Sign up succesfful');
-      }, 1000);
+      Alert.alert('', 'User signup successful');
     };
     const cbFailure = res => {
       setLoading(false);
-      console.log(res);
+      console.log("yeh to daikhooo o o ",res);
       setTimeout(() => {
-        alert('Server Error');
+        Alert.alert('Fail to signup', res);
       }, 1000);
     };
     dispatch(signUpRequst(signupObj, cbSuccess, cbFailure));
-  };
-
-  const getImages = () => {
-    if (image1 && image2 && image3) {
-      let images = [];
-      images.push({
-        image: image1.data,
-      });
-      images.push({
-        image: image2.data,
-      });
-      images.push({
-        image: image3.data,
-      });
-      signupObj.user_profile_image = images;
-    }
   };
 
   const selectCountry = country => {

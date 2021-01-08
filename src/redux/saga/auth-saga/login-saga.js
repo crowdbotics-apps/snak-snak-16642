@@ -53,9 +53,9 @@ function* signUpUser(params) {
     } else {
       yield put({
         type: types.SIGNUP_FAILURE,
-        data: response,
+        data: response?.data,
       });
-      params.cbFailure(response?.data?.data);
+      params.cbFailure(response?.data?.msg);
     }
   } catch (error) {
     yield put({
