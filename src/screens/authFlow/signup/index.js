@@ -122,7 +122,6 @@ const Signup = ({navigation}) => {
         style={styles.imagePlaceHolderHorizontal}>
         {key === 2 ? (
           <Image
-            // resizeMode={'contain'}
             style={{
               width: image2 ? WP(43.6) : 50,
               height: image2 ? HP(13.6) : 50,
