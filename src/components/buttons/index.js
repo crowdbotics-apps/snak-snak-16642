@@ -2,10 +2,18 @@ import React from 'react';
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 import {colors} from '../../services/colors';
 import {family, size, WP} from '../../services';
-export const Button = ({title, onPress}) => {
+export const Button = ({
+  title,
+  onPress,
+  containerStyle,
+  backgroundColor = colors.primary,
+  textColor = colors.white,
+}) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.container}>
-      <Text style={styles.textStyle}>{title}</Text>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.container, containerStyle, {backgroundColor}]}>
+      <Text style={[styles.textStyle, {color: textColor}]}>{title}</Text>
     </TouchableOpacity>
   );
 };

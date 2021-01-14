@@ -42,25 +42,6 @@ export const styles = StyleSheet.create({
     marginTop: HP(1),
     marginBottom: HP(2),
   },
-  inputContainer: {
-    display: 'flex',
-    height: HP(10),
-    backgroundColor: colors.inputBackground,
-    borderRadius: WP(3),
-    paddingHorizontal: WP(5),
-    paddingTop: HP(2),
-  },
-  label: {
-    color: colors.labels,
-    fontFamily: family.OpenSans_Bold,
-    fontSize: size.xxtiny,
-  },
-  inputVal: {
-    marginTop: HP(0.3),
-    color: colors.gray_2,
-    fontFamily: family.OpenSans_Regular,
-    fontSize: size.small,
-  },
   keyboardContainer: {
     flex: 1,
     justifyContent: 'flex-end',
@@ -101,5 +82,15 @@ export const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     textDecorationStyle: 'solid',
     textDecorationColor: colors.primary,
+  },
+  phoneContainer: {
+    flex: 0.3,
+    position: 'absolute',
+    zIndex: 10,
+    top: HP('3.5'),
+    left: WP('2'),
+  },
+  textInputContainer: {
+    flex: 1,
   },
 });
