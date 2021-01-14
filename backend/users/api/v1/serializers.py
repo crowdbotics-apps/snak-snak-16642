@@ -3,7 +3,7 @@ from django.db import IntegrityError
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from users.models import ProfileImages, Settings, UserSports
+from users.models import ProfileImages, Settings, UserSports, JobFields
 
 User = get_user_model()
 
@@ -64,15 +64,23 @@ class UserSportsSerializer(serializers.ModelSerializer):
         fields = ('sports',)
 
 
+class UserJobsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = JobFields
+        fields = ('job_field',)
+
+
 class UserProfileSerializer(serializers.ModelSerializer):
     user_profile_image = ProfileImageSerializer(many=True)
     user_sports = UserSportsSerializer(many=True)
+    user_job_fields = UserJobsSerializer(many=True)
 
     class Meta:
         model = User
-        fields = ("name", "bio", "job_field", "ocuppation", "expertise_level", "preferred_expertise_level",
+        fields = ("name", "bio", "user_job_fields", "ocuppation", "expertise_level", "preferred_expertise_level",
                   "gender_preference", "phone_number", "user_profile_image", "age_preferred", "distance_preferred",
-                  "user_sports")
+                  "user_sports", )
 
     def create(self, validated_data):
         profile_images = validated_data.pop('user_profile_image')

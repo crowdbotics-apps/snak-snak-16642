@@ -31,6 +31,22 @@ EXPERTISE_LEVEL = (
     ('beginner', 'Beginner'),
     ('intermediate', 'Intermediate'),
     ('advanced', 'Advanced'),
-
 )
 
+
+JOB_FIELD = (
+    ('agriculture', 'Agriculture'),
+    ('business_and_administration', 'Business and Administration'),
+    ('communications', 'Communications'),
+    ('community_entertainment', 'Community & Entertainment'),
+    ('education', 'Education'),
+    ('emergency_services', 'Emergency Services'),
+    ('government', 'Government'),
+    ('health_wellness', 'Health & Wellness'),
+    ('hospitality_travel', 'Hospitality & Travel'),
+    ('law', 'Law'),
+    ('medical', 'Medical'),
+    ('sales', 'Sales'),
+    ('science_technology', 'Science & Technology'),
+    ('sports', 'Sports'),
+)
