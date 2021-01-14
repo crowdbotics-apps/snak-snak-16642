@@ -3,13 +3,12 @@ from django.db import models
 from django.urls import reverse
 
 from snak_snak_16642.storage_backends import PrivateMediaStorage
-from users.choices import GENDER_PREFERENCE, SPORTS, EXPERTISE_LEVEL
+from users.choices import GENDER_PREFERENCE, SPORTS, EXPERTISE_LEVEL, JOB_FIELD
 
 
 class User(AbstractUser):
     name = models.CharField(max_length=200, null=True)
     bio = models.TextField(null=True)
-    job_field = models.CharField(max_length=200, null=True)
     ocuppation = models.CharField(max_length=200, null=True)
     expertise_level = models.CharField(choices=EXPERTISE_LEVEL, default=None, max_length=20, null=True)
     preferred_expertise_level = models.CharField(choices=EXPERTISE_LEVEL, default=None, max_length=20, null=True)
@@ -20,6 +19,11 @@ class User(AbstractUser):
 
     def get_absolute_url(self):
         return reverse("users:detail", kwargs={"username": self.username})
+
+
+class JobFields(models.Model):
+    job_field = models.CharField(choices=JOB_FIELD, default=None, max_length=50, null=True)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='user_job_fields')
 
 
 class ProfileImages(models.Model):
