@@ -5,10 +5,11 @@ from rest_framework.views import APIView
 from twilio.base.exceptions import TwilioRestException
 from django.contrib.auth import get_user_model
 
-from users.choices import GENDER, GENDER_PREFERENCE, AVAILABLE_TO, PREFERENCE_TIME
-from users.models import ProfileImages
-from .serializers import MessageSerializer, CustomTextSerializer, HomePageSerializer, PhoneNumberVerificationSerializer, \
-    SMSCodeSerializer, UserProfileSerializer
+from users.api.v1.serializers import UserProfileSerializer
+from users.choices import GENDER, GENDER_PREFERENCE, SPORTS, EXPERTISE_LEVEL
+from users.models import UserSports
+from .serializers import MessageSerializer, PhoneNumberVerificationSerializer, \
+    SMSCodeSerializer
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
@@ -54,7 +55,7 @@ class PhoneNumberVerifyAPI(APIView):
                 }
 
                 if result.status == "approved":
-                    user = User.objects.filter(phone_number=serializer.validated_data["phone_number"])
+                    user = User.objects.filter(username=serializer.validated_data["phone_number"])
                     if user.exists():
                         token, created = Token.objects.get_or_create(user=user.first())
                         data['user_exists'] = True
@@ -78,8 +79,8 @@ class SignupAPI(APIView):
         data = {
             "gender": GENDER,
             "gender_preference": GENDER_PREFERENCE,
-            "available_to": AVAILABLE_TO,
-            "preference_time": PREFERENCE_TIME
+            "sports": SPORTS,
+            "expertise_level": EXPERTISE_LEVEL
         }
         return Response(data)
 
@@ -87,7 +88,10 @@ class SignupAPI(APIView):
         serializer = UserProfileSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            user = User.objects.get(username=serializer.validated_data['phone_number'])
+            token, created = Token.objects.get_or_create(user=user)
+            data = {'auth_token': token.key, 'user': UserProfileSerializer(user).data}
+            return Response(data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

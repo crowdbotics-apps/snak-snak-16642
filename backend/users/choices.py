@@ -10,17 +10,43 @@ GENDER_PREFERENCE = (
     ('both', 'Both')
 )
 
-AVAILABLE_TO = (
-    ('professional_snack', 'Professional Snack'),
-    ('friendly_snack', 'Friendly Snack'),
-    ('active_snack', 'Active Snack'),
-    ('romantic_snack', 'Romantic Snack')
+SPORTS = (
+    ('baseball', 'Baseball'),
+    ('basketball', 'Basketball'),
+    ('cycling', 'Cycling'),
+    ('dodgeball', 'Dodgeball'),
+    ('fishing', 'Fishing'),
+    ('football', 'Football'),
+    ('golf', 'Golf'),
+    ('hiking', 'Hiking'),
+    ('mountain_biking', 'Mountain Biking'),
+    ('racquetball', 'Racquetball'),
+    ('skiing_snowboarding', 'Skiing / Snowboarding'),
+    ('soccer', 'Soccer'),
+    ('tennis', 'Tennis'),
+    ('volleyball', 'Volleyball')
 )
 
-PREFERENCE_TIME = (
-    ('brunch', 'Brunch (9 AM - 12 PM)'),
-    ('lunch', 'Lunch (12 PM - 3 PM)'),
-    ('happy_hour', 'Happy hour (3 PM - 6 PM)'),
-    ('dinner', 'Dinner (6 PM - 10 PM)'),
-    ('late_night', 'Late night (10PM +)')
+EXPERTISE_LEVEL = (
+    ('beginner', 'Beginner'),
+    ('intermediate', 'Intermediate'),
+    ('advanced', 'Advanced'),
+)
+
+
+JOB_FIELD = (
+    ('agriculture', 'Agriculture'),
+    ('business_and_administration', 'Business and Administration'),
+    ('communications', 'Communications'),
+    ('community_entertainment', 'Community & Entertainment'),
+    ('education', 'Education'),
+    ('emergency_services', 'Emergency Services'),
+    ('government', 'Government'),
+    ('health_wellness', 'Health & Wellness'),
+    ('hospitality_travel', 'Hospitality & Travel'),
+    ('law', 'Law'),
+    ('medical', 'Medical'),
+    ('sales', 'Sales'),
+    ('science_technology', 'Science & Technology'),
+    ('sports', 'Sports'),
 )
