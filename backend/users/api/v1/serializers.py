@@ -3,7 +3,7 @@ from django.db import IntegrityError
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from users.models import ProfileImages, Settings, UserSports, JobFields
+from users.models import ProfileImages, Settings, UserSports, JobFields, Invitations
 
 User = get_user_model()
 
@@ -109,3 +109,20 @@ class UserSettingsSerializer(serializers.ModelSerializer):
         model = Settings
         fields = ('notify_snak_invites', 'notify_meeting_reminder', 'notify_canceled_meeting', 'notify_deleted_meeting',
                   'notify_meeting_update', 'hide_your_profile')
+
+
+class UserInvitation(serializers.ModelSerializer):
+    invited_user = UserProfileSerializer()
+    user = UserProfileSerializer()
+    snacks = serializers.SerializerMethodField()
+    sucessful_snacks = serializers.SerializerMethodField()
+
+    def get_snacks(self, obj):
+        return Invitations.objects.filter(user=obj.user).count()
+
+    def get_sucessful_snacks(self, obj):
+        return Invitations.objects.filter(user=obj.user, feedback=True).count()
+
+    class Meta:
+        model = Invitations
+        fields = ('invited_user', 'user', 'status', 'id', 'place', 'date', 'time', 'message', 'snacks', 'sucessful_snacks')
