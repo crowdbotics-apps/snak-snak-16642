@@ -126,7 +126,7 @@ const Search = ({navigation}) => {
           <Header
             title={'Who is Available'}
             showLeftIcon={true}
-            onLeftIconPress={() => navigation.navigate('RecieveInvite')}
+            onLeftIconPress={() => navigation.toggleDrawer()}
           />
           {_renderFilter(
             'Time preference',
