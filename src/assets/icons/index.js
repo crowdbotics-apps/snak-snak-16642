@@ -12,4 +12,5 @@ export const appIcons = {
   smile: require('./smile.png'),
   invitation: require('./invitation.png'),
   cancell: require('./cancell.png'),
+  arrowRight: require('./arrowRight.png'),
 };

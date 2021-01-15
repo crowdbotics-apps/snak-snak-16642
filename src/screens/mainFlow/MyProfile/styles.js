@@ -1,5 +1,14 @@
-import {Platform, StyleSheet} from 'react-native';
-import {colors, WP, HP, size, family} from '../../../services';
+import {
+  Platform,
+  StyleSheet
+} from 'react-native';
+import {
+  colors,
+  WP,
+  HP,
+  size,
+  family
+} from '../../../services';
 
 export const styles = StyleSheet.create({
   container: {
@@ -159,5 +168,95 @@ export const styles = StyleSheet.create({
     height: WP('7'),
     backgroundColor: 'transparent'
   },
-  timePreferanceTextContainer: { width: WP('92'), backgroundColor: 'transparent', marginVertical: WP('1'), marginBottom: WP('8') },
+  timePreferanceTextContainer: {
+    width: WP('92'),
+    backgroundColor: 'transparent',
+    marginVertical: WP('1'),
+    marginBottom: WP('8')
+  },
+  // Modal Style
+  modalMainContainer: {
+    height: HP('50'),
+    width: WP('80'),
+    backgroundColor: colors.white,
+    borderRadius: WP('2'),
+    overflow: 'hidden'
+  },
+  cancellBtnContainer: {
+    height: HP('2'),
+    width: WP('4'),
+    backgroundColor: 'transparent',
+    alignSelf: 'flex-end',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: WP('2'),
+    marginRight: WP('2')
+  },
+  cancellImgStyle: {
+    height: HP('2'),
+    width: WP('3'),
+    resizeMode: 'contain'
+  },
+  feedBackTextMainContainer: {
+    width: WP('70'),
+    backgroundColor: 'transparent',
+    marginTop: HP('1'),
+    alignSelf: 'center'
+  },
+  feedBackgreyText: {
+    fontSize: size.tiny,
+    color: colors.gray_3
+  },
+  feedbackgreyboldText: {
+    fontSize: size.small,
+    fontWeight: 'bold',
+    color: colors.gray_3
+  },
+  modalImgContainer: {
+    height: HP('25'),
+    width: WP('40'),
+    backgroundColor: 'transparent',
+    alignSelf: 'center',
+    marginTop: WP('4')
+  },
+  modalImgStyle: {
+    height: HP('25'),
+    width: WP('40'),
+    resizeMode: 'center'
+  },
+  modalBtnsMainContainer: {
+    height: HP('8'),
+    width: WP('80'),
+    backgroundColor: 'transparent',
+    marginTop: WP('4'),
+    flexDirection: 'row',
+    borderWidth: WP('0.1'),
+    borderColor: colors.gray_3
+  },
+  noBtnStyle: {
+    height: HP('8'),
+    width: WP('40'),
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRightWidth: WP('0.1'),
+    borderColor: colors.gray_3
+  },
+  noBtnTextStyle: {
+    fontSize: size.small,
+    fontWeight: 'bold'
+  },
+  yesBtnStyle: {
+    height: HP('8'),
+    width: WP('40'),
+    backgroundColor: colors.primary,
+    borderLeftWidth: WP('0.1'),
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  yesBtnTextStyle: {
+    fontSize: size.small,
+    fontWeight: 'bold',
+    color: colors.white
+  },
 });

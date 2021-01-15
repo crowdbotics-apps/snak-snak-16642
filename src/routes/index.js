@@ -12,6 +12,7 @@ import RecieveInvite from '../screens/mainFlow/recieveInvite';
 import {useSelector} from 'react-redux';
 import MyProfile from '../screens/mainFlow/MyProfile';
 import othersProfile from '../screens/mainFlow/othersProfile';
+import ChatScreen from '../screens/mainFlow/chatScreen';
 
 const Stack = createStackNavigator();
 
@@ -52,7 +53,7 @@ export const AppContainer = () => {
     <NavigationContainer>
       <Stack.Navigator
         headerMode="none"
-        initialRouteName={initialRoute.initialRouteName}>
+        initialRouteName="MyProfile">
         <Stack.Screen name="Launch" component={Launch} />
         <Stack.Screen name="Search" component={Search} />
         <Stack.Screen name="Signup" component={Signup} />
@@ -63,6 +64,7 @@ export const AppContainer = () => {
         <Stack.Screen name="RecieveInvite" component={RecieveInvite} />
         <Stack.Screen name="MyProfile" component={MyProfile} />
         <Stack.Screen name="othersProfile" component={othersProfile} />
+        <Stack.Screen name="ChatScreen" component={ChatScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
