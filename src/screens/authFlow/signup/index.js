@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
@@ -122,6 +123,7 @@ const Signup = ({navigation}) => {
         style={styles.imagePlaceHolderHorizontal}>
         {key === 2 ? (
           <Image
+            // eslint-disable-next-line react-native/no-inline-styles
             style={{
               width: image2 ? WP(43.6) : 50,
               height: image2 ? HP(13.6) : 50,
@@ -131,6 +133,7 @@ const Signup = ({navigation}) => {
           />
         ) : (
           <Image
+            // eslint-disable-next-line react-native/no-inline-styles
             style={{
               width: image3 ? WP(43.6) : 50,
               height: image3 ? HP(13.6) : 50,
@@ -256,10 +259,12 @@ const Signup = ({navigation}) => {
     const cbSuccess = res => {
       setLoading(false);
       setTimeout(() => {
-        navigation.dispatch(CommonActions.reset({
-          index: 0,
-          routes: [{ name: 'Settings' }]
-        }));
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{name: 'Settings'}],
+          }),
+        );
       }, 1000);
       // Alert.alert('', 'User signup successful');
     };
