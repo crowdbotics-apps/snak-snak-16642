@@ -16,7 +16,7 @@ import environ
 env = environ.Env()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG", default=False)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,13 +26,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "SECRET_KEY"
+SECRET_KEY = env.str("SECRET_KEY")
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = env.list("HOST", default=["*"])
 SITE_ID = 1
 
-# SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-# SECURE_SSL_REDIRECT = env.bool("SECURE_REDIRECT", default=False)
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_SSL_REDIRECT = env.bool("SECURE_REDIRECT", default=False)
 
 
 # Application definition
@@ -115,8 +115,8 @@ DATABASES = {
     }
 }
 
-# if env.str("DATABASE_URL", default=None):
-#     DATABASES = {"default": env.db()}
+if env.str("DATABASE_URL", default=None):
+    DATABASES = {"default": env.db()}
 
 
 # Password validation
