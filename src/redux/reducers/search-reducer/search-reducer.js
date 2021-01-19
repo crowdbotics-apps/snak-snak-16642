@@ -1,6 +1,6 @@
 import * as TYPES from '../../actions/types';
 const initialState = {
-  labels: null,
+  usersResult: null,
 };
 const searchReducer = (state = initialState, actions) => {
   switch (actions.type) {
@@ -12,7 +12,7 @@ const searchReducer = (state = initialState, actions) => {
     case TYPES.USER_SEARCH_SUCCESS:
       return {
         ...state,
-        labels: actions.data,
+        usersResult: actions.data,
       };
     case TYPES.USER_SEARCH_FAILURE:
       return {

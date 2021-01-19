@@ -8,10 +8,16 @@ export function* searchRequest() {
 }
 
 function* userSearch(params) {
-  console.log('[registerNotifyID saga]');
+  console.log('[userSearch saga]');
   let response;
   try {
-    response = yield Api.getAxios(endPoints.getLabels);
+    response = yield Api.postRequest(
+      endPoints.userSearch,
+      JSON.stringify(params),
+      {
+        token: params.token,
+      },
+    );
     console.log('this is response ---> ', response);
     if (typeof response === 'object' && Object.keys(response).length > 0) {
       params.cbSuccess(response);

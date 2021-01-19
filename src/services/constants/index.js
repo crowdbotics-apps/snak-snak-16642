@@ -9,4 +9,5 @@ export const endPoints = {
   deleteAccount: 'user/profile/',
   signUpUser: 'signup/',
   getLabels: 'signup/',
+  userSearch: 'user/search/',
 };

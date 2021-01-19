@@ -33,15 +33,19 @@ const VerifyPhone = ({navigation, route}) => {
     let cbSuccuss = (response, key) => {
       setLoading(false);
       if (key === 'App') {
-        navigation.dispatch(CommonActions.reset({
-          index: 0,
-          routes: [{ name: 'Settings' }]
-        }));
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{name: 'App'}],
+          }),
+        );
       } else {
-        navigation.dispatch(CommonActions.reset({
-          index: 0,
-          routes: [{ name: 'EditProfile' }]
-        }));
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{name: 'EditProfile'}],
+          }),
+        );
         // navigation.navigate('EditProfile');
       }
     };
