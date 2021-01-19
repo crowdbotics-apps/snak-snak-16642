@@ -6,7 +6,7 @@ from twilio.base.exceptions import TwilioRestException
 from django.contrib.auth import get_user_model
 
 from users.api.v1.serializers import UserProfileSerializer
-from users.choices import GENDER, GENDER_PREFERENCE, SPORTS, EXPERTISE_LEVEL
+from users.choices import GENDER, GENDER_PREFERENCE, SPORTS, EXPERTISE_LEVEL, JOB_FIELD
 from users.models import UserSports
 from .serializers import MessageSerializer, PhoneNumberVerificationSerializer, \
     SMSCodeSerializer
@@ -77,8 +77,7 @@ class PhoneNumberVerifyAPI(APIView):
 class SignupAPI(APIView):
     def get(self, request):
         data = {
-            "gender": GENDER,
-            "gender_preference": GENDER_PREFERENCE,
+            "jobs": JOB_FIELD,
             "sports": SPORTS,
             "expertise_level": EXPERTISE_LEVEL
         }
