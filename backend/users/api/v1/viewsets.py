@@ -186,32 +186,52 @@ class AcceptInvitation(APIView):
 
         inv = Invitations.objects.filter(id=invitation_id)
 
+        invitation_status = True if request.data['status'] == 1 else False
+
         if inv.exists():
             invitation = inv[0]
-            invitation.status = True
+            invitation.status = invitation_status
             invitation.save()
+
+            if invitation_status:
+                msg = "{0} has accepted your invitation.".format(invitation.invited_user.get_full_name())
+                response = {'msg': 'Invitations accepted', 'room_id': invitation.room_id}
+            else:
+                msg = "{0} has declined your invitation.".format(invitation.invited_user.get_full_name())
+                response = {'msg': 'Invitations declined', 'room_id': None}
 
             notification_body = {
                 "include_player_ids": [invitation.user.notify_id],
-                "contents": {"en": "{0} has accepted your invitation.".format(invitation.invited_user.get_full_name())}
+                "contents": {"en": msg}
             }
             try:
                 client.send_notification(notification_body)
-                return Response({'msg': 'Invitations accepted', 'room_id': invitation.room_id}, status=status.HTTP_201_CREATED)
+                return Response(response, status=status.HTTP_201_CREATED)
             except OneSignalHTTPError as e:
                 return Response(e.http_response.json(), status=e.status_code)
 
 
+class AllInvitation(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        inv = Invitations.objects.filter(user=request.user)
+        ser_inv = UserInvitation(inv, many=True)
+        return Response(ser_inv.data, status=status.HTTP_201_CREATED)
+
+
 class Feedback(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         invitation_id = request.data['invitation_id']
         inv = Invitations.objects.filter(id=invitation_id)
 
+        feedback_status = True if request.data['status'] == 1 else False
+
         if inv.exists():
             invitation = inv[0]
-            invitation.feedback = True
+            invitation.feedback = feedback_status
             invitation.save()
 
             return Response(status=status.HTTP_201_CREATED)
