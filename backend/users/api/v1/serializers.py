@@ -84,7 +84,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         profile_images = validated_data.pop('user_profile_image')
-        user_jobs = validated_data.pop('user_jobs')
+        user_jobs = validated_data.pop('user_job_fields')
         user_sports = validated_data.pop('user_sports')
         mobile_phone = validated_data.get('phone_number')
         validated_data['username'] = mobile_phone
