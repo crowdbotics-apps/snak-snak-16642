@@ -74,11 +74,11 @@ class UserJobsSerializer(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     user_profile_image = ProfileImageSerializer(many=True)
     user_sports = UserSportsSerializer(many=True)
-    user_job_fields = UserJobsSerializer(many=True)
+    user_jobs = UserJobsSerializer(many=True)
 
     class Meta:
         model = User
-        fields = ("name", "bio", "user_job_fields", "ocuppation", "expertise_level", "preferred_expertise_level",
+        fields = ("name", "bio", "user_jobs", "ocuppation", "expertise_level", "preferred_expertise_level",
                   "gender_preference", "phone_number", "user_profile_image", "age_preferred", "distance_preferred",
                   "user_sports", )
 
