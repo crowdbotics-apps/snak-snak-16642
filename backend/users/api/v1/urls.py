@@ -1,7 +1,8 @@
 from django.urls import path
 
 from users.api.v1.viewsets import ProfileUpdateView, ProfilePublicView, UserSettingsView, UserSearch, \
-    UserNotificationId, SendUserNotification, AcceptInvitation, EditUserInvitation, GetInvitationDetails, Feedback
+    UserNotificationId, SendUserNotification, AcceptInvitation, EditUserInvitation, GetInvitationDetails, Feedback, \
+    SubscriptionPlan, UserSubscriptionPlan
 
 urlpatterns = [
     path("profile/", ProfileUpdateView.as_view(), name="user_profile"),
@@ -13,5 +14,7 @@ urlpatterns = [
     path("accept-invitation/", AcceptInvitation.as_view(), name="accept-invitation"),
     path("edit-invitation/", EditUserInvitation.as_view(), name="edit-invitation"),
     path("get-invitation-details/", GetInvitationDetails.as_view(), name="get-invitation-details"),
-    path("feedback/", Feedback.as_view(), name="feedback")
+    path("feedback/", Feedback.as_view(), name="feedback"),
+    path("subscription-plan/", SubscriptionPlan.as_view(), name="subscription-plan"),
+    path("subscription/", UserSubscriptionPlan.as_view(), name="subscription"),
 ]

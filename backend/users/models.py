@@ -59,3 +59,14 @@ class Invitations(models.Model):
     time = models.TimeField(null=True)
     message = models.TextField(null=True)
     feedback = models.BooleanField(default=False)
+
+
+class Subscription(models.Model):
+    plan = models.CharField(max_length=100)
+    monthly_price = models.FloatField(null=True)
+    yearly_price = models.FloatField(null=True)
+
+
+class UserSubscription(models.Model):
+    plan = models.ForeignKey(Subscription, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_subscription')

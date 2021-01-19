@@ -3,7 +3,7 @@ from django.db import IntegrityError
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from users.models import ProfileImages, Settings, UserSports, JobFields, Invitations
+from users.models import ProfileImages, Settings, UserSports, JobFields, Invitations, Subscription, UserSubscription
 
 User = get_user_model()
 
@@ -71,16 +71,31 @@ class UserJobsSerializer(serializers.ModelSerializer):
         fields = ('job_field',)
 
 
+class SubscriptionPlanSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subscription
+        fields = ('plan', 'monthly_price', 'yearly_price')
+
+
+class UserSubscriptionSerializer(serializers.ModelSerializer):
+    plan = SubscriptionPlanSerializer()
+
+    class Meta:
+        model = UserSubscription
+        fields = ('plan',)
+
+
 class UserProfileSerializer(serializers.ModelSerializer):
     user_profile_image = ProfileImageSerializer(many=True)
     user_sports = UserSportsSerializer(many=True)
     user_job_fields = UserJobsSerializer(many=True)
+    user_subscription = UserSubscriptionSerializer(many=True)
 
     class Meta:
         model = User
         fields = ("name", "bio", "user_job_fields", "ocuppation", "expertise_level", "preferred_expertise_level",
                   "gender_preference", "phone_number", "user_profile_image", "age_preferred", "distance_preferred",
-                  "user_sports", )
+                  "user_sports", "user_subscription")
 
     def create(self, validated_data):
         profile_images = validated_data.pop('user_profile_image')
@@ -126,3 +141,9 @@ class UserInvitation(serializers.ModelSerializer):
     class Meta:
         model = Invitations
         fields = ('invited_user', 'user', 'status', 'id', 'place', 'date', 'time', 'message', 'snacks', 'sucessful_snacks')
+
+
+class SubscriptionPlanSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subscription
+        fields = ('plan', 'monthly_price', 'yearly_price')

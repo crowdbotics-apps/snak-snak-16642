@@ -8,8 +8,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from users.api.v1.serializers import UserProfileSerializer, UserSettingsSerializer, UserInvitation
-from users.models import Settings, JobFields, Invitations
+from users.api.v1.serializers import UserProfileSerializer, UserSettingsSerializer, UserInvitation, \
+    SubscriptionPlanSerializer, UserSubscriptionSerializer
+from users.models import Settings, JobFields, Invitations, Subscription, UserSubscription
 
 User = get_user_model()
 client = Client(app_id=settings.APP_ID, rest_api_key=settings.REST_API_KEY, user_auth_key=settings.USER_AUTH_KEY)
@@ -203,7 +204,7 @@ class AcceptInvitation(APIView):
 
 
 class Feedback(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         invitation_id = request.data['invitation_id']
@@ -216,3 +217,37 @@ class Feedback(APIView):
 
             return Response(status=status.HTTP_201_CREATED)
         return Response({'msg': 'Invitation does not exists'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class SubscriptionPlan(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        subscription = Subscription.objects.all()
+        sub_ser = SubscriptionPlanSerializer(subscription, many=True)
+        return Response(sub_ser.data, status=status.HTTP_200_OK)
+
+
+class UserSubscriptionPlan(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        subscription = UserSubscription.objects.filter(user=request.user)
+        if subscription.exists():
+            subscription_ser = UserSubscriptionSerializer(subscription.first())
+            return Response(subscription_ser.data, status=status.HTTP_200_OK)
+        else:
+            return Response({'msg': 'Subscription not found!'}, status=status.HTTP_404_NOT_FOUND)
+
+    def post(self, request):
+        sub_plan = request.data['subscription_id']
+        check_subscription = UserSubscription.objects.filter(user=request.user)
+        if check_subscription.exists():
+            user_sub = check_subscription[0]
+            user_sub.plan = Subscription.objects.get(id=sub_plan)
+            user_sub.save()
+            subscription_ser = UserSubscriptionSerializer(user_sub)
+        else:
+            create_subscription = UserSubscription.objects.create(user=request.user, plan__id=sub_plan)
+            subscription_ser = UserSubscriptionSerializer(create_subscription)
+        return Response(subscription_ser.data, status=status.HTTP_201_CREATED)
