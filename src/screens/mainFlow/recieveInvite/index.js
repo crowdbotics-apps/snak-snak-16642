@@ -23,7 +23,7 @@ const RecieveInvite = ({navigation}) => {
           <Header
             title={'You are invited!'}
             showLeftIcon={true}
-            onLeftIconPress={() => navigation.navigate('MyProfile')}
+            onLeftIconPress={() => navigation.toggleDrawer()}
           />
           <Text style={styles.filterTitle}>
             {'Nicole'}

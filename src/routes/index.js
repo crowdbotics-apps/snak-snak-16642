@@ -34,7 +34,7 @@ export const AppContainer = () => {
     // CHECK ROLE IN THE MEMORY
     if (isKeepLogin) {
       setInitialRoute({
-        initialRouteName: 'Settings',
+        initialRouteName: 'App',
         //initialRouteName: 'MyProfile',
       });
     } else {
@@ -53,9 +53,9 @@ export const AppContainer = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator headerMode="none" initialRouteName="App">
+      <Stack.Navigator headerMode="none" initialRouteName={initialRoute}>
         <Stack.Screen name="Launch" component={Launch} />
-        <Stack.Screen name="Search" component={Search} />
+        {/* <Stack.Screen name="Search" component={Search} /> */}
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="AddPhone" component={AddPhone} />
         <Stack.Screen name="VerifyPhone" component={VerifyPhone} />

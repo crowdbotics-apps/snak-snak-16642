@@ -3,6 +3,9 @@ import React, {useEffect, useState} from 'react';
 import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
 import {Header, CustomTextInput, ProfileCard} from '../../../components';
+import {useDispatch, useSelector} from 'react-redux';
+import {getLabels, userSearchRequest} from '../../../redux/actions';
+import axios from 'axios';
 
 const sports = [
   'Baseball',
@@ -31,22 +34,22 @@ const timePref = [
 ];
 
 const careerFields = [
-  'Agriculture',
-  'Business and Administration',
-  'Communications',
-  'Community & Social Services',
-  'Construction',
-  'Culture & Entertainment',
-  'Education',
-  'Emergency Services',
-  'Government',
-  'Health & Wellness',
-  'Hospitality & Travel',
-  'Law',
-  'Medical',
-  'Sales',
-  'Science & Technology',
-  'Sports',
+  ['Agriculture', 'agriculture'],
+  ['Business and Administration', 'Business and Administration'],
+  ['Communications', 'Communications'],
+  ['Community & Social Services', 'Community & Social Services'],
+  ['Construction', 'Construction'],
+  ['Culture & Entertainment', 'Culture & Entertainment'],
+  ['Education', 'Education'],
+  ['Emergency Services', 'Emergency Services'],
+  ['Government', 'Government'],
+  ['Health & Wellness', 'Health & Wellness'],
+  ['Hospitality & Travel', 'Hospitality & Travel'],
+  ['Law', 'Law'],
+  ['Medical', 'Medical'],
+  ['Sales', 'Sales'],
+  ['IT', 'IT'],
+  ['Sports', 'Sports'],
 ];
 
 const adventurePref = [
@@ -66,8 +69,20 @@ const Search = ({navigation}) => {
   const [sportsPreference, setSportsPreference] = useState('');
   const [careerPreference, setCareerPreference] = useState('');
 
-  const [showCareerFilter, setCareerFilter] = useState(false);
-  const [showSportsFilter, setSportsFilter] = useState(true);
+  const [jobField, setJobField] = useState('');
+
+  const [showCareerFilter, setCareerFilter] = useState(true);
+  const [showSportsFilter, setSportsFilter] = useState(false);
+
+  const dispatch = useDispatch();
+  const {token} = useSelector(state => state.login);
+  useEffect(() => {
+    const cbSuccess = response => {
+      console.log('this is cb cbsuccess', response);
+    };
+    dispatch(getLabels(cbSuccess));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (adventurePreference === 'Professional Snak') {
@@ -84,6 +99,41 @@ const Search = ({navigation}) => {
       setSportsFilter(true);
     }
   }, [adventurePreference]);
+
+  useEffect(() => {
+    // let data = {
+    //   jobs: jobField,
+    // };
+    // console.log(jobField);
+    // const cbSuccess = response => {
+    //   console.log('this is cb cbsuccess', response);
+    // };
+    // const cbFailure = response => {
+    //   console.log('this is cb cbsuccess', response);
+    // };
+    // dispatch(userSearchRequest(data, token, cbSuccess, cbFailure));
+    var data = JSON.stringify({jobs: ['agriculture']});
+
+    var config = {
+      method: 'post',
+      url: 'http://snak-snak-16642.botics.co/api/v1/user/search/',
+      headers: {
+        Authorization: `Token ${token}`,
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function(response) {
+        console.log('response', JSON.stringify(response.data));
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [jobField]);
+
   const _renderFilter = (
     title,
     visibleState,
@@ -110,7 +160,8 @@ const Search = ({navigation}) => {
             showMultiSelectValues={isMultiSelect}
             isMultiSelect={isMultiSelect}
             itemList={list}
-            getVal={setState}
+            getVal={val => setJobField(val)}
+            //  getVal={setState}
           />
         )}
       </>
@@ -128,25 +179,25 @@ const Search = ({navigation}) => {
             showLeftIcon={true}
             onLeftIconPress={() => navigation.toggleDrawer()}
           />
-          {_renderFilter(
+          {/* {_renderFilter(
             'Time preference',
             showHideTime,
             setShowHideTime,
             timePref,
             setTimePreference,
             false,
-          )}
-          <View style={styles.space} />
-          {_renderFilter(
+          )} */}
+          {/* <View style={styles.space} /> */}
+          {/* {_renderFilter(
             'Adventure preference',
             showHideAdventure,
             setShowHideAdventrue,
             adventurePref,
             setAdventurePreference,
             false,
-          )}
-          <View style={styles.space} />
-          {showSportsFilter &&
+          )} */}
+          {/* <View style={styles.space} /> */}
+          {/* {showSportsFilter &&
             _renderFilter(
               'Sports preference',
               showHideSport,
@@ -154,15 +205,15 @@ const Search = ({navigation}) => {
               sports,
               setSportsPreference,
               true,
-            )}
+            )} */}
           {showSportsFilter && <View style={styles.space} />}
-          {showCareerFilter &&
+          {!showCareerFilter &&
             _renderFilter(
               'Career Field',
               showHideCareer,
               setShowHideCareer,
               careerFields,
-              setSportsPreference,
+              setCareerPreference,
               true,
             )}
           {showCareerFilter && <View style={styles.space} />}
