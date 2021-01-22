@@ -26,12 +26,12 @@ class User(AbstractUser):
 
 class JobFields(models.Model):
     job_field = models.CharField(choices=JOB_FIELD, default=None, max_length=50, null=True)
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='user_jobs')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_jobs')
 
 
 class ProfileImages(models.Model):
     image = models.ImageField(storage=PrivateMediaStorage())
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='user_profile_image')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_profile_image')
 
 
 class UserSports(models.Model):
