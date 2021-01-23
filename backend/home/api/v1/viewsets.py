@@ -79,7 +79,8 @@ class SignupAPI(APIView):
         data = {
             "jobs": JOB_FIELD,
             "sports": SPORTS,
-            "expertise_level": EXPERTISE_LEVEL
+            "expertise_level": EXPERTISE_LEVEL,
+            "gender": GENDER
         }
         return Response(data)
 
