@@ -103,6 +103,30 @@ class UserProfileSerializer(serializers.ModelSerializer):
             error = {"error": True, "msg": "Mobile number exists!"}
             raise serializers.ValidationError(error)
 
+    def update(self, instance, validated_data):
+        profile_images = validated_data.pop('user_profile_image')
+        user_jobs = validated_data.pop('user_jobs')
+        user_sports = validated_data.pop('user_sports')
+        mobile_phone = validated_data.get('phone_number')
+        validated_data['username'] = mobile_phone
+        validated_data['phone_number'] = mobile_phone
+        try:
+            User.objects.filter(username=mobile_phone).update(**validated_data)
+            user_profile = User.objects.get(username=mobile_phone)
+            ProfileImages.objects.filter(user__phone_number=mobile_phone).delete()
+            UserSports.objects.filter(user__username=mobile_phone).delete()
+            JobFields.objects.filter(user__username=mobile_phone).delete()
+            for image in profile_images:
+                ProfileImages.objects.create(user=user_profile, **image)
+            for sport in user_sports:
+                UserSports.objects.create(user=user_profile, **sport)
+            for job in user_jobs:
+                JobFields.objects.create(user=user_profile, **job)
+            return user_profile
+        except IntegrityError as e:
+            error = {"error": True, "msg": "Mobile number exists!"}
+            raise serializers.ValidationError(error)
+
 
 class UserSettingsSerializer(serializers.ModelSerializer):
     class Meta:
