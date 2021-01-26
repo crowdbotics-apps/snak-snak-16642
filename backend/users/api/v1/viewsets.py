@@ -115,25 +115,25 @@ class SendUserNotification(APIView):
         check_user = User.objects.filter(id=invited_user)
         if check_user.exists():
             user_notification_id = check_user[0].notify_id
-            notification_body = {
-                "include_player_ids": [user_notification_id],
-                "contents": {"en": "You have received a new invitation."}
-            }
-            try:
-                client.send_notification(notification_body)
-                inv = Invitations.objects.create(
-                    invited_user=check_user[0],
-                    user=request.user,
-                    place=place,
-                    date=date,
-                    time=time,
-                    message=message
-                )
-
-                serializer = UserInvitation(inv)
-                return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
-            except OneSignalHTTPError as e:
-                return Response(e.http_response.json(), status=e.status_code)
+            if user_notification_id:
+                notification_body = {
+                    "include_player_ids": [user_notification_id],
+                    "contents": {"en": "You have received a new invitation."}
+                }
+                try:
+                    client.send_notification(notification_body)
+                except OneSignalHTTPError as e:
+                    return Response(e.http_response.json(), status=e.status_code)
+            inv = Invitations.objects.create(
+                invited_user=check_user[0],
+                user=request.user,
+                place=place,
+                date=date,
+                time=time,
+                message=message
+            )
+            serializer = UserInvitation(inv)
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         return Response({'msg': 'Invited user does not exists'}, status=status.HTTP_404_NOT_FOUND)
 
 
