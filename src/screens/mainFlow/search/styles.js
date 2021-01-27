@@ -55,4 +55,5 @@ export const styles = StyleSheet.create({
     paddingHorizontal: WP(4),
     marginBottom: WP('3'),
   },
+  placeholderColor: {fontSize: size.normal, color: colors.gray_2, alignSelf: 'center', marginVertical: WP('10')},
 });

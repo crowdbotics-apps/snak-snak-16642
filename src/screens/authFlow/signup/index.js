@@ -372,7 +372,7 @@ const Signup = ({navigation}) => {
         value={jobField}
         isMultiSelect={false}
         dropDownListHeader={'Career Field'}
-        itemList={careerFields}
+        itemList={labels?.jobs}
         getVal={val => setJobField(val)}
       />
       <CustomTextInput

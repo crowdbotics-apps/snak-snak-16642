@@ -60,12 +60,12 @@ export const AppContainer = () => {
         <Stack.Screen name="AddPhone" component={AddPhone} />
         <Stack.Screen name="VerifyPhone" component={VerifyPhone} />
         <Stack.Screen name={'App'} component={DrawerNavigator} />
-        {/* <Stack.Screen name="RecieveInvite" component={RecieveInvite} />
-        <Stack.Screen name="MyProfile" component={MyProfile} />
         <Stack.Screen name="othersProfile" component={othersProfile} />
+        <Stack.Screen name="RecieveInvite" component={RecieveInvite} />
+        <Stack.Screen name="MyProfile" component={MyProfile} />
         <Stack.Screen name="ChatScreen" component={ChatScreen} />
         <Stack.Screen name="EditProfile" component={EditProfile} />
-        <Stack.Screen name="Settings" component={Settings} /> */}
+        <Stack.Screen name="Settings" component={Settings} />
       </Stack.Navigator>
     </NavigationContainer>
   );

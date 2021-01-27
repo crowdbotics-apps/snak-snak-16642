@@ -206,9 +206,9 @@ const Settings = ({navigation}) => {
     <View style={styles.flex}>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
         <Header
-          onLeftIconPress={() => navigation.navigate('Search')}
           title={'Settings'}
           showLeftIcon={true}
+          onLeftIconPress={() => navigation.toggleDrawer()}
         />
         <Text style={[styles.headings, styles.top]}>Notifications</Text>
         {notifySetting.map(item => _renderRow(item))}

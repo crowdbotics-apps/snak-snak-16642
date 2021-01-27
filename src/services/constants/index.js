@@ -10,4 +10,5 @@ export const endPoints = {
   signUpUser: 'signup/',
   getLabels: 'signup/',
   userSearch: 'user/search/',
+  sendInvitation: 'user/send-notification/',
 };
