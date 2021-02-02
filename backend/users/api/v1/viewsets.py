@@ -169,7 +169,7 @@ class EditUserInvitation(APIView):
 class GetInvitationDetails(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
+    def post(self, request):
         invitation_id = request.data['invitation_id']
         check_inv = Invitations.objects.filter(id=invitation_id)
         if check_inv.exists():
