@@ -11,6 +11,7 @@ import RecieveInvite from '../screens/mainFlow/recieveInvite';
 import MyProfile from '../screens/mainFlow/MyProfile';
 import othersProfile from '../screens/mainFlow/othersProfile';
 import ChatScreen from '../screens/mainFlow/chatScreen';
+import InviteManagement from '../screens/mainFlow/inviteManagement';
 
 const ProfileStack = createStackNavigator();
 let profileStak = () => (
@@ -40,7 +41,8 @@ let searchStak = () => (
 const InviteStack = createStackNavigator();
 let inviteStak = () => (
   <InviteStack.Navigator headerMode={'none'}>
-    <InviteStack.Screen name={'RecieveInvite'} component={RecieveInvite} />
+    {/* <InviteStack.Screen name={'RecieveInvite'} component={RecieveInvite} /> */}
+    <InviteStack.Screen name={'RecieveInvite'} component={InviteManagement} />
   </InviteStack.Navigator>
 );
 

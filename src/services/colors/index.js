@@ -15,4 +15,5 @@ export const colors = {
   inputBackground: '#F6F7F8',
   dropDownlabelBackground: '#EEEEEE',
   selectedLabelBackground: '#FFC2C2',
+  blue: '#2F80ED'
 };
