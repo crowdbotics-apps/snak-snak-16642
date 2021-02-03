@@ -13,6 +13,8 @@ import {useSelector} from 'react-redux';
 import MyProfile from '../screens/mainFlow/MyProfile';
 import othersProfile from '../screens/mainFlow/othersProfile';
 import ChatScreen from '../screens/mainFlow/chatScreen';
+import BlockedAccounts from '../screens/mainFlow/blockedAccounts';
+import SubscriptionPlan from '../screens/mainFlow/SubscriptionPlan';
 
 import {DrawerNavigator} from './drawer';
 
@@ -53,13 +55,16 @@ export const AppContainer = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator headerMode="none" initialRouteName={initialRoute.initialRouteName}>
+      <Stack.Navigator 
+        headerMode="none" initialRouteName={initialRoute.initialRouteName}>
         <Stack.Screen name="Launch" component={Launch} />
         {/* <Stack.Screen name="Search" component={Search} /> */}
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="AddPhone" component={AddPhone} />
         <Stack.Screen name="VerifyPhone" component={VerifyPhone} />
         <Stack.Screen name={'App'} component={DrawerNavigator} />
+        <Stack.Screen name={'BlockedAccounts'} component={BlockedAccounts} />
+        <Stack.Screen name={'SubscriptionPlan'} component={SubscriptionPlan} />
         <Stack.Screen name="othersProfile" component={othersProfile} />
         <Stack.Screen name="RecieveInvite" component={RecieveInvite} />
         <Stack.Screen name="MyProfile" component={MyProfile} />
