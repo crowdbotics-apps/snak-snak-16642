@@ -8,11 +8,11 @@ export function* notificationRequest() {
 }
 
 function* registerNotifyID(params) {
-  console.log('[registerNotifyID saga]');
-  let response;
+  console.log('[registerNotifyID saga]', params);
+  // return;
   try {
-    response = yield Api.getAxios(endPoints.getLabels);
-    console.log('this is response ---> ', response);
+    let response = yield Api.postRequest(endPoints.registerNotificationId, params.params, params);
+    console.log('[notification-id-register-request]', response);
     if (typeof response === 'object' && Object.keys(response).length > 0) {
       params.cbSuccess(response);
       yield put({

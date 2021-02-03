@@ -11,4 +11,7 @@ export const endPoints = {
   getLabels: 'signup/',
   userSearch: 'user/search/',
   sendInvitation: 'user/send-notification/',
+  acceptReject: 'user/invitation/',
+  registerNotificationId: 'user/notification/',
+  getInvitationDetail: 'user/get-invitation-details/',
 };

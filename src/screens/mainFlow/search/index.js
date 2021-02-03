@@ -4,9 +4,8 @@ import {ScrollView, View, Text, TouchableOpacity, FlatList} from 'react-native';
 import {styles} from './styles';
 import {Header, CustomTextInput, ProfileCard, Loader} from '../../../components';
 import {useDispatch, useSelector} from 'react-redux';
-import {getLabels, userSearchRequest} from '../../../redux/actions';
-import axios from 'axios';
-import { colors, size, WP } from '../../../services';
+import {getLabels, userSearchRequest, registerNotifyIDRequest} from '../../../redux/actions';
+import OneSignal from 'react-native-onesignal';
 
 const sports = [
   'Baseball',
@@ -85,6 +84,9 @@ const Search = ({navigation}) => {
       console.log('this is cb cbsuccess', response);
     };
     dispatch(getLabels(cbSuccess));
+
+    notificationListener();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -103,6 +105,43 @@ const Search = ({navigation}) => {
       setSportsFilter(true);
     }
   }, [adventurePreference]);
+
+  const notificationListener = async() => {
+    // / O N E S I G N A L   S E T U P /
+    OneSignal.setAppId('e304774b-9c6f-434e-913b-ba24addb5246');
+    OneSignal.setLogLevel(6, 0);
+    OneSignal.setRequiresUserPrivacyConsent(false);
+    OneSignal.promptForPushNotificationsWithUserResponse(response => {
+      console.log('[OneSignal-response]', response);
+    });
+    const deviceState = await OneSignal.getDeviceState();
+    console.log('[device-state]', deviceState);
+    registerUserToGetNotification(deviceState.userId);
+
+    /* O N E S I G N A L  H A N D L E R S */
+    OneSignal.setNotificationWillShowInForegroundHandler(notifReceivedEvent => {
+      console.log("OneSignal: notification will show in foreground:", notifReceivedEvent);
+      let notif = notifReceivedEvent.getNotification();
+      console.log('[get-notif-data]', notif);
+      if (notif?.rawPayload?.aps && notif?.rawPayload?.aps["mutable-content"] && notif?.rawPayload?.aps["alert"] === "You have received a new invitation.") {
+        navigation.navigate('RecieveInvite', {invitation_id: notif?.rawPayload?.aps["mutable-content"]});
+      }
+    });
+    OneSignal.setNotificationOpenedHandler(notification => {
+        console.log("OneSignal: notification opened:", notification);
+    });
+  }
+
+  const registerUserToGetNotification = (notif_id = '') => {
+    const cbSuccess = (data) => {
+      console.log('notification-id-register-success', data);
+      if (data.status === 201) {
+
+      }
+    }
+    const cbFailure = (error) => {}
+    dispatch(registerNotifyIDRequest({user_notify_id: notif_id}, token, cbSuccess, cbFailure));
+  }
 
   const onSelectValue = (val) => {
     console.log('[selected-jobs]', val);

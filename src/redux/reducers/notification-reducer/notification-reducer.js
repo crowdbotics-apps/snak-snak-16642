@@ -1,24 +1,24 @@
 import * as TYPES from '../../actions/types';
 
 const initialState = {
-  labels: null,
+  isRegister: false,
 };
 const notificationReducer = (state = initialState, actions) => {
   switch (actions.type) {
     case TYPES.REGISTER_NOTIFY_REQUEST:
       return {
         ...state,
-        labels: actions.data,
+        isRegister: false,
       };
     case TYPES.REGISTER_NOTIFY_SUCCESS:
       return {
         ...state,
-        labels: actions.data,
+        isRegister: true,
       };
     case TYPES.REGISTER_NOTIFY_FAILURE:
       return {
         ...state,
-        labels: actions.data,
+        isRegister: false,
       };
     default:
       return state;

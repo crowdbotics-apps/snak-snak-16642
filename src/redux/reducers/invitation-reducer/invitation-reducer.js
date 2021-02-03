@@ -2,6 +2,8 @@ import * as TYPES from '../../actions/types';
 
 const initialState = {
   sendInviteRes: null,
+  invitationDetailData: null,
+  acceptInvitation: null,
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -57,7 +59,7 @@ const invitationReducer = (state = initialState, actions) => {
     case TYPES.GET_INVI_DETAIL_REQUEST:
       return {
         ...state,
-        labels: actions.data,
+        invitationDetailData: null,
         isLoading: true,
         isSuccess: false,
         isError: false,
@@ -65,7 +67,7 @@ const invitationReducer = (state = initialState, actions) => {
     case TYPES.GET_INVI_DETAIL_SUCCESS:
       return {
         ...state,
-        sendInviteRes: actions.data,
+        invitationDetailData: actions.data,
         isLoading: false,
         isSuccess: true,
         isError: false,
@@ -73,6 +75,7 @@ const invitationReducer = (state = initialState, actions) => {
     case TYPES.GET_INVI_DETAIL_FAILURE:
       return {
         ...state,
+        invitationDetailData: null,
         isLoading: false,
         isSuccess: false,
         isError: true,
@@ -80,7 +83,7 @@ const invitationReducer = (state = initialState, actions) => {
     case TYPES.ACCEPT_INVITATION_REQUEST:
       return {
         ...state,
-        labels: actions.data,
+        acceptInvitation: null,
         isLoading: true,
         isSuccess: false,
         isError: false,
@@ -88,7 +91,7 @@ const invitationReducer = (state = initialState, actions) => {
     case TYPES.ACCEPT_INVITATION_SUCCESS:
       return {
         ...state,
-        sendInviteRes: actions.data,
+        acceptInvitation: actions.data,
         isLoading: false,
         isSuccess: true,
         isError: false,
@@ -96,6 +99,7 @@ const invitationReducer = (state = initialState, actions) => {
     case TYPES.ACCEPT_INVITATION_FAILURE:
       return {
         ...state,
+        acceptInvitation: null,
         isLoading: false,
         isSuccess: false,
         isError: true,

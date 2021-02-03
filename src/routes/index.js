@@ -53,7 +53,7 @@ export const AppContainer = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator headerMode="none" initialRouteName={initialRoute}>
+      <Stack.Navigator headerMode="none" initialRouteName={initialRoute.initialRouteName}>
         <Stack.Screen name="Launch" component={Launch} />
         {/* <Stack.Screen name="Search" component={Search} /> */}
         <Stack.Screen name="Signup" component={Signup} />

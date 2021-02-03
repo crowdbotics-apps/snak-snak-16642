@@ -19,10 +19,10 @@ const DrawerComponent = ({navigation, state}) => {
     {
       iconType: 'feather',
       iconName: 'user-plus',
-      route: 'InvitesMangement',
+      route: 'RecieveInvite',
       label: 'Inivites Management',
       tag: '',
-      onPress: () => navigation.navigate('InvitesMangement'),
+      onPress: () => navigation.navigate('RecieveInvite'),
     },
     {
       iconType: 'feather',
