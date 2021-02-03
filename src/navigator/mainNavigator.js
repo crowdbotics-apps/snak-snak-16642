@@ -1,8 +1,8 @@
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
+import {createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 
-import SplashScreen from "../features/SplashScreen";
+import SplashScreen from '../features/SplashScreen';
 import SideMenu from './sideMenu';
 //@BlueprintImportInsertion
 import ArticleList152161Navigator from '../features/ArticleList152161/navigator';
@@ -25,26 +25,26 @@ import EmailAuthNavigator from '../features/EmailAuth/navigator';
  */
 
 const AppNavigator = {
-    SplashScreen: {
-      screen: SplashScreen
-    },
-    //@BlueprintNavigationInsertion
-ArticleList152161: { screen: ArticleList152161Navigator },
-ArticleList152160: { screen: ArticleList152160Navigator },
-ArticleList152159: { screen: ArticleList152159Navigator },
-Settings38716: { screen: Settings38716Navigator },
-UserProfile38709: { screen: UserProfile38709Navigator },
-Settings38708: { screen: Settings38708Navigator },
-Settings38706: { screen: Settings38706Navigator },
-SignIn238704: { screen: SignIn238704Navigator },
-Messenger: { screen: MessengerNavigator },
-Tutorial: { screen: TutorialNavigator },
-Maps: { screen: MapsNavigator },
-Calendar: { screen: CalendarNavigator },
-Camera: { screen: CameraNavigator },
-EmailAuth: { screen: EmailAuthNavigator },
+  SplashScreen: {
+    screen: SplashScreen,
+  },
+  //@BlueprintNavigationInsertion
+  ArticleList152161: {screen: ArticleList152161Navigator},
+  ArticleList152160: {screen: ArticleList152160Navigator},
+  ArticleList152159: {screen: ArticleList152159Navigator},
+  Settings38716: {screen: Settings38716Navigator},
+  UserProfile38709: {screen: UserProfile38709Navigator},
+  Settings38708: {screen: Settings38708Navigator},
+  Settings38706: {screen: Settings38706Navigator},
+  SignIn238704: {screen: SignIn238704Navigator},
+  Messenger: {screen: MessengerNavigator},
+  Tutorial: {screen: TutorialNavigator},
+  Maps: {screen: MapsNavigator},
+  Calendar: {screen: CalendarNavigator},
+  Camera: {screen: CameraNavigator},
+  EmailAuth: {screen: EmailAuthNavigator},
 
-    /** new navigators can be added here */
+  /** new navigators can be added here */
 };
 
 const DrawerAppNavigator = createDrawerNavigator(

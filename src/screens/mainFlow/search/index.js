@@ -1,8 +1,11 @@
 /* eslint-disable prettier/prettier */
 import React, {useEffect, useState} from 'react';
-import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
+import {ScrollView, View, Text, TouchableOpacity, FlatList} from 'react-native';
 import {styles} from './styles';
-import {Header, CustomTextInput, ProfileCard} from '../../../components';
+import {Header, CustomTextInput, ProfileCard, Loader} from '../../../components';
+import {useDispatch, useSelector} from 'react-redux';
+import {getLabels, userSearchRequest, registerNotifyIDRequest} from '../../../redux/actions';
+import OneSignal from 'react-native-onesignal';
 
 const sports = [
   'Baseball',
@@ -31,22 +34,22 @@ const timePref = [
 ];
 
 const careerFields = [
-  'Agriculture',
-  'Business and Administration',
-  'Communications',
-  'Community & Social Services',
-  'Construction',
-  'Culture & Entertainment',
-  'Education',
-  'Emergency Services',
-  'Government',
-  'Health & Wellness',
-  'Hospitality & Travel',
-  'Law',
-  'Medical',
-  'Sales',
-  'Science & Technology',
-  'Sports',
+  ['Agriculture', 'agriculture'],
+  ['Business and Administration', 'Business and Administration'],
+  ['Communications', 'Communications'],
+  ['Community & Social Services', 'Community & Social Services'],
+  ['Construction', 'Construction'],
+  ['Culture & Entertainment', 'Culture & Entertainment'],
+  ['Education', 'Education'],
+  ['Emergency Services', 'Emergency Services'],
+  ['Government', 'Government'],
+  ['Health & Wellness', 'Health & Wellness'],
+  ['Hospitality & Travel', 'Hospitality & Travel'],
+  ['Law', 'Law'],
+  ['Medical', 'Medical'],
+  ['Sales', 'Sales'],
+  ['IT', 'IT'],
+  ['Sports', 'Sports'],
 ];
 
 const adventurePref = [
@@ -56,6 +59,7 @@ const adventurePref = [
   'Romantic Snak',
 ];
 const Search = ({navigation}) => {
+  const [loader, setLoader] = useState(false);
   const [showHideTime, setShowHideTime] = useState(false);
   const [showHideAdventure, setShowHideAdventrue] = useState(false);
   const [showHideSport, setShowHideSport] = useState(false);
@@ -66,8 +70,25 @@ const Search = ({navigation}) => {
   const [sportsPreference, setSportsPreference] = useState('');
   const [careerPreference, setCareerPreference] = useState('');
 
-  const [showCareerFilter, setCareerFilter] = useState(false);
-  const [showSportsFilter, setSportsFilter] = useState(true);
+  const [jobField, setJobField] = useState('');
+  const [searchResult, setSearchResult] = useState([]);
+
+  const [showCareerFilter, setCareerFilter] = useState(true);
+  const [showSportsFilter, setSportsFilter] = useState(false);
+
+  const dispatch = useDispatch();
+  const {token} = useSelector(state => state.login);
+  const {labels} = useSelector(state => state.labels);
+  useEffect(() => {
+    const cbSuccess = response => {
+      console.log('this is cb cbsuccess', response);
+    };
+    dispatch(getLabels(cbSuccess));
+
+    notificationListener();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (adventurePreference === 'Professional Snak') {
@@ -84,6 +105,65 @@ const Search = ({navigation}) => {
       setSportsFilter(true);
     }
   }, [adventurePreference]);
+
+  const notificationListener = async() => {
+    // / O N E S I G N A L   S E T U P /
+    OneSignal.setAppId('e304774b-9c6f-434e-913b-ba24addb5246');
+    OneSignal.setLogLevel(6, 0);
+    OneSignal.setRequiresUserPrivacyConsent(false);
+    OneSignal.promptForPushNotificationsWithUserResponse(response => {
+      console.log('[OneSignal-response]', response);
+    });
+    const deviceState = await OneSignal.getDeviceState();
+    console.log('[device-state]', deviceState);
+    registerUserToGetNotification(deviceState.userId);
+
+    /* O N E S I G N A L  H A N D L E R S */
+    OneSignal.setNotificationWillShowInForegroundHandler(notifReceivedEvent => {
+      console.log("OneSignal: notification will show in foreground:", notifReceivedEvent);
+      let notif = notifReceivedEvent.getNotification();
+      console.log('[get-notif-data]', notif);
+      if (notif?.rawPayload?.aps && notif?.rawPayload?.aps["mutable-content"] && notif?.rawPayload?.aps["alert"] === "You have received a new invitation.") {
+        navigation.navigate('RecieveInvite', {invitation_id: notif?.rawPayload?.aps["mutable-content"]});
+      }
+    });
+    OneSignal.setNotificationOpenedHandler(notification => {
+        console.log("OneSignal: notification opened:", notification);
+    });
+  }
+
+  const registerUserToGetNotification = (notif_id = '') => {
+    const cbSuccess = (data) => {
+      console.log('notification-id-register-success', data);
+      if (data.status === 201) {
+
+      }
+    }
+    const cbFailure = (error) => {}
+    dispatch(registerNotifyIDRequest({user_notify_id: notif_id}, token, cbSuccess, cbFailure));
+  }
+
+  const onSelectValue = (val) => {
+    console.log('[selected-jobs]', val);
+    let data = {jobs: val};
+    setLoader(true);
+    const cbSuccess = response => {
+      if (response.status === 200) {
+        setSearchResult(response.data);
+      } else {
+        setSearchResult([]);
+      }
+      setLoader(false);
+      console.log('[this is cb cbSuccess]', response);
+    };
+    const cbFailure = error => {
+      setLoader(false);
+      setSearchResult([]);
+      console.log('this is cbFailure', error);
+    };
+    dispatch(userSearchRequest(data, token, cbSuccess, cbFailure));
+  }
+  
   const _renderFilter = (
     title,
     visibleState,
@@ -109,13 +189,28 @@ const Search = ({navigation}) => {
             dropDownListHeader={title}
             showMultiSelectValues={isMultiSelect}
             isMultiSelect={isMultiSelect}
-            itemList={list}
-            getVal={setState}
+            itemList={labels?.jobs}
+            getVal={val => onSelectValue(val)}
+            // getVal={val => setJobField(val)}
           />
         )}
       </>
     );
   };
+  const renderItem = ({item, index}) => {
+    return(
+      <ProfileCard
+        key={index}
+        image={item.user_profile_image.length > 0 ? item.user_profile_image[0].image : 'https://picsum.photos/seed/picsum1/300/300'}
+        name={item.name}
+        age={item.age_preferred}
+        profession={item.ocuppation}
+        status={item.preferred_expertise_level}
+        distance={item.distance_preferred + ' miles away'}
+        viewProfile={() => navigation.navigate('othersProfile',{item})}
+      />  
+    )
+  }
   return (
     <View style={styles.flex}>
       <ScrollView
@@ -126,27 +221,27 @@ const Search = ({navigation}) => {
           <Header
             title={'Who is Available'}
             showLeftIcon={true}
-            onLeftIconPress={() => navigation.navigate('RecieveInvite')}
+            onLeftIconPress={() => navigation.toggleDrawer()}
           />
-          {_renderFilter(
+          {/* {_renderFilter(
             'Time preference',
             showHideTime,
             setShowHideTime,
             timePref,
             setTimePreference,
             false,
-          )}
-          <View style={styles.space} />
-          {_renderFilter(
+          )} */}
+          {/* <View style={styles.space} /> */}
+          {/* {_renderFilter(
             'Adventure preference',
             showHideAdventure,
             setShowHideAdventrue,
             adventurePref,
             setAdventurePreference,
             false,
-          )}
-          <View style={styles.space} />
-          {showSportsFilter &&
+          )} */}
+          {/* <View style={styles.space} /> */}
+          {/* {showSportsFilter &&
             _renderFilter(
               'Sports preference',
               showHideSport,
@@ -154,116 +249,32 @@ const Search = ({navigation}) => {
               sports,
               setSportsPreference,
               true,
-            )}
+            )} */}
           {showSportsFilter && <View style={styles.space} />}
-          {showCareerFilter &&
+          {!showCareerFilter &&
             _renderFilter(
               'Career Field',
               showHideCareer,
               setShowHideCareer,
               careerFields,
-              setSportsPreference,
+              setCareerPreference,
               true,
             )}
           {showCareerFilter && <View style={styles.space} />}
         </View>
         <View style={styles.list}>
-          <ProfileCard
-            image={'https://picsum.photos/seed/picsum1/300/300'}
-            name={'Nicola'}
-            age={'24'}
-            profession={'Medical Field, Nurse'}
-            status={'Professional Snak'}
-            distance={'10 miles away'}
-          />
-          <ProfileCard
-            image={'https://picsum.photos/seed/picsum2/300/300'}
-            name={'Barbra'}
-            age={'20'}
-            profession={'Medical Field, Nurse'}
-            status={'Professional Snak'}
-            distance={'10 miles away'}
-          />
-          <ProfileCard
-            image={'https://picsum.photos/seed/picsum3/300/300'}
-            name={'Amy'}
-            age={'27'}
-            profession={'Medical Field, Nurse'}
-            status={'Professional Snak'}
-            distance={'10 miles away'}
-          />
-          <ProfileCard
-            image={'https://picsum.photos/seed/picsum4/300/300'}
-            name={'Lua'}
-            age={'24'}
-            profession={'Medical Field, Nurse'}
-            status={'Professional Snak'}
-            distance={'10 miles away'}
-          />
-          <ProfileCard
-            image={'https://picsum.photos/seed/picsum5/300/300'}
-            name={'Beth'}
-            age={'24'}
-            profession={'Medical Field, Nurse'}
-            status={'Professional Snak'}
-            distance={'10 miles away'}
-          />
-          <ProfileCard
-            image={'https://picsum.photos/seed/picsum6/300/300'}
-            name={'Nicola'}
-            age={'24'}
-            profession={'Medical Field, Nurse'}
-            status={'Professional Snak'}
-            distance={'10 miles away'}
-          />
-          <ProfileCard
-            image={'https://picsum.photos/seed/picsum7/300/300'}
-            name={'Nicola'}
-            age={'24'}
-            profession={'Medical Field, Nurse'}
-            status={'Professional Snak'}
-            distance={'10 miles away'}
-          />
-          <ProfileCard
-            image={'https://picsum.photos/seed/picsum8/300/300'}
-            name={'Barbra'}
-            age={'20'}
-            profession={'Medical Field, Nurse'}
-            status={'Professional Snak'}
-            distance={'10 miles away'}
-          />
-          <ProfileCard
-            image={'https://picsum.photos/seed/picsum9/300/300'}
-            name={'Amy'}
-            age={'27'}
-            profession={'Medical Field, Nurse'}
-            status={'Professional Snak'}
-            distance={'10 miles away'}
-          />
-          <ProfileCard
-            image={'https://picsum.photos/seed/picsum10/300/300'}
-            name={'Lua'}
-            age={'24'}
-            profession={'Medical Field, Nurse'}
-            status={'Professional Snak'}
-            distance={'10 miles away'}
-          />
-          <ProfileCard
-            image={'https://picsum.photos/seed/picsum11/300/300'}
-            name={'Beth'}
-            age={'24'}
-            profession={'Medical Field, Nurse'}
-            status={'Professional Snak'}
-            distance={'10 miles away'}
-          />
-          <ProfileCard
-            image={'https://picsum.photos/seed/picsum12/300/300'}
-            name={'Nicola'}
-            age={'24'}
-            profession={'Medical Field, Nurse'}
-            status={'Professional Snak'}
-            distance={'10 miles away'}
-          />
+          {
+            loader ? 
+              <Loader loading={loader} />
+              :
+              searchResult.length > 0 ? 
+                <FlatList
+                  data={searchResult}
+                  renderItem={renderItem}
+                  keyExtractor={this.extractItemKey}
+                /> 
+                : <Text style={styles.placeholderColor}>Result Not Found!</Text>
+          }
         </View>
       </ScrollView>
     </View>

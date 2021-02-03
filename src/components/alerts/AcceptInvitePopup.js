@@ -11,6 +11,7 @@ export const AcceptInvitePopup = ({
   color,
   showModal,
   close,
+  onChat,
 }) => {
   return (
     <Modal
@@ -47,7 +48,7 @@ export const AcceptInvitePopup = ({
           <TouchableOpacity onPress={close} style={styles.buttonStyle1}>
             <Text style={styles.buttonTexT1}>Ignore</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={close} style={styles.buttonStyle2}>
+          <TouchableOpacity onPress={onChat} style={styles.buttonStyle2}>
             <Text style={styles.buttonTexT2}>Open chat</Text>
           </TouchableOpacity>
         </View>

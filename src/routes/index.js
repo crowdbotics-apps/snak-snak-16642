@@ -12,6 +12,9 @@ import RecieveInvite from '../screens/mainFlow/recieveInvite';
 import {useSelector} from 'react-redux';
 import MyProfile from '../screens/mainFlow/MyProfile';
 import othersProfile from '../screens/mainFlow/othersProfile';
+import ChatScreen from '../screens/mainFlow/chatScreen';
+
+import {DrawerNavigator} from './drawer';
 
 const Stack = createStackNavigator();
 
@@ -31,7 +34,7 @@ export const AppContainer = () => {
     // CHECK ROLE IN THE MEMORY
     if (isKeepLogin) {
       setInitialRoute({
-        initialRouteName: 'Settings',
+        initialRouteName: 'App',
         //initialRouteName: 'MyProfile',
       });
     } else {
@@ -50,19 +53,19 @@ export const AppContainer = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        headerMode="none"
-        initialRouteName={initialRoute.initialRouteName}>
+      <Stack.Navigator headerMode="none" initialRouteName={initialRoute.initialRouteName}>
         <Stack.Screen name="Launch" component={Launch} />
-        <Stack.Screen name="Search" component={Search} />
+        {/* <Stack.Screen name="Search" component={Search} /> */}
         <Stack.Screen name="Signup" component={Signup} />
-        <Stack.Screen name="EditProfile" component={EditProfile} />
-        <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="AddPhone" component={AddPhone} />
         <Stack.Screen name="VerifyPhone" component={VerifyPhone} />
+        <Stack.Screen name={'App'} component={DrawerNavigator} />
+        <Stack.Screen name="othersProfile" component={othersProfile} />
         <Stack.Screen name="RecieveInvite" component={RecieveInvite} />
         <Stack.Screen name="MyProfile" component={MyProfile} />
-        <Stack.Screen name="othersProfile" component={othersProfile} />
+        <Stack.Screen name="ChatScreen" component={ChatScreen} />
+        <Stack.Screen name="EditProfile" component={EditProfile} />
+        <Stack.Screen name="Settings" component={Settings} />
       </Stack.Navigator>
     </NavigationContainer>
   );

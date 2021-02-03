@@ -18,6 +18,7 @@ export const EditTextInput = ({
   inputField,
   editBackColor,
   row,
+  disable
 }) => {
   const [val, setVal] = useState('');
   const [editPress, onEditPress] = useState(false);
@@ -31,6 +32,7 @@ export const EditTextInput = ({
   const _renderInputField = () => {
     return (
       <TextInput
+        editable={!disable}
         value={val}
         onChangeText={val => {
           setVal(val);

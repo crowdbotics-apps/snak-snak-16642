@@ -17,6 +17,7 @@ export const ProfileCard = ({
   distance,
   image,
   backgroundColor = colors.inputBackground,
+  viewProfile
 }) => {
   return (
     <View style={[styles.titleContainer, {backgroundColor}]}>
@@ -32,7 +33,7 @@ export const ProfileCard = ({
         <Text style={styles.text}>{status}</Text>
         <Text style={styles.text}>{distance}</Text>
       </View>
-      <TouchableOpacity style={styles.buttonContainer}>
+      <TouchableOpacity onPress={viewProfile} style={styles.buttonContainer}>
         <Image source={appIcons.person} />
         <Text style={styles.buttonText}>View Profile</Text>
       </TouchableOpacity>
@@ -62,6 +63,7 @@ const styles = StyleSheet.create({
       },
     }),
     marginVertical: WP('2'),
+    marginHorizontal: 3,
   },
   title: {
     fontSize: size.xsmall,

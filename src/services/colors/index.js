@@ -3,6 +3,7 @@ export const colors = {
   gray_2: '#4F4F4F',
   gray_3: '#828282',
   gray_4: '#E0E0E0',
+  gray_5: '#F6F7F8',
   black_1: '#3A3A3A',
   topBorder: 'rgba(231,231,231,0.01)',
   primary: '#FF5757',

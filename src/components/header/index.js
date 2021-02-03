@@ -7,14 +7,16 @@ import {
   Image,
   Platform,
 } from 'react-native';
+import BackIcon from 'react-native-vector-icons/AntDesign';
 import {appIcons} from '../../assets/icons';
 import {colors, family, HP, size, WP} from '../../services';
-export const Header = ({title, showLeftIcon, onLeftIconPress}) => {
+
+export const Header = ({title, style, showLeftIcon, onLeftIconPress, isImage, profileImg, isBack}) => {
   const _renderLeftIcon = () => {
     if (showLeftIcon) {
       return (
         <TouchableOpacity onPress={onLeftIconPress} style={styles.leftIcon}>
-          <Image source={appIcons.menu} />
+          {isBack ? <BackIcon name={'arrowleft'} colors={'black'} size={22} /> : <Image source={appIcons.menu} />}
         </TouchableOpacity>
       );
     }
@@ -22,7 +24,8 @@ export const Header = ({title, showLeftIcon, onLeftIconPress}) => {
   return (
     <View style={styles.titleContainer}>
       {_renderLeftIcon()}
-      <Text style={styles.title}>{title}</Text>
+      {isImage ? <Image source={profileImg} style={styles.profileImgStyle} /> : null}
+      <Text style={[styles.title, style]}>{title}</Text>
     </View>
   );
 };
@@ -32,7 +35,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    height: WP('7'),
+    // height: WP('7'),
     ...Platform.select({
       ios: {
         marginVertical: HP(3),
@@ -50,5 +53,12 @@ const styles = StyleSheet.create({
     fontSize: size.xsmall,
     fontFamily: family.OpenSans_Regular,
     color: colors.gray_3,
+  },
+  profileImgStyle: {
+    height:HP('7'),
+    width:WP('12'), 
+    backgroundColor:'red',
+    marginRight:WP('4'),
+    borderRadius:WP('4'),
   },
 });

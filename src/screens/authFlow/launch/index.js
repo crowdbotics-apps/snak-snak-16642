@@ -36,7 +36,7 @@ const Launch = ({navigation}) => {
         <Button
           onPress={() => {
             if (isKeepLogin) {
-              navigation.navigate('Settings');
+              navigation.navigate('App');
             } else {
               navigation.navigate('AddPhone');
             }
@@ -47,7 +47,9 @@ const Launch = ({navigation}) => {
         <Button
           onPress={() => {
             if (isKeepLogin) {
-              navigation.navigate('Settings');
+              navigation.navigate('App', {
+                screen: 'SearchSnack',
+              });
             } else {
               navigation.navigate('Signup');
             }
