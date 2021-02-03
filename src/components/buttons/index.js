@@ -4,6 +4,7 @@ import {colors} from '../../services/colors';
 import {family, size, WP} from '../../services';
 export const Button = ({
   title,
+  titleStyle,
   onPress,
   containerStyle,
   backgroundColor = colors.primary,
@@ -13,7 +14,7 @@ export const Button = ({
     <TouchableOpacity
       onPress={onPress}
       style={[styles.container, containerStyle, {backgroundColor}]}>
-      <Text style={[styles.textStyle, {color: textColor}]}>{title}</Text>
+      <Text style={[styles.textStyle, {color: textColor}, titleStyle]}>{title}</Text>
     </TouchableOpacity>
   );
 };
@@ -21,9 +22,9 @@ export const Button = ({
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.primary,
-    height: WP(15),
+    height: WP('15'),
     display: 'flex',
-    borderRadius: WP(3),
+    borderRadius: WP('3'),
     justifyContent: 'center',
     alignItems: 'center',
   },

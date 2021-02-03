@@ -4,10 +4,14 @@ import {styles} from './styles';
 import {Header, CustomTextInput, Button} from '../../../components';
 import {appIcons, appImages, colors, HP, size, WP} from '../../../services';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-// import styles from './styles';
+import {useDispatch, useSelector} from 'react-redux';
 
 const ChatScreen = ({navigation}) => {
   const [isSelected, setSelection] = useState(false);
+
+  const dispatch = useDispatch();
+  const {token} = useSelector(state => state.login);
+  const {invitationDetailData, acceptInvitation} = useSelector(state => state.invitation);
 
   useEffect(() => {
     data();
@@ -46,16 +50,16 @@ const ChatScreen = ({navigation}) => {
 
   return (
     <View style={{flex: 1}}>
+      <Header
+        title={'Nicole'}
+        style={{color: colors.primary}}
+        isImage={true}
+        profileImg={appImages.headerImg}
+        showLeftIcon={true}
+        onLeftIconPress={() => navigation.toggleDrawer()}
+      />
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
         <View style={styles.stickyContainer}>
-          <Header
-            title={'Nicole'}
-            style={{color: colors.primary}}
-            isImage={true}
-            profileImg={appImages.headerImg}
-            showLeftIcon={true}
-            onLeftIconPress={() => navigation.navigate('ChatScreen')}
-          />
           <Button
             title={'See details of event'}
             backgroundColor={colors.primary}

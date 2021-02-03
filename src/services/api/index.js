@@ -28,7 +28,7 @@ class Api {
           Authorization: `Token ${config.token}`,
         },
       };
-      console.log('[delete-axios-header]', options);
+      console.log('[axios-header]', options);
       let configration = Object.assign(options);
       return axios
         .post(url, formData, configration)

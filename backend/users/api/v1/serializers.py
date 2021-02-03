@@ -3,7 +3,7 @@ from django.db import IntegrityError
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from users.models import ProfileImages, Settings, UserSports, JobFields
+from users.models import ProfileImages, Settings, UserSports, JobFields, Invitations
 
 User = get_user_model()
 
@@ -74,16 +74,17 @@ class UserJobsSerializer(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     user_profile_image = ProfileImageSerializer(many=True)
     user_sports = UserSportsSerializer(many=True)
-    user_job_fields = UserJobsSerializer(many=True)
+    user_jobs = UserJobsSerializer(many=True)
 
     class Meta:
         model = User
-        fields = ("name", "bio", "user_job_fields", "ocuppation", "expertise_level", "preferred_expertise_level",
+        fields = ("id", "name", "bio", "user_jobs", "ocuppation", "expertise_level", "preferred_expertise_level",
                   "gender_preference", "phone_number", "user_profile_image", "age_preferred", "distance_preferred",
                   "user_sports", )
 
     def create(self, validated_data):
         profile_images = validated_data.pop('user_profile_image')
+        user_jobs = validated_data.pop('user_jobs')
         user_sports = validated_data.pop('user_sports')
         mobile_phone = validated_data.get('phone_number')
         validated_data['username'] = mobile_phone
@@ -95,6 +96,32 @@ class UserProfileSerializer(serializers.ModelSerializer):
                 ProfileImages.objects.create(user=user_profile, **image)
             for sport in user_sports:
                 UserSports.objects.create(user=user_profile, **sport)
+            for job in user_jobs:
+                JobFields.objects.create(user=user_profile, **job)
+            return user_profile
+        except IntegrityError as e:
+            error = {"error": True, "msg": "Mobile number exists!"}
+            raise serializers.ValidationError(error)
+
+    def update(self, instance, validated_data):
+        profile_images = validated_data.pop('user_profile_image')
+        user_jobs = validated_data.pop('user_jobs')
+        user_sports = validated_data.pop('user_sports')
+        mobile_phone = validated_data.get('phone_number')
+        validated_data['username'] = mobile_phone
+        validated_data['phone_number'] = mobile_phone
+        try:
+            User.objects.filter(username=mobile_phone).update(**validated_data)
+            user_profile = User.objects.get(username=mobile_phone)
+            ProfileImages.objects.filter(user__phone_number=mobile_phone).delete()
+            UserSports.objects.filter(user__username=mobile_phone).delete()
+            JobFields.objects.filter(user__username=mobile_phone).delete()
+            for image in profile_images:
+                ProfileImages.objects.create(user=user_profile, **image)
+            for sport in user_sports:
+                UserSports.objects.create(user=user_profile, **sport)
+            for job in user_jobs:
+                JobFields.objects.create(user=user_profile, **job)
             return user_profile
         except IntegrityError as e:
             error = {"error": True, "msg": "Mobile number exists!"}
@@ -106,3 +133,20 @@ class UserSettingsSerializer(serializers.ModelSerializer):
         model = Settings
         fields = ('notify_snak_invites', 'notify_meeting_reminder', 'notify_canceled_meeting', 'notify_deleted_meeting',
                   'notify_meeting_update', 'hide_your_profile')
+
+
+class UserInvitation(serializers.ModelSerializer):
+    invited_user = UserProfileSerializer()
+    user = UserProfileSerializer()
+    snacks = serializers.SerializerMethodField()
+    sucessful_snacks = serializers.SerializerMethodField()
+
+    def get_snacks(self, obj):
+        return Invitations.objects.filter(user=obj.user).count()
+
+    def get_sucessful_snacks(self, obj):
+        return Invitations.objects.filter(user=obj.user, feedback=True).count()
+
+    class Meta:
+        model = Invitations
+        fields = ('invited_user', 'user', 'status', 'id', 'place', 'date', 'time', 'message', 'snacks', 'sucessful_snacks')

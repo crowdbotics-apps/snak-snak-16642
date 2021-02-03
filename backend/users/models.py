@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
@@ -16,6 +18,7 @@ class User(AbstractUser):
     phone_number = models.CharField(null=True, max_length=15)
     age_preferred = models.IntegerField(null=True)
     distance_preferred = models.IntegerField(null=True)
+    notify_id = models.CharField(max_length=250, null=True)
 
     def get_absolute_url(self):
         return reverse("users:detail", kwargs={"username": self.username})
@@ -23,12 +26,12 @@ class User(AbstractUser):
 
 class JobFields(models.Model):
     job_field = models.CharField(choices=JOB_FIELD, default=None, max_length=50, null=True)
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='user_job_fields')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_jobs')
 
 
 class ProfileImages(models.Model):
     image = models.ImageField(storage=PrivateMediaStorage())
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='user_profile_image')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_profile_image')
 
 
 class UserSports(models.Model):
@@ -44,3 +47,15 @@ class Settings(models.Model):
     notify_meeting_update = models.BooleanField(default=True)
     hide_your_profile = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class Invitations(models.Model):
+    invited_user = models.ForeignKey(User, related_name='invited_user', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE)
+    status = models.BooleanField(default=False)
+    room_id = models.UUIDField(default=uuid.uuid4, editable=False)
+    place = models.CharField(max_length=250, null=True)
+    date = models.DateField(null=True)
+    time = models.TimeField(null=True)
+    message = models.TextField(null=True)
+    feedback = models.BooleanField(default=False)

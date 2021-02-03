@@ -7,14 +7,16 @@ import {
   Image,
   Platform,
 } from 'react-native';
+import BackIcon from 'react-native-vector-icons/AntDesign';
 import {appIcons} from '../../assets/icons';
 import {colors, family, HP, size, WP} from '../../services';
-export const Header = ({title, style, showLeftIcon, onLeftIconPress, isImage, profileImg}) => {
+
+export const Header = ({title, style, showLeftIcon, onLeftIconPress, isImage, profileImg, isBack}) => {
   const _renderLeftIcon = () => {
     if (showLeftIcon) {
       return (
         <TouchableOpacity onPress={onLeftIconPress} style={styles.leftIcon}>
-          <Image source={appIcons.menu} />
+          {isBack ? <BackIcon name={'arrowleft'} colors={'black'} size={22} /> : <Image source={appIcons.menu} />}
         </TouchableOpacity>
       );
     }

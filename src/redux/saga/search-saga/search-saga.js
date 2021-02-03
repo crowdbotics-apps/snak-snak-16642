@@ -12,13 +12,9 @@ function* userSearch(params) {
   let response;
   try {
     response = yield Api.postRequest(
-      endPoints.userSearch,
-      JSON.stringify(params),
-      {
-        token: params.token,
-      },
+      endPoints.userSearch, params.params, params,
     );
-    console.log('this is response ---> ', response);
+    console.log('[search-saga-response]', response);
     if (typeof response === 'object' && Object.keys(response).length > 0) {
       params.cbSuccess(response);
       yield put({

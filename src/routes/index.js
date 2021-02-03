@@ -6,13 +6,12 @@ import AddPhone from '../screens/authFlow/verification/addPhone';
 import VerifyPhone from '../screens/authFlow/verification/verifyPhone';
 import EditProfile from '../screens/mainFlow/editProfile';
 import Settings from '../screens/mainFlow/settings';
-import Search from '../screens/mainFlow/search';
 import Signup from '../screens/authFlow/signup';
-import RecieveInvite from '../screens/mainFlow/recieveInvite';
 import {useSelector} from 'react-redux';
 import MyProfile from '../screens/mainFlow/MyProfile';
 import othersProfile from '../screens/mainFlow/othersProfile';
-import ChatScreen from '../screens/mainFlow/chatScreen';
+import BlockedAccounts from '../screens/mainFlow/blockedAccounts';
+import SubscriptionPlan from '../screens/mainFlow/SubscriptionPlan';
 
 import {DrawerNavigator} from './drawer';
 
@@ -53,19 +52,19 @@ export const AppContainer = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator headerMode="none" initialRouteName={initialRoute}>
+      <Stack.Navigator 
+        headerMode="none" initialRouteName={initialRoute.initialRouteName}>
         <Stack.Screen name="Launch" component={Launch} />
-        {/* <Stack.Screen name="Search" component={Search} /> */}
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="AddPhone" component={AddPhone} />
         <Stack.Screen name="VerifyPhone" component={VerifyPhone} />
         <Stack.Screen name={'App'} component={DrawerNavigator} />
-        {/* <Stack.Screen name="RecieveInvite" component={RecieveInvite} />
-        <Stack.Screen name="MyProfile" component={MyProfile} />
+        <Stack.Screen name={'BlockedAccounts'} component={BlockedAccounts} />
+        <Stack.Screen name={'SubscriptionPlan'} component={SubscriptionPlan} />
         <Stack.Screen name="othersProfile" component={othersProfile} />
-        <Stack.Screen name="ChatScreen" component={ChatScreen} />
+        <Stack.Screen name="MyProfile" component={MyProfile} />
         <Stack.Screen name="EditProfile" component={EditProfile} />
-        <Stack.Screen name="Settings" component={Settings} /> */}
+        <Stack.Screen name="Settings" component={Settings} />
       </Stack.Navigator>
     </NavigationContainer>
   );

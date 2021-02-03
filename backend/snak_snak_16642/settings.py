@@ -226,3 +226,7 @@ TWILIO_SERVICE_SID = env.str("TWILIO_SERVICE_SID", "VA1067c56ceb40f08cf9b3d1d4e4
 if DEBUG:
     # output email to console instead of sending
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+APP_ID = 'e304774b-9c6f-434e-913b-ba24addb5246'
+REST_API_KEY = 'ZTRiN2Q3NzYtYjYyZC00YzQ4LWJkNTEtNmIyMmQwZmVjZDUw'
+USER_AUTH_KEY = 'ZDgzNWI5NDMtN2VhNi00NWNkLWIyOTctNTcyYWE2NzEzMjM2'

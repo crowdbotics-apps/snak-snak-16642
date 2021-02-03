@@ -8,21 +8,67 @@ export function* invitationRequest() {
 }
 
 function* getInvitationDetail(params) {
-  console.log('[getInvitationDetail saga]');
-  let response;
   try {
-    response = yield Api.getAxios(endPoints.getLabels);
-    console.log('this is response ---> ', response);
+    let response = yield Api.postRequest(endPoints.getInvitationDetail, params.params, params);
     if (typeof response === 'object' && Object.keys(response).length > 0) {
-      params.cbSuccess(response);
+      params.cbSuccess(response.data);
       yield put({
         type: types.GET_INVI_DETAIL_SUCCESS,
-        data: response,
+        data: response.data,
       });
     }
   } catch (error) {
     yield put({
       type: types.GET_INVI_DETAIL_FAILURE,
+      data: error,
+    });
+  }
+}
+
+//--------------send invitation saga------------------//
+
+export function* sendInvitationRequest() {
+  yield takeLatest(types.SEND_INVITATION_REQUEST, sendInvitation);
+}
+
+function* sendInvitation(params) {
+  try {
+    let response = yield Api.postRequest(endPoints.sendInvitation, params.params, params);
+    if (typeof response === 'object' && Object.keys(response).length > 0) {
+      params.cbSuccess(response);
+      yield put({
+        type: types.SEND_INVITATION_SUCCESS,
+        data: response,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: types.SEND_INVITATION_FAILURE,
+      data: error,
+    });
+  }
+}
+
+
+//--------------accept/reject invitation saga------------------//
+
+export function* acceptRejectInvitationRequest() {
+  yield takeLatest(types.ACCEPT_INVITATION_REQUEST, acceptRejectInvitation);
+}
+
+function* acceptRejectInvitation(params) {
+  try {
+    let response = yield Api.postRequest(endPoints.acceptReject, params.params, params);
+    if (typeof response === 'object' && Object.keys(response).length > 0) {
+      params.cbSuccess(response.data);
+      yield put({
+        type: types.ACCEPT_INVITATION_SUCCESS,
+        data: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: types.ACCEPT_INVITATION_FAILURE,
       data: error,
     });
   }

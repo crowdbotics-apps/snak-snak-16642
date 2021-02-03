@@ -11,14 +11,15 @@ import RecieveInvite from '../screens/mainFlow/recieveInvite';
 import MyProfile from '../screens/mainFlow/MyProfile';
 import othersProfile from '../screens/mainFlow/othersProfile';
 import ChatScreen from '../screens/mainFlow/chatScreen';
+import InviteManagement from '../screens/mainFlow/inviteManagement';
 
 const ProfileStack = createStackNavigator();
 let profileStak = () => (
   <ProfileStack.Navigator headerMode={'none'}>
     <ProfileStack.Screen name={'MyProfile'} component={MyProfile} />
-    <ProfileStack.Screen name={'OthersProfile'} component={othersProfile} />
+    {/* <ProfileStack.Screen name={'OthersProfile'} component={othersProfile} />
     <ProfileStack.Screen name={'EditProfile'} component={EditProfile} />
-    <ProfileStack.Screen name={'ChatScreen'} component={ChatScreen} />
+    <ProfileStack.Screen name={'ChatScreen'} component={ChatScreen} /> */}
   </ProfileStack.Navigator>
 );
 
@@ -26,7 +27,6 @@ const SettingStack = createStackNavigator();
 let settingStak = () => (
   <SettingStack.Navigator headerMode={'none'}>
     <SettingStack.Screen name={'Settings'} component={Settings} />
-    <SettingStack.Screen name={'Search'} component={Search} />
   </SettingStack.Navigator>
 );
 
@@ -40,7 +40,8 @@ let searchStak = () => (
 const InviteStack = createStackNavigator();
 let inviteStak = () => (
   <InviteStack.Navigator headerMode={'none'}>
-    <InviteStack.Screen name={'RecieveInvite'} component={RecieveInvite} />
+    {/* <InviteStack.Screen name={'RecieveInvite'} component={RecieveInvite} /> */}
+    <InviteStack.Screen name={'InvitesMangement'} component={InviteManagement} />
   </InviteStack.Navigator>
 );
 
@@ -56,7 +57,11 @@ export const DrawerNavigator = ({route}) => {
       <Drawer.Screen name="SearchSnack" component={searchStak} />
       <Drawer.Screen name="InvitesMangement" component={inviteStak} />
       <Drawer.Screen name="YourProfile" component={profileStak} />
-      <Drawer.Screen name="Settings" component={settingStak} />
+      <SettingStack.Screen name={'Settings'} component={Settings} />
+      <ProfileStack.Screen name={'OthersProfile'} component={othersProfile} />
+      <ProfileStack.Screen name={'EditProfile'} component={EditProfile} />
+      <ProfileStack.Screen name="RecieveInvite" component={RecieveInvite} />
+      <ProfileStack.Screen name={'ChatScreen'} component={ChatScreen} />
     </Drawer.Navigator>
   );
 };
