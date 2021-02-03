@@ -17,9 +17,9 @@ const ProfileStack = createStackNavigator();
 let profileStak = () => (
   <ProfileStack.Navigator headerMode={'none'}>
     <ProfileStack.Screen name={'MyProfile'} component={MyProfile} />
-    <ProfileStack.Screen name={'OthersProfile'} component={othersProfile} />
+    {/* <ProfileStack.Screen name={'OthersProfile'} component={othersProfile} />
     <ProfileStack.Screen name={'EditProfile'} component={EditProfile} />
-    <ProfileStack.Screen name={'ChatScreen'} component={ChatScreen} />
+    <ProfileStack.Screen name={'ChatScreen'} component={ChatScreen} /> */}
   </ProfileStack.Navigator>
 );
 
@@ -27,7 +27,6 @@ const SettingStack = createStackNavigator();
 let settingStak = () => (
   <SettingStack.Navigator headerMode={'none'}>
     <SettingStack.Screen name={'Settings'} component={Settings} />
-    <SettingStack.Screen name={'Search'} component={Search} />
   </SettingStack.Navigator>
 );
 
@@ -58,7 +57,11 @@ export const DrawerNavigator = ({route}) => {
       <Drawer.Screen name="SearchSnack" component={searchStak} />
       <Drawer.Screen name="InvitesMangement" component={inviteStak} />
       <Drawer.Screen name="YourProfile" component={profileStak} />
-      <Drawer.Screen name="Settings" component={settingStak} />
+      <SettingStack.Screen name={'Settings'} component={Settings} />
+      <ProfileStack.Screen name={'OthersProfile'} component={othersProfile} />
+      <ProfileStack.Screen name={'EditProfile'} component={EditProfile} />
+      <ProfileStack.Screen name="RecieveInvite" component={RecieveInvite} />
+      <ProfileStack.Screen name={'ChatScreen'} component={ChatScreen} />
     </Drawer.Navigator>
   );
 };

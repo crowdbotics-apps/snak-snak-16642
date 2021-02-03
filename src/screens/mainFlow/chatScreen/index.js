@@ -56,7 +56,7 @@ const ChatScreen = ({navigation}) => {
         isImage={true}
         profileImg={appImages.headerImg}
         showLeftIcon={true}
-        onLeftIconPress={() => navigation.navigate('ChatScreen')}
+        onLeftIconPress={() => navigation.toggleDrawer()}
       />
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
         <View style={styles.stickyContainer}>
