@@ -48,6 +48,7 @@ schema_view = get_schema_view(
         description="API documentation for Snak Snak App",
     ),
     public=True,
+    # permission_classes=(permissions.BasePermission,),
     permission_classes=(permissions.BasePermission,),
 )
 
