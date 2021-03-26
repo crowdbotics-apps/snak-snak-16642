@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
 
-from snak_snak_16642.storage_backends import PrivateMediaStorage
+# from snak_snak_16642.storage_backends import PrivateMediaStorage
 from users.choices import GENDER_PREFERENCE, SPORTS, EXPERTISE_LEVEL, JOB_FIELD
 
 
@@ -14,7 +14,7 @@ class User(AbstractUser):
     ocuppation = models.CharField(max_length=200, null=True)
     expertise_level = models.CharField(choices=EXPERTISE_LEVEL, default=None, max_length=20, null=True)
     preferred_expertise_level = models.CharField(choices=EXPERTISE_LEVEL, default=None, max_length=20, null=True)
-    gender_preference = models.CharField(choices=GENDER_PREFERENCE, default=None, max_length=20)
+    gender_preference = models.CharField(choices=GENDER_PREFERENCE, default=None, max_length=20, null=True, blank=True)
     phone_number = models.CharField(null=True, max_length=15)
     age_preferred = models.IntegerField(null=True)
     distance_preferred = models.IntegerField(null=True)
@@ -30,7 +30,7 @@ class JobFields(models.Model):
 
 
 class ProfileImages(models.Model):
-    image = models.ImageField(storage=PrivateMediaStorage())
+    image = models.ImageField(upload_to='user_profile_pictures')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_profile_image')
 
 

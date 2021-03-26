@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='profileimages',
             name='image',
-            field=models.ImageField(storage=snak_snak_16642.storage_backends.PrivateMediaStorage(), upload_to=''),
+            field=models.ImageField(upload_to=''),
         ),
         migrations.CreateModel(
             name='Settings',
