@@ -28,9 +28,16 @@ from home.models import Message, CustomText, HomePage
 
 User = get_user_model()
 
+"""
+const twilioAccountSid = 'ACxxxxxxxxxx';
+const twilioApiKey = 'SKxxxxxxxxxx';
+const twilioApiSecret = 'xxxxxxxxxxxx';
+"""
 
 class SMSCodeAPI(APIView):
     def post(self, request):
+        print(settings.TWILIP_ACCOUNT_SID)
+        print(settings.TWILIO_AUTH_TOKEN)
         serializer = SMSCodeSerializer(data=request.data)
         if serializer.is_valid():
             client = Client(settings.TWILIP_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
