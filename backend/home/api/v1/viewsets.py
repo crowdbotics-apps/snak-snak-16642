@@ -42,7 +42,7 @@ class SMSCodeAPI(APIView):
         if serializer.is_valid():
             client = Client(settings.TWILIP_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
             verify = client.verify.services(settings.TWILIO_SERVICE_SID)
-            verify.verifications.create(to=serializer.validated_data["phone_number"], channel='sms', custom_code='3254')
+            verify.verifications.create(to=serializer.validated_data["phone_number"], channel='sms')
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
