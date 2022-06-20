@@ -82,7 +82,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "core.middleware.mw_viewlogger",    
+    "core.middleware.mw_viewlogger",
 ]
 
 ROOT_URLCONF = "snak_snak_16642.urls"
@@ -260,3 +260,4 @@ try:
     from snak_snak_16642.local_settings import *
 except:
     pass
+
