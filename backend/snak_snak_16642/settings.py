@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    "phonenumber_field",    
     "dating",
 ]
 LOCAL_APPS = [
@@ -82,7 +83,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "core.middleware.mw_viewlogger",    
+    "core.middleware.mw_viewlogger",
 ]
 
 ROOT_URLCONF = "snak_snak_16642.urls"
@@ -124,12 +125,11 @@ if env.str("DATABASE_URL", default=None):
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
+    # MMH: RE-ENABLE THESE
+    # {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",},
+    # {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
+    # {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
+    # {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
 ]
 
 
@@ -188,23 +188,23 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # AWS_PRIVATE_MEDIA_LOCATION = 'media/private/profile_images'
 # PRIVATE_FILE_STORAGE = 'snak_snak_16642.storage_backends.PrivateMediaStorage'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+MEDIA_ROOT      = os.path.join(BASE_DIR, 'media')
+MEDIA_URL       = '/media/'
 
 # allauth / users
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-ACCOUNT_CONFIRM_EMAIL_ON_GET = False
+ACCOUNT_EMAIL_REQUIRED              = True
+ACCOUNT_AUTHENTICATION_METHOD       = "email"
+ACCOUNT_USERNAME_REQUIRED           = False
+ACCOUNT_EMAIL_VERIFICATION          = "mandatory"
+ACCOUNT_CONFIRM_EMAIL_ON_GET        = False
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
-ACCOUNT_UNIQUE_EMAIL = True
-LOGIN_REDIRECT_URL = "users:redirect"
+ACCOUNT_UNIQUE_EMAIL                = True
+LOGIN_REDIRECT_URL                  = "users:redirect"
 
-ACCOUNT_ADAPTER = "users.adapters.AccountAdapter"
-SOCIALACCOUNT_ADAPTER = "users.adapters.SocialAccountAdapter"
-ACCOUNT_ALLOW_REGISTRATION = env.bool("ACCOUNT_ALLOW_REGISTRATION", True)
-SOCIALACCOUNT_ALLOW_REGISTRATION = env.bool("SOCIALACCOUNT_ALLOW_REGISTRATION", True)
+ACCOUNT_ADAPTER                     = "users.adapters.AccountAdapter"
+SOCIALACCOUNT_ADAPTER               = "users.adapters.SocialAccountAdapter"
+ACCOUNT_ALLOW_REGISTRATION          = env.bool("ACCOUNT_ALLOW_REGISTRATION", True)
+SOCIALACCOUNT_ALLOW_REGISTRATION    = env.bool("SOCIALACCOUNT_ALLOW_REGISTRATION", True)
 
 REST_AUTH_SERIALIZERS = {
     # Replace password reset serializer to fix 500 error
@@ -212,27 +212,25 @@ REST_AUTH_SERIALIZERS = {
 }
 
 # Custom user model
-AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL                     = "users.User"
 
-EMAIL_HOST = env.str("EMAIL_HOST", "smtp.sendgrid.net")
-EMAIL_HOST_USER = env.str("SENDGRID_USERNAME", "")
-EMAIL_HOST_PASSWORD = env.str("SENDGRID_PASSWORD", "")
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_HOST                          = env.str("EMAIL_HOST", "smtp.sendgrid.net")
+EMAIL_HOST_USER                     = env.str("SENDGRID_USERNAME", "")
+EMAIL_HOST_PASSWORD                 = env.str("SENDGRID_PASSWORD", "")
+EMAIL_PORT                          = 587
+EMAIL_USE_TLS                       = True
 
 
 # start fcm_django push notifications
 FCM_DJANGO_SETTINGS = {"FCM_SERVER_KEY": env.str("FCM_SERVER_KEY", "")}
 # end fcm_django push notifications
 
-#START TWILIO CONFIGURATIONS
 # TWILIP_ACCOUNT_SID = env.str("TWILIP_ACCOUNT_SID", "AC85dea822ce7656488da522c0b8bb69e7")
 # TWILIO_AUTH_TOKEN = env.str("TWILIO_AUTH_TOKEN", "f241a55454224d0f97f7f43c2a6192db")
 # TWILIO_SERVICE_SID = env.str("TWILIO_SERVICE_SID", "VA1067c56ceb40f08cf9b3d1d4e4d4dd77")
-TWILIP_ACCOUNT_SID = env.str("TWILIP_ACCOUNT_SID", "ACc53016c0e40705bde39383e9ffabd925")
-TWILIO_AUTH_TOKEN = env.str("TWILIO_AUTH_TOKEN", "6516867ab23c9e33a9ed907765ebb26f")
-TWILIO_SERVICE_SID = env.str("TWILIO_SERVICE_SID", "VA191df3b272b2886d9e311348979340b1")
-#END TWILIO CONFIGURATIONS
+TWILIP_ACCOUNT_SID      = env.str("TWILIP_ACCOUNT_SID", "ACc53016c0e40705bde39383e9ffabd925")
+TWILIO_AUTH_TOKEN       = env.str("TWILIO_AUTH_TOKEN", "6516867ab23c9e33a9ed907765ebb26f")
+TWILIO_SERVICE_SID      = env.str("TWILIO_SERVICE_SID", "VA191df3b272b2886d9e311348979340b1")
 
 if DEBUG:
     # output email to console instead of sending
