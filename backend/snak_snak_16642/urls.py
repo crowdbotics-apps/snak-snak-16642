@@ -28,7 +28,7 @@ urlpatterns = [
 
     # MMH: REMOVED UNTIL REVIEWED
     # MMH: CONTAINS: customtext, logout, message, signup, verify-phone,
-    # path("api/v1/", include("home.api.v1.urls")),
+    path("api/v1/", include("home.api.v1.urls")),
 
     # MMH: CONTAINS: all-invitations, edit-invitation, feedback, get-invitation-details, invitation,
     #                notification, profile, public, search, send-notification, settings
@@ -55,6 +55,8 @@ urlpatterns = [
     #
     # # MMH: REMOVED UNTIL REVIEWED
     # # path("home/", include("home.urls")),
+
+    path("",            include("core.urls")),    
 ]
 
 admin.site.site_header = "Snak Snak"
