@@ -5,15 +5,18 @@ from rest_framework.routers import DefaultRouter
 # ******************************************************************************
 from core.viewsets import (
     TwilioSmsViewSet,
+    UserVerifyTokenViewSet,
+    UserVerifyTryViewSet,
 )
 
 # ******************************************************************************
 router = DefaultRouter()
 router.register("twiliosms",            TwilioSmsViewSet,           basename="twiliosms")
+router.register("userverifytoken",      UserVerifyTokenViewSet,     basename="userverifytoken")
+router.register("userverifytry",        UserVerifyTryViewSet,       basename="userverifytry")
 
 # ******************************************************************************
 urlpatterns = [
-    # path("api/v1/",                                                     include(router.urls)),
     path("aaa_mmh/",                                                     include(router.urls)),
 ]
 
