@@ -32,6 +32,8 @@ class UserSignupManualSerializer(serializers.Serializer):
         # zzz_print("    %-32s: %s" % ("UserSignupManualSerializer", "************** validate START"))
         # zzz_print("    %-32s: %s" % ("ordered_data_dict", ordered_data_dict))
 
+        # MMH: ADD VALIDATION OF PHONE NUMBER
+
         try:
             phone_number    = ordered_data_dict.get('phone_number')
             user            = User.objects.get(phone_number=phone_number)

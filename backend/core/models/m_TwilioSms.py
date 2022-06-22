@@ -80,8 +80,6 @@ class TwilioSms(models.Model):
 
         # Currently ALL sms messages sent from Fight Unite use same from_phone number
         self.from_phone = TwilioSms.get_from_phone_number()
-        self.send_sms()
-
         super().save(*args, **kwargs)
 
     # --------------------------------------------------------------------------
@@ -114,6 +112,8 @@ class TwilioSms(models.Model):
         except TwilioRestException as ex:
             self.error_status  = str(type(ex))
             self.error_message = str(ex)
-            zzz_print("    %-32s: %s" % ("error_status", self.error_status))
-            zzz_print("    %-32s: %s" % ("error_message", self.error_message))
+            # zzz_print("    %-32s: %s" % ("error_status", self.error_status))
+            # zzz_print("    %-32s: %s" % ("error_message", self.error_message))
+
+        self.save()
 

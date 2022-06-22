@@ -127,6 +127,7 @@ class UserVerifyToken(models.Model):
         i_twiliosms.to_phone = self.phone
         i_twiliosms.message  = self.get_user_verification_token_sms_message()
         i_twiliosms.save()
+        i_twiliosms.send_sms()
 
 
 
