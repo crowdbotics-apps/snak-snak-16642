@@ -44,10 +44,10 @@ class User(AbstractUser):
             from core.models import UserVerifyToken
             zzz_print("    %-32s: %s" % ("NEW USER", self.phone_number))
 
-            i_userverifytoken           = UserVerifyToken()
-            i_userverifytoken.user      = self            
-            i_userverifytoken.phone     = self.phone_number
-            i_userverifytoken.success   = True
+            i_userverifytoken               = UserVerifyToken()
+            i_userverifytoken.user          = self
+            i_userverifytoken.phone_number  = self.phone_number
+            i_userverifytoken.success       = True
             i_userverifytoken.save()
 
 

@@ -10,7 +10,7 @@ User = get_user_model()
 
 # ******************************************************************************
 class UserVerifyTokenSerializer(serializers.Serializer):
-    phone = serializers.CharField(max_length=18, required=True)
+    phone_number = serializers.CharField(max_length=18, required=True)
 
     # --------------------------------------------------------------------------
     def create(self, validated_data):
@@ -19,11 +19,11 @@ class UserVerifyTokenSerializer(serializers.Serializer):
         # zzz_print("    %-32s: %s" % ("self.initial_data", self.initial_data))
 
         i_userverifytoken       = UserVerifyToken()
-        i_userverifytoken.phone = validated_data['phone']
+        i_userverifytoken.phone_number = validated_data['phone_number']
         try:
-            i_userverifytoken.user = User.objects.get(phone_number=i_userverifytoken.phone)
+            i_userverifytoken.user = User.objects.get(phone_number=i_userverifytoken.phone_number)
         except User.DoesNotExist:
-            zzz_print("    %-32s: %s" % ("user NOT FOUND for phone", i_userverifytoken.phone))
+            zzz_print("    %-32s: %s" % ("user NOT FOUND for phone_number", i_userverifytoken.phone_number))
             pass
 
         if i_userverifytoken.user:
@@ -32,7 +32,7 @@ class UserVerifyTokenSerializer(serializers.Serializer):
             else:
                 i_userverifytoken.error_message = "User found but is already phone_number_verified: " + str(i_userverifytoken.user)
         else:
-            i_userverifytoken.error_message = "User matching email or phone NOT found"
+            i_userverifytoken.error_message = "User matching phone_number NOT found"
         i_userverifytoken.save()
 
         return i_userverifytoken
@@ -40,7 +40,7 @@ class UserVerifyTokenSerializer(serializers.Serializer):
     # ------------------------------------------------------------------------------
     def to_representation(self, instance):
         ret = {}
-        ret['phone']            = str(instance.phone)
+        ret['phone_number']     = str(instance.phone_number)
         ret['token']            = instance.token
         ret['success']          = instance.success
         ret['error_message']    = instance.error_message

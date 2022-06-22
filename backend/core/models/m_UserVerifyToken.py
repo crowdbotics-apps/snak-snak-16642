@@ -11,8 +11,8 @@ from zzz_lib.zzz_log import zzz_print
 
 # ******************************************************************************
 class UserVerifyToken(models.Model):
-    # phone                           = PhoneNumberField      ()
-    phone                           = models.CharField      (max_length=18)
+    # phone_number                    = PhoneNumberField      ()
+    phone_number                    = models.CharField      (max_length=18)
     user                            = models.ForeignKey     ("users.User", null=True, blank=True, on_delete=models.CASCADE, related_name="userverifytoken_user",)
     token                           = models.CharField      (null=True, blank=True, max_length=24,)
 
@@ -30,7 +30,7 @@ class UserVerifyToken(models.Model):
     # --------------------------------------------------------------------------
     def __str__(self):
         return_string = str(self.id) + " : "
-        if self.phone: return_string += " " + str(self.phone)
+        if self.phone_number: return_string += " " + str(self.phone_number)
         if self.token: return_string += " (token = " + self.token + ")"
         return format(return_string)
 
@@ -124,7 +124,7 @@ class UserVerifyToken(models.Model):
         from core.models import TwilioSms
 
         i_twiliosms = TwilioSms()
-        i_twiliosms.to_phone = self.phone
+        i_twiliosms.to_phone = self.phone_number
         i_twiliosms.message  = self.get_user_verification_token_sms_message()
         i_twiliosms.save()
         i_twiliosms.send_sms()
