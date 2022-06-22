@@ -22,7 +22,7 @@ from drf_yasg import openapi
 
 urlpatterns = [
     # MMH: REMOVED UNTIL REVIEWED
-    # path("", include("home.urls")),
+    path("", include("home.urls")),
 
     path("accounts/", include("allauth.urls")),
 
