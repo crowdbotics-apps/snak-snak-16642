@@ -41,8 +41,7 @@ class UserVerifyToken(models.Model):
 
     # --------------------------------------------------------------------------
     def get_expiry_time_in_seconds(self):
-        expiry_time_in_seconds = 3600
-        # expiry_time_in_seconds = 3
+        expiry_time_in_seconds = 120
         return expiry_time_in_seconds
 
     # --------------------------------------------------------------------------
@@ -84,11 +83,15 @@ class UserVerifyToken(models.Model):
 
     # --------------------------------------------------------------------------
     def generate_token(self):
-        length = 6
-        # Adding user.id to end of token to prevent collision between duplicate token values.
-        # This creates a unique token value for each user.
-        # This works because during save() we invalidate any other existing tokens for the same user.
-        return ''.join(random.choices(string.ascii_letters + string.digits, k=length))+str(self.user.id)
+        length = 4
+
+        # # Adding user.id to end of token to prevent collision between duplicate token values.
+        # # This creates a unique token value for each user.
+        # # This works because during save() we invalidate any other existing tokens for the same user.
+        # return ''.join(random.choices(string.ascii_letters + string.digits, k=length))+str(self.user.id)
+
+        # MMH: REMOVED ADDITION OF ID TO END OF TOKEN BECAUSE WE WANT A 4 DIGIT ONE. REVIEW THIS.
+        return ''.join(random.choices(string.digits, k=length))
 
     # --------------------------------------------------------------------------
     def save(self, *args, **kwargs):
