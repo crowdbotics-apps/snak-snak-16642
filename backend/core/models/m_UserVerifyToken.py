@@ -121,7 +121,7 @@ class UserVerifyToken(models.Model):
 
     # --------------------------------------------------------------------------
     def send_token_via_sms(self):
-        from home.models import TwilioSms
+        from core.models import TwilioSms
 
         i_twiliosms = TwilioSms()
         i_twiliosms.to_phone = self.phone

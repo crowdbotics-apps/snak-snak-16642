@@ -56,7 +56,7 @@ urlpatterns = [
     # # MMH: REMOVED UNTIL REVIEWED
     # # path("home/", include("home.urls")),
 
-    path("",            include("core.urls")),    
+    path("",            include("core.urls")),
 ]
 
 admin.site.site_header = "Snak Snak"

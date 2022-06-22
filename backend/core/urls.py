@@ -7,6 +7,7 @@ from core.viewsets import (
     TwilioSmsViewSet,
     UserVerifyTokenViewSet,
     UserVerifyTryViewSet,
+    UserSignupManualViewSet,
 )
 
 # ******************************************************************************
@@ -14,9 +15,10 @@ router = DefaultRouter()
 router.register("twiliosms",            TwilioSmsViewSet,           basename="twiliosms")
 router.register("userverifytoken",      UserVerifyTokenViewSet,     basename="userverifytoken")
 router.register("userverifytry",        UserVerifyTryViewSet,       basename="userverifytry")
+router.register("usersignupmanual",     UserSignupManualViewSet,    basename="usersignupmanual")
 
 # ******************************************************************************
 urlpatterns = [
-    path("aaa_mmh/",                                                     include(router.urls)),
+    path("aaa/",                                                     include(router.urls)),
 ]
 

@@ -92,8 +92,10 @@ class TwilioSms(models.Model):
             twilio_client = Client(TwilioSms.get_account_sid(), TwilioSms.get_auth_token())
             i_msg =  twilio_client.messages.create(
                 body  = self.message,
-                from_ = self.from_phone.as_e164,
-                to    = self.to_phone.as_e164
+                # from_ = self.from_phone.as_e164,
+                # to    = self.to_phone.as_e164
+                from_ = self.from_phone,
+                to    = self.to_phone
             )
 
             # zzz_print(i_msg.sid, pretty=True)
@@ -112,6 +114,6 @@ class TwilioSms(models.Model):
         except TwilioRestException as ex:
             self.error_status  = str(type(ex))
             self.error_message = str(ex)
-            # zzz_print("    %-32s: %s" % ("error_status", self.error_status))
-            # zzz_print("    %-32s: %s" % ("error_message", self.error_message))
+            zzz_print("    %-32s: %s" % ("error_status", self.error_status))
+            zzz_print("    %-32s: %s" % ("error_message", self.error_message))
 

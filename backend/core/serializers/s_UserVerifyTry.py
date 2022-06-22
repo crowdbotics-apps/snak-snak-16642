@@ -39,8 +39,8 @@ class UserVerifyTrySerializer(serializers.ModelSerializer):
                 i_userverifytry.success = True
 
                 # Set users verified field.
-                zzz_print("    %-32s: %s" % ("set verified for user", i_userverifytry.userverifytoken.user))
-                i_userverifytry.userverifytoken.user.verified = True
+                zzz_print("    %-32s: %s" % ("set phone_number_verified for user", i_userverifytry.userverifytoken.user))
+                i_userverifytry.userverifytoken.user.phone_number_verified = True
                 i_userverifytry.userverifytoken.user.save()
             else:
                 i_userverifytry.error_message = "UserVerifyToken was not valid: " + status_tuple[1]
@@ -53,7 +53,7 @@ class UserVerifyTrySerializer(serializers.ModelSerializer):
     # ------------------------------------------------------------------------------
     def to_representation(self, instance):
         # zzz_print("    %-32s: %s" % ("--------------", "to_representation"))
-        from home.serializers import UserVerifyTokenSerializer
+        from core.serializers import UserVerifyTokenSerializer
         ret = super().to_representation(instance)
         ret["userverifytoken_data"] = UserVerifyTokenSerializer(instance.userverifytoken).data
         return ret
