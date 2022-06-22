@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 
 # ******************************************************************************
 from core.viewsets import (
-    TwilioSmsViewSet,
+    # TwilioSmsViewSet,
     UserLoginManualViewSet,
     UserSignupManualViewSet,
     UserVerifyTokenViewSet,
@@ -13,14 +13,14 @@ from core.viewsets import (
 
 # ******************************************************************************
 router = DefaultRouter()
-router.register("twiliosms",            TwilioSmsViewSet,           basename="twiliosms")
-router.register("userloginmanual",      UserLoginManualViewSet,     basename="userloginmanual")
-router.register("usersignupmanual",     UserSignupManualViewSet,    basename="usersignupmanual")
-router.register("userverifytoken",      UserVerifyTokenViewSet,     basename="userverifytoken")
-router.register("userverifytry",        UserVerifyTryViewSet,       basename="userverifytry")
+# router.register("twiliosms",                    TwilioSmsViewSet,               basename="twiliosms")
+router.register("user_login",                   UserLoginManualViewSet,         basename="userloginmanual")
+router.register("user_signup",                  UserSignupManualViewSet,        basename="usersignupmanual")
+router.register("validationtoken_generate",     UserVerifyTokenViewSet,         basename="userverifytoken")
+router.register("validationtoken_validate",     UserVerifyTryViewSet,           basename="userverifytry")
 
 # ******************************************************************************
 urlpatterns = [
-    path("aaa/",                                                     include(router.urls)),
+    path("", include(router.urls)),
 ]
 

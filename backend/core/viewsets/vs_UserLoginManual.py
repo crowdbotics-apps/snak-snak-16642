@@ -13,6 +13,8 @@ from rest_framework.decorators import action
 # from django.db.models import Q
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
+# from django.contrib.auth import authenticate
+from django.contrib.auth import login
 User = get_user_model()
 
 from django.conf import settings
@@ -67,14 +69,20 @@ class UserLoginManualViewSet(viewsets.ModelViewSet):
 
     # --------------------------------------------------------------------------
     @swagger_auto_schema(method='get', operation_summary='login user who used valid verification token')
-    @action(methods=('get',), detail=False, url_path='login_user/(?P<user_id>\S+)', serializer_class=UserSerializer)
+    @action(methods=('get',), detail=False, url_path='user/(?P<user_id>\S+)', serializer_class=UserSerializer)
     def login_user(self, request, user_id=None):
         zzz_print("    %-32s: %s" % ("login_user", "-----------"))
         zzz_print("    %-32s: %s" % ("user_id", user_id))
 
         user = User.objects.get(id=user_id)
 
-        perform_login(request, user, settings.ACCOUNT_EMAIL_VERIFICATION, None, None, False)
+        # perform_login(request, user, settings.ACCOUNT_EMAIL_VERIFICATION, None, None, False)
+
+        # AUTHENTICATION_BACKENDS = (
+        #     "django.contrib.auth.backends.ModelBackend",
+        #     "allauth.account.auth_backends.AuthenticationBackend",
+        # )
+        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 
         token, created = Token.objects.get_or_create(user=user)
         if created: zzz_print("    %-32s: %s" % ("TOKEN CREATED", token))
@@ -82,13 +90,6 @@ class UserLoginManualViewSet(viewsets.ModelViewSet):
 
         user_serializer = UserSerializer(user)
         return Response({"key": token.key, "user": user_serializer.data})
-
-
-
-
-
-
-
 
 
 
