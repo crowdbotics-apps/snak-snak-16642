@@ -21,20 +21,21 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
 urlpatterns = [
-    # MMH: REMOVED UNTIL REVIEWED
-    # path("", include("home.urls")),
-
+    path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
 
     # MMH: REMOVED UNTIL REVIEWED
+    path("", include("home.urls")),
+
+
+    # MMH: REMOVED UNTIL REVIEWED
     # MMH: CONTAINS: customtext, logout, message, signup, verify-phone,
-    # path("api/v1/", include("home.api.v1.urls")),
+    path("zzz/api/v1/", include("home.api.v1.urls")),
 
     # MMH: CONTAINS: all-invitations, edit-invitation, feedback, get-invitation-details, invitation,
     #                notification, profile, public, search, send-notification, settings
-    # path("api/v1/user/", include("users.api.v1.urls")),
+    # path("zzz/api/v1/user/", include("users.api.v1.urls")),
 
-    path("admin/", admin.site.urls),
 
     # MMH: CONTAINS:
             # path("~redirect/", view=user_redirect_view, name="redirect"),
@@ -42,19 +43,18 @@ urlpatterns = [
             # path("<str:username>/", view=user_detail_view, name="detail"),
             # path("users/<int:pk>/detail/", UserDetailView.as_view(), name="user_detail"),
             # path("users/<int:pk>/update/", UserUpdateView.as_view(), name="update_user"),
-    path("users/", include("users.urls", namespace="users")),
+    path("zzz/users/", include("users.urls", namespace="users")),
 
-    path("rest-auth/", include("rest_auth.urls")),
+    path("zzz/rest-auth/", include("rest_auth.urls")),
     # Override email confirm to use allauth's HTML view instead of rest_auth's API view
-    path("rest-auth/registration/account-confirm-email/<str:key>/", confirm_email),
-    path("rest-auth/registration/", include("rest_auth.registration.urls")),
+    path("zzz/rest-auth/registration/account-confirm-email/<str:key>/", confirm_email),
+    path("zzz/rest-auth/registration/", include("rest_auth.registration.urls")),
 
     # # MMH: REMOVED UNTIL REVIEWED
-    # # path("api/v1/", include("dating.api.v1.urls")),
-    # # path("dating/", include("dating.urls")),
-    #
-    # # MMH: REMOVED UNTIL REVIEWED
-    # # path("home/", include("home.urls")),
+    # # path("zzz/api/v1/", include("dating.api.v1.urls")),
+    # # path("zzz/dating/", include("dating.urls")),
+
+    path("core/", include("core.urls")),
 ]
 
 admin.site.site_header = "Snak Snak"
@@ -76,4 +76,5 @@ schema_view = get_schema_view(
 urlpatterns += [
     path("api-docs/", schema_view.with_ui("swagger", cache_timeout=0), name="api_docs")
 ]
+
 
