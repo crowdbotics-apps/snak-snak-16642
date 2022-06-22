@@ -58,6 +58,9 @@ buck-out/
 /ios/Pods/
 /ios/Podfile.lock
 
+/Frontend/ios/Pods/
+/Frontend/ios/Podfile.lock
+
 ## App packaging
 *.ipa
 *.dSYM.zip
