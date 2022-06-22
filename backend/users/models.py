@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
-from phonenumber_field.modelfields import PhoneNumberField
+# from phonenumber_field.modelfields import PhoneNumberField
 from users.choices import GENDER_PREFERENCE, SPORTS, EXPERTISE_LEVEL, JOB_FIELD
 import uuid
 
@@ -15,7 +15,8 @@ class User(AbstractUser):
     expertise_level             = models.CharField          (choices=EXPERTISE_LEVEL, default=None, max_length=20, null=True, blank=True)
     preferred_expertise_level   = models.CharField          (choices=EXPERTISE_LEVEL, default=None, max_length=20, null=True, blank=True)
     gender_preference           = models.CharField          (choices=GENDER_PREFERENCE, default=None, max_length=20, null=True, blank=True)
-    phone_number                = PhoneNumberField          (null=True, blank=True)
+    phone_number                = models.CharField          (null=True, max_length=15)
+    # phone_number                = PhoneNumberField          (null=True, blank=True)
     age_preferred               = models.IntegerField       (null=True, blank=True)
     distance_preferred          = models.IntegerField       (null=True, blank=True)
     notify_id                   = models.CharField          (max_length=250, null=True, blank=True)
