@@ -7,12 +7,7 @@ import Launch2 from './../../../Components/Onboarding/Launch2';
 import {useTheme} from 'react-native-paper';
 const Welcome = () => {
   const {colors} = useTheme();
-
   const pagerRef = useRef();
-  console.log(
-    Object.keys(pagerRef?.current || {}),
-    // pagerRef?.current?.setPage(1),
-  );
   const [pageNo, setPageNo] = useState(0);
 
   const onPageScroll = event => {

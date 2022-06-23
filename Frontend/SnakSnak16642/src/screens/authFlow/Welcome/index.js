@@ -39,14 +39,14 @@ const Welcome = () => {
               <PrimaryButton
                 text="LOGIN"
                 height={70}
-                onPress={() => navigation.navigate(AUTH_PATH)}
+                onPress={() => navigation.navigate(AUTH_PATH, {type: 'Signin'})}
               />
             </View>
             <View style={styles.button}>
               <PrimaryButton
                 text="SIGNUP"
                 height={70}
-                onPress={() => navigation.navigate(AUTH_PATH)}
+                onPress={() => navigation.navigate(AUTH_PATH, {type: 'Signup'})}
               />
             </View>
           </View>
