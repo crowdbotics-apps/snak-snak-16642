@@ -18,6 +18,7 @@ const PrimaryButton = ({
   radius = 12,
   background,
   textColor,
+  height = 50,
 }) => {
   const {colors} = useTheme();
 
@@ -28,7 +29,12 @@ const PrimaryButton = ({
       onPress={onPress}
       style={[
         styles.button,
-        {borderRadius: radius, backgroundColor: background || colors.white},
+        {
+          borderRadius: radius,
+          backgroundColor: background || colors.white,
+          maxHeight: height,
+          minHeight: height,
+        },
       ]}
       disabled={loading}>
       {loading && <ActivityIndicator color={textWhiteColor} />}
@@ -51,20 +57,19 @@ export default PrimaryButton;
 
 const styles = StyleSheet.create({
   button: {
-    flex: 1,
+    // flex: 1,
 
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    maxHeight: 50,
-    minHeight: 50,
+
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 8,
+      height: 4,
     },
     shadowOpacity: 0.4,
-    shadowRadius: 7.95,
+    shadowRadius: 2.5,
 
     elevation: 5,
   },

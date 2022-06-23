@@ -1,8 +1,10 @@
 import Onboarding from '../screens/authFlow/Onboarding/index.js';
 import Welcome from '../screens/authFlow/Welcome/index.js';
+import Auth from '../screens/authFlow/Auth/index.js';
 
 export const ONBOARDING_PATH = 'Onboarding';
 export const WELCOME_PATH = 'Welcome';
+export const AUTH_PATH = 'Auth';
 
 export const AUTH_ROUTES = [
   {
@@ -12,6 +14,10 @@ export const AUTH_ROUTES = [
   {
     component: Welcome,
     path: WELCOME_PATH,
+  },
+  {
+    component: Auth,
+    path: AUTH_PATH,
   },
 ];
 
