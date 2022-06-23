@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   hasValue: {
     color: '#fff',
-    fontFamily: 'Graphik-Bold',
+    fontFamily: 'OpenSans-Bold',
   },
 });
 

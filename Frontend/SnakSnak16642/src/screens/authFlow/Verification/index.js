@@ -15,7 +15,10 @@ import PrimaryButton from '../../../Components/Buttons/PrimaryButton';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import ScreenWrapper from '../../../Components/ScreenWrapper';
 import {useNavigation} from '@react-navigation/native';
-import {VERIFICATION_PATH} from '../../../Navigation/Routes';
+import {
+  CREATE_PROFILE_PATH,
+  VERIFICATION_PATH,
+} from '../../../Navigation/Routes';
 import VerificationInput from '../../../Components/Inputs/VerificationInput';
 const Verification = ({route}) => {
   const navigation = useNavigation();
@@ -36,7 +39,9 @@ const Verification = ({route}) => {
               Didn't receive code?{' '}
             </Text>
             <TouchableOpacity>
-              <Text style={[styles.text, {color: colors.primaryTextLite}]}>
+              <Text
+                style={[styles.text, {color: colors.primaryTextLite}]}
+                onPress={navigation.goBack}>
                 Request again
               </Text>
             </TouchableOpacity>
@@ -54,7 +59,9 @@ const Verification = ({route}) => {
                       : 'Verify and Create Account'
                   }
                   height={70}
-                  onPress={() => navigation.navigate(VERIFICATION_PATH, {type})}
+                  onPress={() =>
+                    navigation.navigate(CREATE_PROFILE_PATH, {type})
+                  }
                 />
               </View>
             </View>

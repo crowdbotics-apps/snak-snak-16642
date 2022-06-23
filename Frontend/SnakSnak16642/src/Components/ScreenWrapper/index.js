@@ -3,6 +3,7 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import HeaderLogo from './HeaderLogo';
+import HeaderLogo2 from './HeaderLogo2';
 import Header from './../Header';
 import ComponentWrapper from './ComponentWrapper';
 const ScreenWrapper = ({
@@ -10,12 +11,11 @@ const ScreenWrapper = ({
   title,
   componentTitle,
   isLogo = true,
-  isMiniLogo = true,
-  subtitle,
   titleLong,
   logoHeight,
   componentIcon,
   hasBottomBar,
+  logo2 = false,
 }) => {
   const {colors} = useTheme();
 
@@ -23,10 +23,16 @@ const ScreenWrapper = ({
   return (
     <View style={[styles.container, {backgroundColor: primaryColor}]}>
       {isLogo ? (
-        <>
-          <Header />
-          <HeaderLogo title={title} logoHeight={logoHeight} />
-        </>
+        !logo2 ? (
+          <>
+            <Header />
+            <HeaderLogo title={title} logoHeight={logoHeight} />
+          </>
+        ) : (
+          <>
+            <HeaderLogo2 title={title} logoHeight={logoHeight} />
+          </>
+        )
       ) : (
         <Header title={title} />
       )}

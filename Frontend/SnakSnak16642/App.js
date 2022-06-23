@@ -7,7 +7,8 @@ const theme = {
   roundness: 2,
   colors: {
     ...DefaultTheme.colors,
-    white: '#FFFFFFF2',
+    white: '#FFFFFF',
+    black: '#000000',
     primary: '#800203',
     primaryLite: '#FF5757',
     secondary: '#FF5F4B',
@@ -16,6 +17,7 @@ const theme = {
     primaryText: '#7D0102',
     primaryTextLite: 'rgba(255, 87, 87, 1)',
     secondaryText: '#E1E1E1',
+    lightGrey: '#E2E1E5',
   },
 };
 
