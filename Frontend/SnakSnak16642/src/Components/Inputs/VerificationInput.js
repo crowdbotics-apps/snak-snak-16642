@@ -20,18 +20,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  title: {textAlign: 'center', fontSize: 30, fontFamily: 'Graphik-Bold'},
+  title: {textAlign: 'center', fontSize: 30, fontFamily: 'OpenSans-Bold'},
   codeFieldRoot: {marginTop: 15, maxWidth: '100%'},
   cell: {
-    width: 42,
-    height: 42,
+    width: 75,
+    height: 75,
     borderWidth: 1.5,
     // borderColor: '#00000030',
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-    borderRadius: 10,
-    marginHorizontal: 5,
+    borderRadius: 15,
+    marginHorizontal: 8,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 3.95,
+
+    elevation: 18,
   },
   focusCell: {
     // borderColor: '#000',
@@ -42,7 +51,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const CELL_COUNT = 6;
+const CELL_COUNT = 4;
 
 const VerificationInput = ({value, onChange}) => {
   const {colors} = useTheme();
@@ -71,19 +80,19 @@ const VerificationInput = ({value, onChange}) => {
               key={index}
               style={[
                 styles.cell,
-                {borderColor: colors.secondary},
-                symbol && {
-                  backgroundColor: colors.secondary,
+                {borderColor: colors.white},
+                {
+                  backgroundColor: colors.white,
                 },
               ]}>
               <Text
                 style={[
                   symbol && {
-                    color: '#fff',
+                    color: colors.primary,
                     fontFamily: 'OpenSans-Bold',
 
                     // lineHeight: 40,
-                    fontSize: 24,
+                    fontSize: 32,
                   },
                 ]}
                 onLayout={getCellOnLayoutHandler(index)}>

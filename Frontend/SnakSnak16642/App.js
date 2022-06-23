@@ -14,6 +14,7 @@ const theme = {
     textPrimary: '#988053',
     textWhite: '#E1E1E1',
     primaryText: '#7D0102',
+    primaryTextLite: 'rgba(255, 87, 87, 1)',
     secondaryText: '#E1E1E1',
   },
 };
