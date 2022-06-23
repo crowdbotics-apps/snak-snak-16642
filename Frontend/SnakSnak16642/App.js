@@ -1,38 +1,29 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import Navigation from './src/Navigation'
+import Navigation from './src/Navigation';
+
+import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
+const theme = {
+  ...DefaultTheme,
+  roundness: 2,
+  colors: {
+    ...DefaultTheme.colors,
+    white: '#FFFFFFF2',
+    primary: '#800203',
+    primaryLite: '#FF5757',
+    secondary: '#FF5F4B',
+    textPrimary: '#988053',
+    textWhite: '#E1E1E1',
+    primaryText: '#7D0102',
+    secondaryText: '#E1E1E1',
+  },
+};
 
 const App = () => {
   return (
-    <Navigation />
+    <PaperProvider theme={theme}>
+      <Navigation />
+    </PaperProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;

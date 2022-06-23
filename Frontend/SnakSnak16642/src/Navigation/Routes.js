@@ -1,18 +1,17 @@
-// import Onboarding from '../screens/authFlow/Launch/index.js';
-import Onboarding from '../screens/authFlow/Launch/index.js';
-import Onboarding2 from '../screens/authFlow/Launch2/index.js';
+import Onboarding from '../screens/authFlow/Onboarding/index.js';
+import Welcome from '../screens/authFlow/Welcome/index.js';
 
 export const ONBOARDING_PATH = 'Onboarding';
-export const ONBOARDING_PATH_2 = 'Onboarding2';
+export const WELCOME_PATH = 'Welcome';
 
 export const AUTH_ROUTES = [
   {
-    component: Onboarding2,
-    path: ONBOARDING_PATH_2,
-  },
-  {
     component: Onboarding,
     path: ONBOARDING_PATH,
+  },
+  {
+    component: Welcome,
+    path: WELCOME_PATH,
   },
 ];
 
